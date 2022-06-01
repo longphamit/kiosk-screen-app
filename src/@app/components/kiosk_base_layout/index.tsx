@@ -13,17 +13,13 @@ import {
 } from "@ant-design/icons";
 import { Fragment, ReactNode, useEffect, useState } from "react";
 import "./styles.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { USER_FRIST_NAME } from "../../constants/key";
 
-import useSelector from "../../hooks/use_selector";
-import { AppState } from "../../redux/stores";
-import { ROLE_ADMIN, ROLE_LOCATION_OWNER } from "../../constants/role";
+
+
 import {
   localStorageClearService,
-  localStorageGetReduxState,
-  localStorageGetUserIdService,
 } from "../../services/localstorage_service";
 
 import routes from "../../routers/routes";
@@ -62,7 +58,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
         </h2>
       </Header>
       <Layout>
-        <Layout style={{ padding: "0 24px 24px" }}>
+        <Layout>
           <Content
             className="site-layout-background"
           >
