@@ -1,6 +1,9 @@
 import { ReactNode } from "react";
+import HomePage from "../../kiosks/home";
+import MapPage from "../../kiosks/map";
 import AuthenLayout from "../components/authen_layout";
 import ClientLayout from "../components/client_layout";
+import KioskBaseLayout from "../components/kiosk_base_layout";
 import { ROLE_ADMIN, ROLE_LOCATION_OWNER } from "../constants/role";
 import ConfirmAccountPage from "../pages/confirm_account/confirm_account";
 
@@ -39,22 +42,6 @@ const routes: Route[] = [
     roles:[""]
   },
   {
-    component: ConfirmAccountPage,
-    path: "/confirm-account",
-    isLayout: false,
-    authen: false,
-    breadcrumb: "",
-    roles:[""]
-  },
-  {
-    component: ResetPassPage,
-    path: "/reset-pass",
-    isLayout: false,
-    authen: false,
-    breadcrumb: "",
-    roles:[""]
-  },
-  {
     component: UnAuthPage,
     path: "/unauth",
     isLayout: false,
@@ -66,6 +53,24 @@ const routes: Route[] = [
     component: ForgotPassPage,
     path: "/forgot-pass",
     isLayout: false,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: HomePage,
+    path: "/",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: MapPage,
+    path: "/map",
+    isLayout: true,
+    layout:KioskBaseLayout,
     authen: false,
     breadcrumb: "",
     roles:[""]
