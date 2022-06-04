@@ -11,7 +11,7 @@ const HomePage = () => {
         <div style={{ margin: 40 }}>
             <Col span={24}>
                 <Row span={24}>
-                    <Title level={2}>Apps</Title>
+                    <Title level={2}>App Category</Title>
                 </Row>
 
                 <div >
@@ -29,7 +29,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/map.png')}
+                                src={require('../../assets/images/hotel.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -38,7 +38,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/map.png')}
+                                src={require('../../assets/images/fast-food.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -47,7 +47,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/map.png')}
+                                src={require('../../assets/images/cinema.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -59,7 +59,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/map.png')}
+                                src={require('../../assets/images/ship.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -68,7 +68,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/map.png')}
+                                src={require('../../assets/images/Train.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -77,7 +77,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/map.png')}
+                                src={require('../../assets/images/car.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -86,7 +86,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/map.png')}
+                                src={require('../../assets/images/flight.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -101,8 +101,8 @@ const HomePage = () => {
                 </Row>
                 <div >
                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                        <Col xl={6} xs={24}>
-                            <div className="">
+                        <Col xl={6} xs={12}>
+                            <div className="event-box">
                                 <img
                                     className="event-image"
                                     alt="example"
@@ -111,8 +111,8 @@ const HomePage = () => {
 
                             </div>
                         </Col>
-                        <Col xl={6} xs={24}>
-                            <div className="">
+                        <Col xl={6} xs={12}>
+                            <div className="event-box">
                                 <img
                                     className="event-image"
                                     alt="example"
@@ -121,8 +121,8 @@ const HomePage = () => {
 
                             </div>
                         </Col>
-                        <Col xl={6} xs={24}>
-                            <div className="">
+                        <Col xl={6} xs={12}>
+                            <div className="event-box">
                                 <img
                                     className="event-image"
                                     alt="example"
@@ -131,8 +131,8 @@ const HomePage = () => {
 
                             </div>
                         </Col>
-                        <Col xl={6} xs={24}>
-                            <div className="">
+                        <Col xl={6} xs={12}>
+                            <div className="event-box">
                                 <img
                                     className="event-image"
                                     alt="example"
