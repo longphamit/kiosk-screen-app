@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
-import HomePage from "../../kiosks/home";
-import MapPage from "../../kiosks/map";
+import HomePage from "../../kiosks/pages/home";
+import MapPage from "../../kiosks/pages/map";
+
 import AuthenLayout from "../components/authen_layout";
 import ClientLayout from "../components/client_layout";
 import KioskBaseLayout from "../components/kiosk_base_layout";

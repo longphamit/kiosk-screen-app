@@ -4,16 +4,24 @@ import MapGL from '@goongmaps/goong-map-react';
 import { Avatar, Button, Card, Col, List, message, Row } from 'antd';
 import "./styles.css"
 import VirtualList from 'rc-virtual-list';
+import { useGeolocated } from "react-geolocated";
 const { Meta } = Card;
 const ContainerHeight = 400;
 const MapPage = () => {
   const [viewport, setViewport] = useState({
     width: '100%',
     height: 600,
-    latitude: 37.7577,
-    longitude: -122.4376,
+    latitude: 21.0136133,
+    longitude: 105.7982323,
     zoom: 8
   });
+  const test = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+  });
+
   const appendData = () => {
     fetch('https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo')
       .then(res => res.json())
@@ -27,15 +35,17 @@ const MapPage = () => {
   const onScroll = (e) => {
     if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
       appendData();
+
     }
   };
   useEffect(() => {
     appendData();
+    console.log(test)
   }, []);
   return (
     <>
       <Col xl={24} xs={24}>
-        
+
         <Row>
           <Col xl={18} xs={24}>
             <div style={{ padding: 20 }}>
@@ -56,11 +66,11 @@ const MapPage = () => {
                     width="50%"
                     id="market-poi-address-text"
                     alt="example"
-                    src={require('../../assets/images/marker-1.png')}
+                    src={require('../../../assets/images/marker-1.png')}
                   />
                 </Col>
                 <Col>
-                  36 Đ.Nguyễn Hữu Thọ, Tân Hưng, Quận 7, TP.Hồ Chí Minh
+
                 </Col>
               </Row>
 
@@ -82,7 +92,7 @@ const MapPage = () => {
                           <img
                             width="100%"
                             alt="example"
-                            src={require('../../assets/images/restaurant.png')}
+                            src={require('../../../assets/images/restaurant.png')}
                           />
                         </Col>
                         <Col xl={18}>
@@ -107,7 +117,7 @@ const MapPage = () => {
                   <img
                     width="200%"
                     alt="example"
-                    src={require('../../assets/images/restaurant-1.png')}
+                    src={require('../../../assets/images/restaurant-1.png')}
                   />
                 </Col>
                 <Col span={22}>
@@ -125,7 +135,7 @@ const MapPage = () => {
                   <img
                     width="200%"
                     alt="example"
-                    src={require('../../assets/images/coffee-1.png')}
+                    src={require('../../../assets/images/coffee-1.png')}
                   />
                 </Col>
                 <Col span={22}>
@@ -143,7 +153,7 @@ const MapPage = () => {
                   <img
                     width="200%"
                     alt="example"
-                    src={require('../../assets/images/shopping-1.png')}
+                    src={require('../../../assets/images/shopping-1.png')}
                   />
                 </Col>
                 <Col span={22}>
@@ -161,7 +171,7 @@ const MapPage = () => {
                   <img
                     width="200%"
                     alt="example"
-                    src={require('../../assets/images/fuel-1.png')}
+                    src={require('../../../assets/images/fuel-1.png')}
                   />
                 </Col>
                 <Col span={22}>
@@ -179,7 +189,7 @@ const MapPage = () => {
                   <img
                     width="200%"
                     alt="example"
-                    src={require('../../assets/images/hospital.png')}
+                    src={require('../../../assets/images/hospital.png')}
                   />
                 </Col>
                 <Col span={22}>

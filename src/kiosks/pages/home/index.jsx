@@ -20,7 +20,7 @@ const HomePage = () => {
                             <div className="app-box" onClick={()=>{navigator("/map")}}><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/map.png')}
+                                src={require('../../../assets/images/map.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -29,7 +29,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/hotel.png')}
+                                src={require('../../../assets/images/hotel.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -38,7 +38,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/fast-food.png')}
+                                src={require('../../../assets/images/fast-food.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -47,7 +47,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/cinema.png')}
+                                src={require('../../../assets/images/cinema.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -59,7 +59,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/ship.png')}
+                                src={require('../../../assets/images/ship.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -68,7 +68,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/Train.png')}
+                                src={require('../../../assets/images/Train.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -77,7 +77,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/car.png')}
+                                src={require('../../../assets/images/car.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -86,7 +86,7 @@ const HomePage = () => {
                             <div className="app-box"><img
                                 className="app-image"
                                 alt="example"
-                                src={require('../../assets/images/flight.png')}
+                                src={require('../../../assets/images/flight.png')}
                             />
                                 <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
                             </div>
@@ -106,7 +106,7 @@ const HomePage = () => {
                                 <img
                                     className="event-image"
                                     alt="example"
-                                    src={require('../../assets/images/event-1.png')}
+                                    src={require('../../../assets/images/event-1.png')}
                                 />
 
                             </div>
@@ -116,7 +116,7 @@ const HomePage = () => {
                                 <img
                                     className="event-image"
                                     alt="example"
-                                    src={require('../../assets/images/event-2.png')}
+                                    src={require('../../../assets/images/event-2.png')}
                                 />
 
                             </div>
@@ -126,7 +126,7 @@ const HomePage = () => {
                                 <img
                                     className="event-image"
                                     alt="example"
-                                    src={require('../../assets/images/event-3.png')}
+                                    src={require('../../../assets/images/event-3.png')}
                                 />
 
                             </div>
@@ -136,7 +136,7 @@ const HomePage = () => {
                                 <img
                                     className="event-image"
                                     alt="example"
-                                    src={require('../../assets/images/event-4.png')}
+                                    src={require('../../../assets/images/event-4.png')}
                                 />
                             </div>
                         </Col>
