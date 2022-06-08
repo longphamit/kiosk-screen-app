@@ -5,9 +5,11 @@ import { Avatar, Button, Card, Col, List, message, Row } from 'antd';
 import "./styles.css"
 import VirtualList from 'rc-virtual-list';
 import { useGeolocated } from "react-geolocated";
+import { useNavigate } from 'react-router-dom';
 const { Meta } = Card;
 const ContainerHeight = 400;
 const MapPage = () => {
+  const navigate = useNavigate()
   const [viewport, setViewport] = useState({
     width: '100%',
     height: 600,
@@ -21,6 +23,7 @@ const MapPage = () => {
     },
     userDecisionTimeout: 5000,
   });
+
 
   const appendData = () => {
     fetch('https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo')
@@ -40,7 +43,10 @@ const MapPage = () => {
   };
   useEffect(() => {
     appendData();
-    console.log(test)
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(`lat=${position.coords.latitude}&lon=${position.coords.longitude}`)
+      setViewport({ ...viewport, latitude: position.coords.latitude, longitude: position.coords.longitude,zoom:13 })
+    });
   }, []);
   return (
     <>
