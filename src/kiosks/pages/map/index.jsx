@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import ReactMapGL, { Marker, Popup, ScaleControl } from '@goongmaps/goong-map-react';
+import ReactMapGL, { Marker, NavigationControl, Popup, ScaleControl } from '@goongmaps/goong-map-react';
 import { Avatar, Button, Card, Col, List, message, Row } from 'antd';
 import "./styles.css"
 import VirtualList from 'rc-virtual-list';
@@ -12,6 +12,11 @@ const scaleControlStyle = {
   left: 20,
   bottom: 100
 };
+const navControlStyle = {
+  right: 10,
+  top: 10
+};
+
 const MapPage = () => {
   const navigate = useNavigate()
   const [currentLocation, setCurrentLocation] = useState({
@@ -76,6 +81,7 @@ const MapPage = () => {
                 onViewportChange={setViewport}
                 goongApiAccessToken={"GlVNPt2Vav2Z75sQm6lJ7XymStHLVD8UcWwhbWMn"}
               >
+                <NavigationControl style={navControlStyle} />
                 <ScaleControl maxWidth={100} unit="metric" style={scaleControlStyle} />
                 <Marker latitude={currentLocation.latitude} longitude={currentLocation.longitude} offsetLeft={-20} offsetTop={-10}>
                   <Col>
@@ -85,11 +91,18 @@ const MapPage = () => {
                       src={require('../../../assets/images/pin-1.png')}
                     /></div>
                   </Col>
-
                 </Marker>
               </ReactMapGL >
             </div>
+            <Row span={24}>
+          <Col span={24}>
+            <div style={{ marginBottom:10,textAlign:"center" }}>
+              <Button className='success-button' onClick={()=>{setLocationViewPort()}}>Reload Map</Button>
+            </div>
           </Col>
+        </Row>
+          </Col>
+        
           <Col xl={6}>
             <div className='poi-address-text'>
               <Row>
