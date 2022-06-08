@@ -57,13 +57,17 @@ const MapPage = () => {
   };
   const setLocationViewPort = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position.coords.latitude)
-      console.log(position.coords.longitude)
       setCurrentLocation({ ...currentLocation, latitude: position.coords.latitude, longitude: position.coords.longitude })
       setViewport({ ...viewport, latitude: position.coords.latitude, longitude: position.coords.longitude })
     });
   }
 
+  const reloadMap = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setCurrentLocation({ ...currentLocation, latitude: position.coords.latitude, longitude: position.coords.longitude })
+      setViewport({ ...viewport, latitude: position.coords.latitude, longitude: position.coords.longitude, zoom: 13 })
+    });
+  }
   useEffect(() => {
     appendData();
     setLocationViewPort()
@@ -95,14 +99,15 @@ const MapPage = () => {
               </ReactMapGL >
             </div>
             <Row span={24}>
-          <Col span={24}>
-            <div style={{ marginBottom:10,textAlign:"center" }}>
-              <Button className='success-button' onClick={()=>{setLocationViewPort()}}>Reload Map</Button>
-            </div>
+              <Col span={24}>
+                <div style={{ marginBottom: 10, textAlign: "center" }}>
+                  <Button className='success-button' onClick={() => { reloadMap() }}>Reload Map</Button>
+                </div>
+              </Col>
+              
+            </Row>
           </Col>
-        </Row>
-          </Col>
-        
+
           <Col xl={6}>
             <div className='poi-address-text'>
               <Row>
