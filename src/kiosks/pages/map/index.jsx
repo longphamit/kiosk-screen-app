@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, NavigationControl, Popup, ScaleControl } from '@goongmaps/goong-map-react';
-import { Avatar, Button, Card, Col, List, message, Row } from 'antd';
+import { Avatar, Button, Card, Col, List, message, Row, Spin } from 'antd';
 import "./styles.css"
 import VirtualList from 'rc-virtual-list';
 import { useGeolocated } from "react-geolocated";
 import { useNavigate } from 'react-router-dom';
+import { getPOINearbyService } from '../../services/poi_service';
 const { Meta } = Card;
 const ContainerHeight = 400;
 const scaleControlStyle = {
@@ -17,25 +18,21 @@ const navControlStyle = {
   top: 10
 };
 
+
 const MapPage = () => {
   const navigate = useNavigate()
+  const [isPoiNearByLoading, setPoiNearByLoading] = useState(false)
   const [currentLocation, setCurrentLocation] = useState({
     longitude: 105.7982323,
     latitude: 21.0136133
   });
+  const [listPois, setListPois] = useState([])
   const [viewport, setViewport] = useState({
     width: '100%',
     height: 600,
     latitude: currentLocation.latitude,
     longitude: currentLocation.longitude,
     zoom: 13
-  });
-
-  const test = useGeolocated({
-    positionOptions: {
-      enableHighAccuracy: false,
-    },
-    userDecisionTimeout: 5000,
   });
 
 
@@ -62,16 +59,36 @@ const MapPage = () => {
     });
   }
 
+  const getListPoiNearBy = async () => {
+    try {
+      setPoiNearByLoading(true)
+      navigator.geolocation.getCurrentPosition((position) => {
+        setCurrentLocation({ ...currentLocation, latitude: position.coords.latitude, longitude: position.coords.longitude })
+        getPOINearbyService('ff0304c0-f52d-4153-8376-a18c9398641e', position.coords.longitude, position.coords.latitude).then((pois) => {
+          console.log(pois)
+          setListPois(pois.data)
+          setPoiNearByLoading(false)
+        })
+      });
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const reloadMap = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       setCurrentLocation({ ...currentLocation, latitude: position.coords.latitude, longitude: position.coords.longitude })
       setViewport({ ...viewport, latitude: position.coords.latitude, longitude: position.coords.longitude, zoom: 13 })
+
     });
   }
   useEffect(() => {
     appendData();
     setLocationViewPort()
+    getListPoiNearBy()
   }, []);
+
+
   return (
     <>
       <Col xl={24} xs={24}>
@@ -104,7 +121,7 @@ const MapPage = () => {
                   <Button className='success-button' onClick={() => { reloadMap() }}>Reload Map</Button>
                 </div>
               </Col>
-              
+
             </Row>
           </Col>
 
@@ -127,8 +144,17 @@ const MapPage = () => {
             </div>
             <div style={{ padding: 20 }}>
               <h2>Near you</h2>
+              <Row>
+                <Col span={8}></Col>
+                <Col span={8}>
+                  {
+                    isPoiNearByLoading ? <Spin className='center'/> : null
+                  }
+                </Col>
+                <Col span={8}></Col>
+              </Row>
               <VirtualList
-                data={data}
+                data={listPois}
                 height={ContainerHeight}
                 itemHeight={47}
                 itemKey="email"
@@ -142,12 +168,12 @@ const MapPage = () => {
                           <img
                             width="100%"
                             alt="example"
-                            src={require('../../../assets/images/restaurant.png')}
+                            src={item.thumbnail.link}
                           />
                         </Col>
                         <Col xl={18}>
                           <div style={{ marginLeft: 10 }}>
-                            <Meta title="Europe Street beat" description="www.instagram.com" />
+                            <Meta title={item.name} description="www.instagram.com" />
                           </div>
                         </Col>
                       </Row>
