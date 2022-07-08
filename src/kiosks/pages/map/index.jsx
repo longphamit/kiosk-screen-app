@@ -147,7 +147,7 @@ const MapPage = () => {
                       <img
                         id="marker"
                         alt="example"
-                        src={require("../../../assets/images/pin-1.png")}
+                        src={require("../../../assets/images/marker-1.png")}
                       />
                     </div>
                   </Col>
@@ -165,8 +165,11 @@ const MapPage = () => {
                             <img
                               id="marker"
                               alt="example"
-                              src={require("../../../assets/images/pin-1.png")}
+                              src={require("../../../assets/images/marker-2.png")}
                             />
+                            <p style={{fontWeight:"bold"}}>
+                            {item.name}
+                            </p>
                           </div>
                         </Col>
                       </Marker>
