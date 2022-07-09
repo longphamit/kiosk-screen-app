@@ -13,6 +13,7 @@ import { useGeolocated } from "react-geolocated";
 import { useNavigate } from "react-router-dom";
 import { getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
+import POIMarker from "./poi_marker";
 const { Meta } = Card;
 const ContainerHeight = 400;
 const scaleControlStyle = {
@@ -60,6 +61,7 @@ const MapPage = () => {
     }
   };
   const setLocationViewPort = () => {
+    console.log("set view port")
     navigator.geolocation.getCurrentPosition((position) => {
       setCurrentLocation({
         ...currentLocation,
@@ -76,6 +78,7 @@ const MapPage = () => {
 
   const getListPoiNearBy = async () => {
     try {
+      
       setPoiNearByLoading(true);
       navigator.geolocation.getCurrentPosition(async (position) => {
         setCurrentLocation({
@@ -83,7 +86,9 @@ const MapPage = () => {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-
+        console.log(
+          position.coords.latitude)
+        console.log(position.coords.longitude)
         const pois = await getPOINearbyService(
           "910fa26a-e6a8-4dd3-b863-d005ee05729b",
           position.coords.longitude,
@@ -130,12 +135,22 @@ const MapPage = () => {
                 onViewportChange={setViewport}
                 goongApiAccessToken={"GlVNPt2Vav2Z75sQm6lJ7XymStHLVD8UcWwhbWMn"}
               >
+
                 <NavigationControl style={navControlStyle} />
                 <ScaleControl
                   maxWidth={100}
                   unit="metric"
                   style={scaleControlStyle}
                 />
+                {/* <Popup
+                  latitude={currentLocation.latitude}
+                  longitude={currentLocation.longitude}
+                  closeButton={true}
+                  closeOnClick={true}
+                  onClose={() => { }}
+                  anchor="top" >
+                  <div>You are here</div>
+                </Popup> */}
                 <Marker
                   latitude={currentLocation.latitude}
                   longitude={currentLocation.longitude}
@@ -154,26 +169,9 @@ const MapPage = () => {
                 </Marker>
                 {listPois
                   ? listPois.map((item) => (
-                      <Marker
-                        latitude={parseFloat(item.latitude)}
-                        longitude={parseFloat(item.longtitude)}
-                        offsetLeft={-20}
-                        offsetTop={-10}
-                      >
-                        <Col>
-                          <div>
-                            <img
-                              id="marker"
-                              alt="example"
-                              src={require("../../../assets/images/marker-2.png")}
-                            />
-                            <p style={{fontWeight:"bold"}}>
-                            {item.name}
-                            </p>
-                          </div>
-                        </Col>
-                      </Marker>
-                    ))
+
+                    <POIMarker item={item} currentLocation={currentLocation}/>
+                  ))
                   : null}
               </ReactMapGL>
             </div>
