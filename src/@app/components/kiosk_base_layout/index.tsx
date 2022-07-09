@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb, Row } from "antd";
+import { Layout, Menu, Breadcrumb, Row, Col } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
@@ -16,14 +16,11 @@ import "./styles.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
-
-import {
-  localStorageClearService,
-} from "../../services/localstorage_service";
+import { localStorageClearService } from "../../services/localstorage_service";
 
 import routes from "../../routers/routes";
 import { useTranslation } from "react-i18next";
+import TimeView from "./time";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -48,22 +45,27 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     <Layout>
       <Header className="header">
         <div className="logo" />
-        <h2
-          style={{ fontWeight: "bold", color: "#fff" }}
-          onClick={() => {
-            onNavigate("/");
-          }}
-        >
-          TIKA
-        </h2>
+        <div>
+          <Row>
+            <Col span={20}>
+              <h2
+                style={{ fontWeight: "bold", color: "#fff" }}
+                onClick={() => {
+                  onNavigate("/");
+                }}
+              >
+                TIKA
+              </h2>
+            </Col>
+            <Col span={4}>
+              <TimeView />
+            </Col>
+          </Row>
+        </div>
       </Header>
       <Layout>
         <Layout>
-          <Content
-            className="site-layout-background"
-          >
-            {children}
-          </Content>
+          <Content className="site-layout-background">{children}</Content>
         </Layout>
       </Layout>
     </Layout>

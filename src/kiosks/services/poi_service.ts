@@ -11,3 +11,9 @@ export const getPOINearbyService = async (
   );
   return response.data;
 };
+export const getAllPOICategoriesService=async()=>{
+  const response = await request.get(
+    `${HOST}/v1/poiCategories?size=-1&page=1`
+  );
+  return response.data;
+}

@@ -11,7 +11,7 @@ import "./styles.css";
 import VirtualList from "rc-virtual-list";
 import { useGeolocated } from "react-geolocated";
 import { useNavigate } from "react-router-dom";
-import { getPOINearbyService } from "../../services/poi_service";
+import { getAllPOICategoriesService, getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
 import POIMarker from "./poi_marker";
 const { Meta } = Card;
@@ -32,6 +32,7 @@ const MapPage = () => {
     longitude: 105.7982323,
     latitude: 21.0136133,
   });
+  const [listPoiCategories, setListPoiCategories] = useState(false)
   const [listPois, setListPois] = useState([]);
   const [viewport, setViewport] = useState({
     width: "100%",
@@ -75,10 +76,18 @@ const MapPage = () => {
       });
     });
   };
-
+  const getListPoiCategories = async () => {
+    try {
+      const res = await getAllPOICategoriesService();
+      console.log(res.data.data)
+      setListPoiCategories(res.data.data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
   const getListPoiNearBy = async () => {
     try {
-      
+
       setPoiNearByLoading(true);
       navigator.geolocation.getCurrentPosition(async (position) => {
         setCurrentLocation({
@@ -120,6 +129,7 @@ const MapPage = () => {
   useEffect(() => {
     appendData();
     setLocationViewPort();
+    getListPoiCategories();
     getListPoiNearBy();
   }, []);
 
@@ -169,8 +179,7 @@ const MapPage = () => {
                 </Marker>
                 {listPois
                   ? listPois.map((item) => (
-
-                    <POIMarker item={item} currentLocation={currentLocation}/>
+                    <POIMarker item={item} currentLocation={currentLocation} />
                   ))
                   : null}
               </ReactMapGL>
@@ -236,7 +245,7 @@ const MapPage = () => {
                           <div style={{ marginLeft: 10 }}>
                             <Meta
                               title={item.name}
-                              description="www.instagram.com"
+                              description=""
                             />
                           </div>
                         </Col>
@@ -249,25 +258,34 @@ const MapPage = () => {
           </Col>
         </Row>
         <Row gutter={[16, 24]} style={{ margin: 10 }}>
-          <Col span={3}>
-            <div className="poi-category-card-box">
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require("../../../assets/images/restaurant-1.png")}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Restaurant</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={3}>
+          {
+            listPoiCategories ? listPoiCategories.map((e) => {
+              return (
+                <>
+                  <Col span={3}>
+                    <div className="poi-category-card-box">
+                      <Row>
+                        <Col span={2}>
+                          <img
+                            width="200%"
+                            alt="example"
+                            src={e.logo}
+                          />
+                        </Col>
+                        <Col span={22}>
+                          <div style={{ textAlign: "center" }}>
+                            <h2>{e.name}</h2>
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Col>
+                </>
+              )
+            }) : null
+          }
+
+          {/* <Col span={3}>
             <div className="poi-category-card-box">
               <Row>
                 <Col span={2}>
@@ -338,7 +356,7 @@ const MapPage = () => {
                 </Col>
               </Row>
             </div>
-          </Col>
+          </Col> */}
         </Row>
       </Col>
     </>
