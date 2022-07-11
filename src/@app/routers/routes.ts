@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import AppListPage from "../../kiosks/pages/app_list";
 import HomePage from "../../kiosks/pages/home";
 import MapPage from "../../kiosks/pages/map";
 
@@ -72,6 +73,14 @@ const routes: Route[] = [
     path: "/map",
     isLayout: true,
     layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: AppListPage,
+    path: "/app-list",
+    isLayout: false,
     authen: false,
     breadcrumb: "",
     roles:[""]
