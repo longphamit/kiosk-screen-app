@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 import AppListPage from "../../kiosks/pages/app_list";
+import IframeInterface from "../../kiosks/pages/app_list/iframeInterface";
+import iframeInterface from "../../kiosks/pages/app_list/iframeInterface";
 import HomePage from "../../kiosks/pages/home";
 import MapPage from "../../kiosks/pages/map";
 
@@ -80,6 +82,14 @@ const routes: Route[] = [
   {
     component: AppListPage,
     path: "/app-list",
+    isLayout: false,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: IframeInterface,
+    path: "/iframe-interface",
     isLayout: false,
     authen: false,
     breadcrumb: "",
