@@ -49,7 +49,7 @@ const POIMarker = ({ item, currentLocation }) => {
                 <Descriptions.Item label="Thumbnail"><Image style={{ margin: 20 }} width={100} src={item.thumbnail.link} /></Descriptions.Item>
                 <Descriptions.Item label="Name">{item.name}</Descriptions.Item>
                 <Descriptions.Item label="Open day">{
-                    <div style={{width:200}}>
+                    <div style={{ width: 200 }}>
                         {item.dayOfWeek.replaceAll("-", ", ")}
                     </div>
                 }</Descriptions.Item>
@@ -77,12 +77,17 @@ const POIMarker = ({ item, currentLocation }) => {
                     {
                         item.listImage ?
                             <Image.PreviewGroup>
-                                <Image width={100} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />
-                                <Image
 
-                                    width={100}
-                                    src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
-                                />
+
+                                {
+                                    item.listImage.map(image => {
+                                        return <Image
+                                            key={image.id}
+                                            width={100}
+                                            src={image.link}
+                                        />
+                                    })
+                                }
                             </Image.PreviewGroup> : null
                     }
                 </Descriptions.Item>
