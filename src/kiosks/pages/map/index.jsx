@@ -99,11 +99,11 @@ const MapPage = () => {
           position.coords.latitude)
         console.log(position.coords.longitude)
         const pois = await getPOINearbyService(
-          "910fa26a-e6a8-4dd3-b863-d005ee05729b",
+          "910FA26A-E6A8-4DD3-B863-D005EE05729B",
           position.coords.longitude,
           position.coords.latitude
         );
-        setListPois(pois.data);
+        setListPois(pois.data.data);
         setPoiNearByLoading(false);
       });
     } catch (e) {

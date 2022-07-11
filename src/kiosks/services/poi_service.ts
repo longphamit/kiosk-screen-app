@@ -7,7 +7,7 @@ export const getPOINearbyService = async (
   latitude: any
 ) => {
   const response = await request.get(
-    `${HOST}/v1/pois/nearby?kioskId=${kioskId}&lng=${longtitude}&lat=${latitude}`
+    `${HOST}/v1/pois/nearby?kioskId=${kioskId}&Longtitude=${longtitude}&Latitude=${latitude}&&pageNum=1`
   );
   return response.data;
 };
