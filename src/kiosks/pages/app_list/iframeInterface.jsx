@@ -48,24 +48,22 @@ const IframeInterface = () => {
   }, []);
   return (
     <Layout>
-      <Header className="header">
-        <Row>
-          <Col span={10}>
-            {" "}
-            <Button
-              type="primary"
-              danger
-              onClick={() => {
-                onNavigate({
-                  pathname: "/./app-list?id=" + id,
-                });
-              }}
-            >
-              Back
-            </Button>
-          </Col>
-        </Row>
-      </Header>
+      <Row>
+        <Col span={10}>
+          {" "}
+          <Button
+            type="primary"
+            danger
+            onClick={() => {
+              onNavigate({
+                pathname: "/./app-list?id=" + id,
+              });
+            }}
+          >
+            Back
+          </Button>
+        </Col>
+      </Row>
       <Row justify="center" align="middle" style={{ height: "100vh" }}>
         <Layout style={{ height: "100%", width: "100%" }}>
           <Content

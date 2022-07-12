@@ -82,7 +82,8 @@ const routes: Route[] = [
   {
     component: AppListPage,
     path: "/app-list",
-    isLayout: false,
+    isLayout: true,
+    layout:KioskBaseLayout,
     authen: false,
     breadcrumb: "",
     roles:[""]
@@ -90,7 +91,8 @@ const routes: Route[] = [
   {
     component: IframeInterface,
     path: "/iframe-interface",
-    isLayout: false,
+    isLayout: true,
+    layout:KioskBaseLayout,
     authen: false,
     breadcrumb: "",
     roles:[""]
