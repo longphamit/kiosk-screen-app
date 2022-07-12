@@ -234,14 +234,14 @@ const MapPage = () => {
                   <List.Item key={item.email}>
                     <div className="poi-card-box">
                       <Row>
-                        <Col xl={6}>
+                        <Col xl={12}>
                           <img
-                            width="100%"
+                            height={100}
                             alt="example"
                             src={item.thumbnail.link}
                           />
                         </Col>
-                        <Col xl={18}>
+                        <Col xl={12}>
                           <div style={{ marginLeft: 10 }}>
                             <Meta
                               title={item.name}
