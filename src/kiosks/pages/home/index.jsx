@@ -2,22 +2,39 @@ import { Col, Image, Row, Typography } from "antd"
 import "./styles.css"
 import { Card, Avatar } from 'antd';
 import { useNavigate } from "react-router-dom";
+import useSelector from "../../../@app/hooks/use_selector";
 const { Title } = Typography;
 const { Meta } = Card;
 const style = { background: '#0092ff', padding: '8px 0' };
 const HomePage = () => {
-    const navigator= useNavigate()
+    const navigator = useNavigate()
+    const { id, listEventPosition,listAppCatePosition } = useSelector(state => state.home_view);
+
     return <>
         <div style={{ margin: 40 }}>
+            <>{id}</>
+            {
+                listAppCatePosition?.map(e => {
+                    return (<div>
+                        {e.AppCategoryName}
+                    </div>)
+                })
+            }
+            {
+                listEventPosition?.map(e => {
+                    return (<div>
+                        {e.EventId}
+                    </div>)
+                })
+            }
             <Col span={24}>
                 <Row span={24}>
                     <Title level={2}>App Category</Title>
                 </Row>
-
                 <div >
                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                         <Col xl={6} span={12}>
-                            <div className="app-box" onClick={()=>{navigator("/map")}}><img
+                            <div className="app-box" onClick={() => { navigator("/map") }}><img
                                 className="app-image"
                                 alt="example"
                                 src={require('../../../assets/images/map.png')}

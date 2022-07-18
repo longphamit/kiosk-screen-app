@@ -11,19 +11,11 @@ import messaging, { getTokenCustom } from './kiosks/configs/firebase';
 import { onMessage } from 'firebase/messaging';
 import { notification } from 'antd';
 import { SmileOutlined } from "@ant-design/icons";
+import useDispatch from './@app/hooks/use_dispatch';
+import { setReceiveNotifyChangeTemplate } from './@app/redux/slices/home_view';
 function App() {
-  const [isTokenFound, setTokenFound] = useState(false);
-  getTokenCustom(setTokenFound);
-  onMessage(messaging, (payload) => {
-    console.log("foreground")
-    console.log(payload.notification?.body)
-    console.log(payload.notification?.title)
-    notification.open({
-      message: payload.notification?.title,
-      description: payload.notification?.body,
-      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
-    });
-  });
+  
+  
   return (
 <Provider store={store}>
       <I18nextProvider i18n={i18n}>

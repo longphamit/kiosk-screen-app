@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb, Row, Col } from "antd";
+import { Layout, Menu, Breadcrumb, Row, Col, notification } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
@@ -10,6 +10,7 @@ import {
   AuditOutlined,
   ClockCircleOutlined,
   ToolOutlined,
+  SmileOutlined,
 } from "@ant-design/icons";
 import { Fragment, ReactNode, useEffect, useState } from "react";
 import "./styles.css";
@@ -21,14 +22,17 @@ import { localStorageClearService } from "../../services/localstorage_service";
 import routes from "../../routers/routes";
 import { useTranslation } from "react-i18next";
 import TimeView from "./time";
+import useDispatch from "../../hooks/use_dispatch";
+import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
+import { onMessage } from "firebase/messaging";
+import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
-  const { t } = useTranslation();
-  const [time, setTime] = useState(new Date().toLocaleString());
   let navigate = useNavigate();
+  const [isTokenFound, setTokenFound] = useState(false);
   const logout = () => {
     localStorageClearService();
     navigate("/signin");
@@ -39,7 +43,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   };
 
   useEffect(() => {
-    setInterval(() => setTime(new Date().toLocaleString()), 1000);
+    
+  });
+  const dispatch = useDispatch();
+  getTokenCustom(setTokenFound);
+  onMessage(messaging, (payload) => {
+    const data=JSON.parse(payload.data?.json?payload.data?.json:"");
+    console.log(data);
+    dispatch(setReceiveNotifyChangeTemplate(data))
+    notification.open({
+      message: payload.notification?.title,
+      description: payload.notification?.body,
+      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+    });
   });
   return (
     <Layout>
