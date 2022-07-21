@@ -2,6 +2,7 @@ import {
     ClockCircleOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import { PRIMARY_COLOR } from "../../constants/colors";
 const TimeView = () => {
     const [time, setTime] = useState(new Date().toLocaleString());
     useEffect(() => {
@@ -10,7 +11,7 @@ const TimeView = () => {
     return (
         <div
             style={{
-                color: "#fff",
+                color: PRIMARY_COLOR,
                 fontSize: 20,
                 fontWeight:"bold"
             }}

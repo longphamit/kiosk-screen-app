@@ -42,23 +42,23 @@ const MapPage = () => {
     zoom: 13,
   });
 
-  const appendData = () => {
-    fetch(
-      "https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo"
-    )
-      .then((res) => res.json())
-      .then((body) => {
-        setData(data.concat(body.results));
-        message.success(`${body.results.length} more items loaded!`);
-      });
-  };
+  // const appendData = () => {
+  //   fetch(
+  //     "https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo"
+  //   )
+  //     .then((res) => res.json())
+  //     .then((body) => {
+  //       setData(data.concat(body.results));
+  //       message.success(`${body.results.length} more items loaded!`);
+  //     });
+  // };
   const [data, setData] = useState([]);
   const onScroll = (e) => {
     if (
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
       ContainerHeight
     ) {
-      appendData();
+      //appendData();
     }
   };
   const setLocationViewPort = () => {
@@ -127,7 +127,7 @@ const MapPage = () => {
     });
   };
   useEffect(() => {
-    appendData();
+    //appendData();
     setLocationViewPort();
     getListPoiCategories();
     getListPoiNearBy();

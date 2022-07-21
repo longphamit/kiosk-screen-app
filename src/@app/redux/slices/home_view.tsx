@@ -7,7 +7,7 @@ interface State {
   listEventPosition: any[];
 }
 const initialState: State = {
-  id: "333",
+  id: "",
   listAppCatePosition: [],
   listEventPosition: [],
 };
@@ -17,9 +17,10 @@ const homeViewSlice = createSlice({
   initialState,
   reducers: {
     setReceiveNotifyChangeTemplate: (state, action) => {
-      state.id = action.payload.Id;
-      state.listAppCatePosition = action.payload.ListAppCatePosition;
-      state.listEventPosition = action.payload.ListEventPosition;
+      console.log(action)
+      state.id = action.payload.id;
+      state.listAppCatePosition = action.payload.listAppCatePosition;
+      state.listEventPosition = action.payload.listEventPosition;
     },
   },
 });
