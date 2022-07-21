@@ -23,18 +23,40 @@
   display: block;
   height: 200px;
 }
-.event-box{
+.event-box {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.title-home-box{
-  padding:10px;
-  border-radius:5px;
-  background:#26a3c9;
+.title-home-box {
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffff;
   font-weight: bold;
   width: 150px;
   align-items: center;
-  color: #fff;
+  background-color: #ff6d24;
   text-align: center;
   font-size: 15px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+.wave-box {
+  transform: rotate(-180deg);
+  transition: 0.3s;
+  position: absolute;
+}
+.wave-path {
+  transform: translate(0, 0px);
+  opacity: 1;
+}
+.wave-path-sub {
+  transform: translate(0, 50px);
+  opacity: 0.9;
+}
+.location-info {
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  background-color: #ffff;
+  height: 300px;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 10px;
 }

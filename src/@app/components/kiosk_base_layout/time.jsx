@@ -11,7 +11,7 @@ const TimeView = () => {
     return (
         <div
             style={{
-                color: PRIMARY_COLOR,
+                color: "#fff",
                 fontSize: 20,
                 fontWeight:"bold"
             }}

@@ -1,4 +1,4 @@
-import { Col, Image, Row, Typography } from "antd"
+import { Carousel, Col, Image, Row, Typography } from "antd"
 import "./styles.css"
 import { Card, Avatar } from 'antd';
 import { useNavigate } from "react-router-dom";
@@ -7,11 +7,44 @@ import { PRIMARY_COLOR } from "../../../@app/constants/colors";
 const { Title } = Typography;
 const { Meta } = Card;
 const style = { background: '#0092ff', padding: '8px 0' };
+const contentStyle = {
+    height: '300px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+};
 const HomePage = () => {
     const navigator = useNavigate()
     const { id, listEventPosition, listAppCatePosition } = useSelector(state => state.home_view);
     console.log(listEventPosition)
+
     return <>
+
+        <div style={{ marginTop: 100, marginLeft: 50, marginRight: 50 }}>
+            <Row>
+                <Col span={16}>
+                    <Carousel style={{ margin: 10 }} autoplay autoplaySpeed={1000}>
+                        <div>
+                            <h3 style={contentStyle}>1</h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}>2</h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}>3</h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}>4</h3>
+                        </div>
+                    </Carousel>
+                </Col>
+                <Col span={8}>
+                    <div className="location-info">
+                    </div>
+                </Col>
+            </Row>
+        </div>
         <div style={{ margin: 40 }}>
             {/* <>{id}</>
             {
