@@ -1,18 +1,33 @@
 import { Marker } from "@goongmaps/goong-map-react";
-import { Badge, Col, Descriptions, Image, Modal, Row, Tag, TimePicker } from "antd";
+import { Badge, Col, Descriptions, Image, Modal, Row, Spin, Tag, TimePicker } from "antd";
 import { useEffect, useState } from "react";
+import QRCode from "react-qr-code";
+import { getDirectUrl } from "../../../@app/utils/direct_url_util";
+import { getAddressService } from "../../services/map_service";
 const KioskMarker = ({ item, currentLocation }) => {
     const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
-
+    const [isLoading, setLoading] = useState(false);
+    const [address, setAddress] = useState();
     const onCancelDetailModal = () => {
         setIsDetailModalVisible(false)
-
     }
-    useEffect(() => {
-        console.log(item)
-    }, []);
+    const onOpenModal = async () => {
+        setIsDetailModalVisible(true)
+        if (!address) {
+            try {
+                setLoading(true)
+                let res = await getAddressService(item.longtitude, item.latitude);
+                console.log(res)
+                setAddress(res.data.geoMetries[0].address);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setLoading(false)
+            }
+        }
+    }
     return <div>
-        <div onClick={() => { setIsDetailModalVisible(true) }}>
+        <div onClick={() => { onOpenModal() }}>
             <Marker
                 color="black"
                 latitude={parseFloat(item.latitude)}
@@ -29,22 +44,30 @@ const KioskMarker = ({ item, currentLocation }) => {
                             src={require("../../../assets/images/kiosk_marker.png")}
                         />
                         <p style={{ fontWeight: "bold" }}>
-                            {item.name}
+                            Kiosk
                         </p>
                     </div>
                 </Col>
             </Marker>
 
         </div>
-        <Modal key={item.id} width={1000} onCancel={onCancelDetailModal} visible={isDetailModalVisible} footer={[]} >
+        {isLoading ?
+            <Spin /> :
+            <Modal key={item.id} width={1000} onCancel={onCancelDetailModal} visible={isDetailModalVisible} footer={[]} >
 
-            <Descriptions title="Kiosk info" column={2} bordered>
-                {/* <Descriptions.Item label="Address">{item.address}</Descriptions.Item>
-                <Descriptions.Item label="Ward">{item.ward}</Descriptions.Item>
-                <Descriptions.Item label="District">{item.district}</Descriptions.Item>
-                <Descriptions.Item label="City">{item.city}</Descriptions.Item> */}
-            </Descriptions>
-        </Modal>
-    </div>
+                <Descriptions title="Kiosk info" column={2} bordered>
+
+                    {address ?
+                        <Descriptions.Item label="Address" > {address}</Descriptions.Item> : null
+                    }
+                </Descriptions>
+                <Descriptions.Item label="Direction" span={2}>
+                    <div className="center"  >
+                        <QRCode className="qrCode" size={150} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, item.latitude, item.longtitude)} />
+                    </div>
+                </Descriptions.Item>
+            </Modal>
+        }
+    </div >
 }
 export default KioskMarker;
