@@ -1,9 +1,9 @@
 import { Marker } from "@goongmaps/goong-map-react";
-import { Badge, Col, Descriptions, Image, Modal, Row, Spin, Tag, TimePicker } from "antd";
-import { useEffect, useState } from "react";
+import { Col, Descriptions, Modal, Spin, } from "antd";
+import { useState } from "react";
 import QRCode from "react-qr-code";
-import { getDirectUrl } from "../../../@app/utils/direct_url_util";
-import { getAddressService } from "../../services/map_service";
+import { getDirectUrl } from "../../../../@app/utils/direct_url_util";
+import { getAddressService } from "../../../services/map_service";
 const KioskMarker = ({ item, currentLocation }) => {
     const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
     const [isLoading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ const KioskMarker = ({ item, currentLocation }) => {
 
                             id="marker"
                             alt="example"
-                            src={require("../../../assets/images/kiosk_marker.png")}
+                            src={require("../../../../assets/images/kiosk_marker.png")}
                         />
                         <p style={{ fontWeight: "bold" }}>
                             Kiosk

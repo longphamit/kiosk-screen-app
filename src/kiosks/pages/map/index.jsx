@@ -13,12 +13,12 @@ import { useGeolocated } from "react-geolocated";
 import { useNavigate } from "react-router-dom";
 import { getAllPOICategoriesService, getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
-import POIMarker from "./poi_marker";
+import POIMarker from "./markers/poi_marker";
 import { getEventNearbyService } from "../../services/event_service";
 import { KIOSK_ID, PARTY_ID } from "../../../@app/constants/key";
-import EventMarker from "./event_marker";
+import EventMarker from "./markers/event_marker";
 import { getKioskNearbyService } from "../../services/kiosk_service";
-import KioskMarker from "./kiosk_marker";
+import KioskMarker from "./markers/kiosk_marker";
 const { Meta } = Card;
 const ContainerHeight = 400;
 const scaleControlStyle = {
@@ -61,7 +61,6 @@ const MapPage = () => {
   //       message.success(`${body.results.length} more items loaded!`);
   //     });
   // };
-  const [data, setData] = useState([]);
   const onScroll = (e) => {
     if (
       e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
@@ -190,15 +189,6 @@ const MapPage = () => {
                   unit="metric"
                   style={scaleControlStyle}
                 />
-                {/* <Popup
-                  latitude={currentLocation.latitude}
-                  longitude={currentLocation.longitude}
-                  closeButton={true}
-                  closeOnClick={true}
-                  onClose={() => { }}
-                  anchor="top" >
-                  <div>You are here</div>
-                </Popup> */}
                 <Marker
                   latitude={currentLocation.latitude}
                   longitude={currentLocation.longitude}
@@ -266,98 +256,112 @@ const MapPage = () => {
               <Row>
                 <Col span={8}></Col>
                 <Col span={8}>
-                  {isPoiNearByLoading ? <Spin className="center" /> : null}
-                  {isEventNearbyLoading ? <Spin className="center" /> : null}
-                  {isKioskNearbyLoading ? <Spin className="center" /> : null}
+
+
+
                 </Col>
                 <Col span={8}></Col>
               </Row>
-              <VirtualList
-                data={listPois}
-                height={ContainerHeight}
-                itemHeight={47}
-                itemKey="email"
-                onScroll={onScroll}
-              >
-                {(item) => (
-                  <List.Item key={item.email}>
-                    <div className="poi-card-box">
-                      <Row>
-                        <Col xl={12}>
-                          <img
-                            height={100}
-                            alt="example"
-                            src={item.thumbnail.link}
-                          />
-                        </Col>
-                        <Col xl={12}>
-                          <div style={{ marginLeft: 10 }}>
-                            <Meta
-                              title={item.name}
-                              description=""
-                            />
+              {
+                isPoiNearByLoading ?
+                  <Spin className="center" /> :
+                  listPois.length !== 0 ?
+                    <VirtualList
+                      data={listPois}
+                      height={ContainerHeight}
+                      itemHeight={47}
+                      itemKey="email"
+                      onScroll={onScroll}
+                    >
+                      {(item) => (
+                        <List.Item key={item.email}>
+                          <div className="poi-card-box">
+                            <Row>
+                              <Col xl={12}>
+                                <img
+                                  height={100}
+                                  alt="example"
+                                  src={item.thumbnail.link}
+                                />
+                              </Col>
+                              <Col xl={12}>
+                                <div style={{ marginLeft: 10 }}>
+                                  <Meta
+                                    title={item.name}
+                                    description=""
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
                           </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </List.Item>
-                )}
-              </VirtualList>
-              <VirtualList
-                data={listEventNearby}
-                height={ContainerHeight}
-                itemHeight={47}
-                itemKey="eventNearby"
-                onScroll={onScroll}
-              >
-                {(item) => (
-                  <List.Item key={item.email}>
-                    <div className="poi-card-box">
-                      <Row>
-                        <Col xl={12}>
-                          <img
-                            height={100}
-                            alt="example"
-                            src={item.thumbnail.link}
-                          />
-                        </Col>
-                        <Col xl={12}>
-                          <div style={{ marginLeft: 10 }}>
-                            <Meta
-                              title={item.name}
-                              description=""
-                            />
+                        </List.Item>
+                      )}
+                    </VirtualList> : <p>Empty data</p>
+              }
+              {
+                isEventNearbyLoading ?
+                  <Spin className="center" /> :
+                  listEventNearby.length !== 0 ?
+                    <VirtualList
+                      data={listEventNearby}
+                      height={ContainerHeight}
+                      itemHeight={47}
+                      itemKey="eventNearby"
+                      onScroll={onScroll}
+                    >
+                      {(item) => (
+                        <List.Item key={item.email}>
+                          <div className="poi-card-box">
+                            <Row>
+                              <Col xl={12}>
+                                <img
+                                  height={100}
+                                  alt="example"
+                                  src={item.thumbnail.link}
+                                />
+                              </Col>
+                              <Col xl={12}>
+                                <div style={{ marginLeft: 10 }}>
+                                  <Meta
+                                    title={item.name}
+                                    description=""
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
                           </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </List.Item>
-                )}
-              </VirtualList>
-              <VirtualList
-                data={listKioskNearby}
-                height={ContainerHeight}
-                itemHeight={47}
-                itemKey="eventNearby"
-                onScroll={onScroll}
-              >
-                {(item) => (
-                  <List.Item key={item.email}>
-                    <div className="poi-card-box">
-                      <Row>
+                        </List.Item>
+                      )}
+                    </VirtualList> : <p>Empty data</p>
+              }
+              {
+                isKioskNearbyLoading ?
+                  <Spin className="center" /> :
+                  listKioskNearby.length !== 0 ?
+                    <VirtualList
+                      data={listKioskNearby}
+                      height={ContainerHeight}
+                      itemHeight={47}
+                      itemKey="eventNearby"
+                      onScroll={onScroll}
+                    >
+                      {(item) => (
+                        <List.Item key={item.email}>
+                          <div className="poi-card-box">
+                            <Row>
 
-                        <div style={{ marginLeft: 10 }}>
-                          <Meta
-                            title={item.name}
-                            description=""
-                          />
-                        </div>
+                              <div style={{ marginLeft: 10 }}>
+                                <Meta
+                                  title={item.name}
+                                  description=""
+                                />
+                              </div>
 
-                      </Row>
-                    </div>
-                  </List.Item>
-                )}
-              </VirtualList>
+                            </Row>
+                          </div>
+                        </List.Item>
+                      )}
+                    </VirtualList> : <p>Empty data</p>}
             </div>
           </Col>
         </Row>
@@ -388,81 +392,8 @@ const MapPage = () => {
               )
             }) : null
           }
-
-          {/* <Col span={3}>
-            <div className="poi-category-card-box">
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require("../../../assets/images/coffee-1.png")}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Coffee</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={3}>
-            <div className="poi-category-card-box">
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require("../../../assets/images/shopping-1.png")}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Shopping</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={3}>
-            <div className="poi-category-card-box">
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require("../../../assets/images/fuel-1.png")}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Fuel</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={3}>
-            <div className="poi-category-card-box">
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require("../../../assets/images/hospital.png")}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Hospital</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col> */}
         </Row>
-      </Col>
+      </Col >
     </>
   );
 };
