@@ -5,24 +5,25 @@ import {
   formItemLayout,
   tailFormItemLayout,
 } from "../../../kiosks/layouts/form_layout";
-import { KIOSK_ID } from "../../constants/key";
+import { KIOSK_ID, USER_ID } from "../../constants/key";
+import { changeStatusKioskService } from "../../services/kiosk_service";
 
-const ModalChooseKiosk = ({ isModalChooseKioskVisible, handleCancelModal }) => {
+const ModalChooseKiosk = ({
+  isModalChooseKioskVisible,
+  handleCancelModal,
+  listKiosk,
+}) => {
   const [form] = Form.useForm();
   const { Option } = Select;
   const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
-  useEffect(() => {
-    form.resetFields();
-  }, []);
 
   const onFinishChooseKiosk = async (values) => {
     setIsLoading(true);
     try {
-      if (true) {
-        localStorage.setItem(KIOSK_ID, "abc");
-        navigate("/home-page");
-      }
+      localStorage.setItem(KIOSK_ID, values.Kiosk);
+      await changeStatusKioskService(values.Kiosk);
+      navigate("/home-page");
     } catch (error) {
       console.log(error);
     } finally {
@@ -58,16 +59,13 @@ const ModalChooseKiosk = ({ isModalChooseKioskVisible, handleCancelModal }) => {
             ]}
           >
             <Select name="selectProvince">
-              <Option key="1" value="1">
-                1
-              </Option>
-              {/* {listProvinces
-                ? listProvinces.map((item) => (
-                    <Option key={item.code} value={item.code}>
+              {listKiosk
+                ? listKiosk.map((item) => (
+                    <Option key={item.id} value={item.id}>
                       {item.name}
                     </Option>
                   ))
-                : null} */}
+                : null}
             </Select>
           </Form.Item>
 

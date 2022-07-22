@@ -5,9 +5,13 @@ import {
   formItemLayout,
   tailFormItemLayout,
 } from "../../../kiosks/layouts/form_layout";
-import { KIOSK_ID, USER_ID } from "../../constants/key";
+import { KIOSK_ID, USER_EMAIL, USER_ID } from "../../constants/key";
 import { LENGTH_PASSWORD_REQUIRED } from "../../constants/number_constants";
-import { localStorageGetUserIdService } from "../../services/localstorage_service";
+import { signInService } from "../../services/auth_service";
+import {
+  changeStatusKioskService,
+  getListKioskService,
+} from "../../services/kiosk_service";
 
 const ModalChangeCurrenKiosk = ({
   isChangeCurrentKioskModal,
@@ -16,22 +20,24 @@ const ModalChangeCurrenKiosk = ({
   const [form] = Form.useForm();
   const { Option } = Select;
   const [isLoading, setIsLoading] = useState(false);
+  const [listKiosk, setListKiosk] = useState();
   const [isCorrectPassword, setIsCorrectPassword] = useState(false);
-  const [userPassWord, setUserPassword] = useState("");
   let navigate = useNavigate();
   useEffect(() => {
     form.resetFields();
-  }, []);
+  }, [isLoading]);
 
   const onFinishChooseKiosk = async (values) => {
     setIsLoading(true);
     try {
-      if (true) {
-        localStorage.setItem(KIOSK_ID, "abc");
-        handleCancelModal();
-        setIsCorrectPassword(false);
-        navigate("/home-page");
-      }
+      const currenKiosk = localStorage.getItem(KIOSK_ID);
+      await changeStatusKioskService(currenKiosk);
+
+      localStorage.setItem(KIOSK_ID, values.Kiosk);
+      await changeStatusKioskService(values.Kiosk);
+      handleCancelModal();
+      setIsCorrectPassword(false);
+      navigate("/home-page");
     } catch (error) {
       console.log(error);
     } finally {
@@ -41,14 +47,22 @@ const ModalChangeCurrenKiosk = ({
   const handleCancelPoiInModal = () => {
     handleCancelModal();
   };
-  const onFinishConfirmPassword = (values) => {
-    const userId = localStorageGetUserIdService();
-    console.log(userId);
-    setUserPassword("1234567");
-    if (values.password === userPassWord) {
+  const onFinishConfirmPassword = async (values) => {
+    try {
+      const userEmail = localStorage.getItem(USER_EMAIL);
+      const userId = localStorage.getItem(USER_ID);
+      const res = await signInService(userEmail, values.password);
+      if (res.code === 200) {
+        const res = await getListKioskService(userId, "deactivate", 1, -1);
+        setListKiosk(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
       setIsCorrectPassword(true);
     }
   };
+
   return (
     <>
       {isCorrectPassword ? (
@@ -76,16 +90,13 @@ const ModalChangeCurrenKiosk = ({
               ]}
             >
               <Select name="selectProvince">
-                <Option key="1" value="1">
-                  1
-                </Option>
-                {/* {listProvinces
-                ? listProvinces.map((item) => (
-                    <Option key={item.code} value={item.code}>
-                      {item.name}
-                    </Option>
-                  ))
-                : null} */}
+                {listKiosk
+                  ? listKiosk.map((item) => (
+                      <Option key={item.id} value={item.id}>
+                        {item.name}
+                      </Option>
+                    ))
+                  : null}
               </Select>
             </Form.Item>
 

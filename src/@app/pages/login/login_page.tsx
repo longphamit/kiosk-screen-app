@@ -20,6 +20,7 @@ import {
 import { LENGTH_PASSWORD_REQUIRED } from "../../constants/number_constants";
 import { useState } from "react";
 import ModalChooseKiosk from "./modalChooseKiosk";
+import { getListKioskService } from "../../services/kiosk_service";
 const validateMessages: ValidateMessages = {
   required: "${label} is required!",
   string: {
@@ -33,9 +34,11 @@ const validateMessages: ValidateMessages = {
 const LoginPage: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [isModalChooseKioskVisible,setIsModalChooseKioskVisible]=useState(false);
+  const [listKiosk,setListKiosk]= useState();
   const { t } = useTranslation();
   let navigate = useNavigate();
   const dispatch = useDispatch();
+
   const onFinish = async (values: any) => {
     setLoading(true);
     dispatch(loginAction({ email: values.email, password: values.password }))
@@ -46,15 +49,20 @@ const LoginPage: React.FC = () => {
         } else if(response.error?.message === "Request failed with status code 403")
         {return}
         else {
+          localStorage.setItem(ACCESS_TOKEN, response.payload.data.token);
           localStorage.setItem(USER_ID, response.payload.data.id);
           localStorage.setItem(USER_EMAIL, response.payload.data.email);
+          localStorage.setItem(
+            USER_FRIST_NAME,
+            response.payload.data.firstName
+          );
           if (!response.payload.data.passwordIsChanged) {
             navigate("/reset-pass");
           } else {
-            if(response.payload.data.roleName===ROLE_LOCATION_OWNER){    
-              setIsModalChooseKioskVisible(true)
-            } else {
-
+            if(response.payload.data.roleName===ROLE_LOCATION_OWNER){ 
+              console.log(response.payload.data.id)   
+              const res = await getListKioskService(response.payload.data.id, "deactivate", 1, -1);
+                setListKiosk(res.data.data)
             }
           }
         }
@@ -63,6 +71,7 @@ const LoginPage: React.FC = () => {
         console.log(error);
       })
       .finally(() => {
+        setIsModalChooseKioskVisible(true)
         setLoading(false);
       });
   };
@@ -80,6 +89,7 @@ const LoginPage: React.FC = () => {
       <ModalChooseKiosk
         isModalChooseKioskVisible={isModalChooseKioskVisible}
         handleCancelModal={handleCancelModal}
+        listKiosk={listKiosk}
       />
       <Row
         justify="center"
