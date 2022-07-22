@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select, Spin } from "antd";
+import { Button, Col, Form, Input, Modal, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -7,11 +7,12 @@ import {
 } from "../../../kiosks/layouts/form_layout";
 import { KIOSK_ID, USER_EMAIL, USER_ID } from "../../constants/key";
 import { LENGTH_PASSWORD_REQUIRED } from "../../constants/number_constants";
-import { signInService } from "../../services/auth_service";
+import { signInService, signOutService } from "../../services/auth_service";
 import {
   changeStatusKioskService,
   getListKioskService,
 } from "../../services/kiosk_service";
+import { localStorageClearService } from "../../services/localstorage_service";
 
 const ModalChangeCurrenKiosk = ({
   isChangeCurrentKioskModal,
@@ -22,6 +23,7 @@ const ModalChangeCurrenKiosk = ({
   const [isLoading, setIsLoading] = useState(false);
   const [listKiosk, setListKiosk] = useState();
   const [isCorrectPassword, setIsCorrectPassword] = useState(false);
+
   let navigate = useNavigate();
   useEffect(() => {
     form.resetFields();
@@ -48,6 +50,7 @@ const ModalChangeCurrenKiosk = ({
     handleCancelModal();
   };
   const onFinishConfirmPassword = async (values) => {
+    setIsLoading(true);
     try {
       const userEmail = localStorage.getItem(USER_EMAIL);
       const userId = localStorage.getItem(USER_ID);
@@ -59,7 +62,23 @@ const ModalChangeCurrenKiosk = ({
     } catch (error) {
       console.log(error);
     } finally {
+      setIsLoading(false);
       setIsCorrectPassword(true);
+    }
+  };
+
+  const logout = async () => {
+    setIsLoading(true);
+    try {
+      const currenKiosk = localStorage.getItem(KIOSK_ID);
+      await changeStatusKioskService(currenKiosk);
+      await signOutService();
+      localStorageClearService();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,9 +123,18 @@ const ModalChangeCurrenKiosk = ({
               {isLoading ? (
                 <Spin />
               ) : (
-                <Button type="primary" htmlType="submit">
-                  OK
-                </Button>
+                <Row>
+                  <Col span={6}>
+                    <Button type="primary" htmlType="submit">
+                      OK
+                    </Button>
+                  </Col>
+                  <Col span={6}>
+                    <Button type="primary" onClick={() => logout()}>
+                      Log Out
+                    </Button>
+                  </Col>
+                </Row>
               )}
             </Form.Item>
           </Form>
