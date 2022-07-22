@@ -14,6 +14,9 @@ import { useNavigate } from "react-router-dom";
 import { getAllPOICategoriesService, getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
 import POIMarker from "./poi_marker";
+import { getEventNearbyService } from "../../services/event_service";
+import { KIOSK_ID, PARTY_ID } from "../../../@app/constants/key";
+import EventMarker from "./event_marker";
 const { Meta } = Card;
 const ContainerHeight = 400;
 const scaleControlStyle = {
@@ -32,6 +35,8 @@ const MapPage = () => {
     longitude: 105.7982323,
     latitude: 21.0136133,
   });
+  const [listEventNearby, setListEventNearby] = useState([]);
+  const [isEventNearbyLoading, setEventNearbyLoading] = useState(false);
   const [listPoiCategories, setListPoiCategories] = useState(false)
   const [listPois, setListPois] = useState([]);
   const [viewport, setViewport] = useState({
@@ -79,15 +84,13 @@ const MapPage = () => {
   const getListPoiCategories = async () => {
     try {
       const res = await getAllPOICategoriesService();
-      console.log(res.data.data)
       setListPoiCategories(res.data.data)
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
-  const getListPoiNearBy = async () => {
+  const getListPoiNearby = async () => {
     try {
-
       setPoiNearByLoading(true);
       navigator.geolocation.getCurrentPosition(async (position) => {
         setCurrentLocation({
@@ -99,15 +102,37 @@ const MapPage = () => {
           position.coords.latitude)
         console.log(position.coords.longitude)
         const pois = await getPOINearbyService(
-          "910FA26A-E6A8-4DD3-B863-D005EE05729B",
+          localStorage.getItem(KIOSK_ID),
           position.coords.longitude,
           position.coords.latitude
         );
         setListPois(pois.data.data);
-        setPoiNearByLoading(false);
+
       });
     } catch (e) {
       toast.error(e.respone);
+    } finally {
+      setPoiNearByLoading(false);
+    }
+  };
+  const getListEventNearby = async () => {
+    try {
+      setEventNearbyLoading(true);
+      //setPoiNearByLoading(true);
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const events = await getEventNearbyService(
+          position.coords.longitude,
+          position.coords.latitude,
+          localStorage.getItem(PARTY_ID)
+        );
+        setListEventNearby(events.data.data);
+      });
+
+    } catch (e) {
+      console.error(e);
+      toast.error(e.respone);
+    } finally {
+      setEventNearbyLoading(false);
     }
   };
 
@@ -130,7 +155,8 @@ const MapPage = () => {
     //appendData();
     setLocationViewPort();
     getListPoiCategories();
-    getListPoiNearBy();
+    getListPoiNearby();
+    getListEventNearby();
   }, []);
 
   return (
@@ -182,6 +208,12 @@ const MapPage = () => {
                     <POIMarker item={item} currentLocation={currentLocation} />
                   ))
                   : null}
+
+                {listEventNearby ? listEventNearby.map((item) => (
+                  <EventMarker item={item} currentLocation={currentLocation} />
+                ))
+                  : null}
+
               </ReactMapGL>
             </div>
             <Row span={24}>
@@ -220,6 +252,7 @@ const MapPage = () => {
                 <Col span={8}></Col>
                 <Col span={8}>
                   {isPoiNearByLoading ? <Spin className="center" /> : null}
+                  {isEventNearbyLoading ? <Spin className="center" /> : null}
                 </Col>
                 <Col span={8}></Col>
               </Row>
@@ -228,6 +261,37 @@ const MapPage = () => {
                 height={ContainerHeight}
                 itemHeight={47}
                 itemKey="email"
+                onScroll={onScroll}
+              >
+                {(item) => (
+                  <List.Item key={item.email}>
+                    <div className="poi-card-box">
+                      <Row>
+                        <Col xl={12}>
+                          <img
+                            height={100}
+                            alt="example"
+                            src={item.thumbnail.link}
+                          />
+                        </Col>
+                        <Col xl={12}>
+                          <div style={{ marginLeft: 10 }}>
+                            <Meta
+                              title={item.name}
+                              description=""
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </List.Item>
+                )}
+              </VirtualList>
+              <VirtualList
+                data={listEventNearby}
+                height={ContainerHeight}
+                itemHeight={47}
+                itemKey="eventNearby"
                 onScroll={onScroll}
               >
                 {(item) => (
