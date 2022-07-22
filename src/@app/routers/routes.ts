@@ -31,15 +31,7 @@ interface Route {
 const routes: Route[] = [
   {
     component: LoginPage,
-    path: "/signin",
-    isLayout: false,
-    authen: false,
-    breadcrumb: "",
-    roles:[""]
-  },
-  {
-    component: RegistPage,
-    path: "/signup",
+    path: "/",
     isLayout: false,
     authen: false,
     breadcrumb: "",
@@ -54,16 +46,8 @@ const routes: Route[] = [
     roles:[""]
   },
   {
-    component: ForgotPassPage,
-    path: "/forgot-pass",
-    isLayout: false,
-    authen: false,
-    breadcrumb: "",
-    roles:[""]
-  },
-  {
     component: HomePage,
-    path: "/",
+    path: "/home-page",
     isLayout: true,
     layout:KioskBaseLayout,
     authen: false,
