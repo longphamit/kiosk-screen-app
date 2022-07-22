@@ -18,6 +18,7 @@ const EventMarker = ({ item, currentLocation }) => {
     return <div>
         <div onClick={() => { setIsDetailModalVisible(true) }}>
             <Marker
+                color="black"
                 latitude={parseFloat(item.latitude)}
                 longitude={parseFloat(item.longtitude)}
                 offsetLeft={-20}
@@ -29,7 +30,7 @@ const EventMarker = ({ item, currentLocation }) => {
 
                             id="marker"
                             alt="example"
-                            src={require("../../../assets/images/marker-2.png")}
+                            src={require("../../../assets/images/event-marker.png")}
                         />
                         <p style={{ fontWeight: "bold" }}>
                             {item.name}
