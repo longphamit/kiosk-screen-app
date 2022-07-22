@@ -27,7 +27,6 @@ const EventMarker = ({ item, currentLocation }) => {
                 <Col>
                     <div>
                         <img
-
                             id="marker"
                             alt="example"
                             src={require("../../../assets/images/event-marker.png")}

@@ -17,6 +17,8 @@ import POIMarker from "./poi_marker";
 import { getEventNearbyService } from "../../services/event_service";
 import { KIOSK_ID, PARTY_ID } from "../../../@app/constants/key";
 import EventMarker from "./event_marker";
+import { getKioskNearbyService } from "../../services/kiosk_service";
+import KioskMarker from "./kiosk_marker";
 const { Meta } = Card;
 const ContainerHeight = 400;
 const scaleControlStyle = {
@@ -37,7 +39,9 @@ const MapPage = () => {
   });
   const [listEventNearby, setListEventNearby] = useState([]);
   const [isEventNearbyLoading, setEventNearbyLoading] = useState(false);
-  const [listPoiCategories, setListPoiCategories] = useState(false)
+  const [listPoiCategories, setListPoiCategories] = useState(false);
+  const [listKioskNearby, setListKioskNearby] = useState([]);
+  const [isKioskNearbyLoading, setKioskNearbyLoading] = useState(false);
   const [listPois, setListPois] = useState([]);
   const [viewport, setViewport] = useState({
     width: "100%",
@@ -89,48 +93,58 @@ const MapPage = () => {
       console.error(e)
     }
   }
-  const getListPoiNearby = async () => {
+  const initialDataNearby = async () => {
+    getListPoiCategories();
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      let long = position.coords.longitude;
+      let lat = position.coords.latitude;
+      setCurrentLocation({
+        ...currentLocation,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
+      getListPoiNearby(long, lat);
+      getListEventNearby(long, lat);
+      getKioskNearby(long, lat);
+    });
+  }
+  const getKioskNearby = async (long, lat) => {
+    try {
+      setKioskNearbyLoading(true);
+
+      const res = await getKioskNearbyService(long, lat);
+      setListKioskNearby(res.data.data);
+
+    } catch (e) {
+      toast.error(e.respone);
+    } finally {
+      setKioskNearbyLoading(false);
+    }
+  }
+  const getListPoiNearby = async (long, lat) => {
     try {
       setPoiNearByLoading(true);
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        setCurrentLocation({
-          ...currentLocation,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-        console.log(
-          position.coords.latitude)
-        console.log(position.coords.longitude)
-        const pois = await getPOINearbyService(
-          localStorage.getItem(KIOSK_ID),
-          position.coords.longitude,
-          position.coords.latitude
-        );
-        setListPois(pois.data.data);
 
-      });
+      const pois = await getPOINearbyService(localStorage.getItem(KIOSK_ID), long, lat);
+      setListPois(pois.data.data);
+
     } catch (e) {
       toast.error(e.respone);
     } finally {
       setPoiNearByLoading(false);
     }
   };
-  const getListEventNearby = async () => {
+  const getListEventNearby = async (long, lat) => {
     try {
       setEventNearbyLoading(true);
-      //setPoiNearByLoading(true);
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const events = await getEventNearbyService(
-          position.coords.longitude,
-          position.coords.latitude,
-          localStorage.getItem(PARTY_ID)
-        );
-        setListEventNearby(events.data.data);
-      });
+
+      const events = await getEventNearbyService(long, lat, localStorage.getItem(PARTY_ID));
+      setListEventNearby(events.data.data);
 
     } catch (e) {
       console.error(e);
-      toast.error(e.respone);
     } finally {
       setEventNearbyLoading(false);
     }
@@ -154,9 +168,7 @@ const MapPage = () => {
   useEffect(() => {
     //appendData();
     setLocationViewPort();
-    getListPoiCategories();
-    getListPoiNearby();
-    getListEventNearby();
+    initialDataNearby();
   }, []);
 
   return (
@@ -198,7 +210,7 @@ const MapPage = () => {
                       <img
                         id="marker"
                         alt="example"
-                        src={require("../../../assets/images/marker-1.png")}
+                        src={require("../../../assets/images/person_marker.png")}
                       />
                     </div>
                   </Col>
@@ -213,7 +225,10 @@ const MapPage = () => {
                   <EventMarker item={item} currentLocation={currentLocation} />
                 ))
                   : null}
-
+                {listKioskNearby ? listKioskNearby.map((item) => (
+                  <KioskMarker item={item} currentLocation={currentLocation} />
+                ))
+                  : null}
               </ReactMapGL>
             </div>
             <Row span={24}>
@@ -253,6 +268,7 @@ const MapPage = () => {
                 <Col span={8}>
                   {isPoiNearByLoading ? <Spin className="center" /> : null}
                   {isEventNearbyLoading ? <Spin className="center" /> : null}
+                  {isKioskNearbyLoading ? <Spin className="center" /> : null}
                 </Col>
                 <Col span={8}></Col>
               </Row>
@@ -313,6 +329,30 @@ const MapPage = () => {
                             />
                           </div>
                         </Col>
+                      </Row>
+                    </div>
+                  </List.Item>
+                )}
+              </VirtualList>
+              <VirtualList
+                data={listKioskNearby}
+                height={ContainerHeight}
+                itemHeight={47}
+                itemKey="eventNearby"
+                onScroll={onScroll}
+              >
+                {(item) => (
+                  <List.Item key={item.email}>
+                    <div className="poi-card-box">
+                      <Row>
+
+                        <div style={{ marginLeft: 10 }}>
+                          <Meta
+                            title={item.name}
+                            description=""
+                          />
+                        </div>
+
                       </Row>
                     </div>
                   </List.Item>

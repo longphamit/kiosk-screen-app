@@ -14,3 +14,10 @@ export const getKioskInfoService = async (kioskId: any) => {
   );
   return response.data;
 }
+
+export const getKioskNearbyService = async (longitude: any, latitude: any) => {
+  const response = await request.get(
+    `${HOST}/v1/kiosks/nearby?Longtitude=${longitude}&&Latitude=${latitude}&pageNum=1`
+  );
+  return response.data;
+}
