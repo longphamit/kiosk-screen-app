@@ -18,6 +18,7 @@ const { Header, Content, Sider } = Layout;
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
   let navigate = useNavigate();
+  
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
   const logout = () => {
