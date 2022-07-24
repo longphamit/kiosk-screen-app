@@ -6,15 +6,16 @@ import {
   tailFormItemLayout,
 } from "../../../kiosks/layouts/form_layout";
 import { KIOSK_ID, USER_ID } from "../../constants/key";
-import { changeStatusKioskService } from "../../services/kiosk_service";
+import { changeStatusKioskService, getListKioskService } from "../../services/kiosk_service";
 
 const ModalChooseKiosk = ({
   isModalChooseKioskVisible,
   handleCancelModal,
-  listKiosk,
+  partyId
 }) => {
   const [form] = Form.useForm();
   const { Option } = Select;
+  const [listKiosk, setListKiosk] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
 
@@ -33,6 +34,24 @@ const ModalChooseKiosk = ({
   const handleCancelPoiInModal = () => {
     handleCancelModal();
   };
+  const getListKiosk = async () => {
+    try {
+      const res = await getListKioskService(
+        partyId,
+        "deactivate",
+        1,
+        -1
+      );
+      setListKiosk(res.data.data);
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    getListKiosk();
+  }, []);
   return (
     <>
       <Modal
@@ -61,10 +80,10 @@ const ModalChooseKiosk = ({
             <Select name="selectProvince">
               {listKiosk
                 ? listKiosk.map((item) => (
-                    <Option key={item.id} value={item.id}>
-                      {item.name}
-                    </Option>
-                  ))
+                  <Option key={item.id} value={item.id}>
+                    {item.name}
+                  </Option>
+                ))
                 : null}
             </Select>
           </Form.Item>

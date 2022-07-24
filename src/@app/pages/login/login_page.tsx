@@ -6,7 +6,12 @@ import { toast } from "react-toastify";
 import { ValidateMessages } from "rc-field-form/lib/interface";
 import { PRIMARY_COLOR } from "../../constants/colors";
 
-import { ACCESS_TOKEN, USER_EMAIL, USER_FRIST_NAME, USER_ID } from "../../constants/key";
+import {
+  ACCESS_TOKEN,
+  USER_EMAIL,
+  USER_FRIST_NAME,
+  USER_ID,
+} from "../../constants/key";
 import useDispatch from "../../hooks/use_dispatch";
 import { loginAction } from "../../redux/actions/login_action";
 
@@ -33,8 +38,9 @@ const validateMessages: ValidateMessages = {
 };
 const LoginPage: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
-  const [isModalChooseKioskVisible,setIsModalChooseKioskVisible]=useState(false);
-  const [listKiosk,setListKiosk]= useState();
+  const [isModalChooseKioskVisible, setIsModalChooseKioskVisible] =
+    useState(false);
+  const [partyId, setPartyId] = useState();
   const { t } = useTranslation();
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,9 +52,11 @@ const LoginPage: React.FC = () => {
         setLoading(false);
         if (response.error?.message === "Request failed with status code 404") {
           toast.error("Wrong Username or password");
-        } else if(response.error?.message === "Request failed with status code 403")
-        {return}
-        else {
+        } else if (
+          response.error?.message === "Request failed with status code 403"
+        ) {
+          return;
+        } else {
           localStorage.setItem(ACCESS_TOKEN, response.payload.data.token);
           localStorage.setItem(USER_ID, response.payload.data.id);
           localStorage.setItem(USER_EMAIL, response.payload.data.email);
@@ -59,10 +67,14 @@ const LoginPage: React.FC = () => {
           if (!response.payload.data.passwordIsChanged) {
             navigate("/reset-pass");
           } else {
-            if(response.payload.data.roleName===ROLE_LOCATION_OWNER){ 
-              console.log(response.payload.data.id)   
-              const res = await getListKioskService(response.payload.data.id, "deactivate", 1, -1);
-                setListKiosk(res.data.data)
+            if (response.payload.data.roleName === ROLE_LOCATION_OWNER) {
+              setPartyId(response.payload.data.id);
+              const kioskId = localStorage.getItem("KIOSK_ID");
+              if (!kioskId) {
+                setIsModalChooseKioskVisible(true);
+              }else{
+                navigate("/home-page");
+              }
             }
           }
         }
@@ -71,7 +83,6 @@ const LoginPage: React.FC = () => {
         console.log(error);
       })
       .finally(() => {
-        setIsModalChooseKioskVisible(true)
         setLoading(false);
       });
   };
@@ -80,17 +91,19 @@ const LoginPage: React.FC = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleCancelModal = () =>{
+  const handleCancelModal = () => {
     setIsModalChooseKioskVisible(false);
-  }
+  };
 
   return (
     <div>
-      <ModalChooseKiosk
-        isModalChooseKioskVisible={isModalChooseKioskVisible}
-        handleCancelModal={handleCancelModal}
-        listKiosk={listKiosk}
-      />
+      {partyId ? (
+        <ModalChooseKiosk
+          partyId={partyId}
+          isModalChooseKioskVisible={isModalChooseKioskVisible}
+          handleCancelModal={handleCancelModal}
+        />
+      ) : null}
       <Row
         justify="center"
         align="middle"

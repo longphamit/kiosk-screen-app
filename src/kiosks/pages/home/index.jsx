@@ -1,9 +1,14 @@
-import { Carousel, Col, Image, Row, Typography } from "antd";
+import { Carousel, Col, Descriptions, Image, Row, Typography } from "antd";
 import "./styles.css";
 import { Card, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
 import useSelector from "../../../@app/hooks/use_selector";
 import { PRIMARY_COLOR } from "../../../@app/constants/colors";
+import { useEffect, useState } from "react";
+import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
+import { getKioskById } from "../../services/kiosk_service";
+import { toast } from "react-toastify";
+import { PhoneFilled, MailFilled } from "@ant-design/icons";
 const { Title } = Typography;
 const { Meta } = Card;
 const style = { background: "#0092ff", padding: "8px 0" };
@@ -12,37 +17,91 @@ const contentStyle = {
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
+  contentAlign: "center",
   background: "#364d79",
 };
 const HomePage = () => {
   const navigator = useNavigate();
+  const [kioskLocation, setKioskLocation] = useState()
   const { id, listEventPosition, listAppCatePosition } = useSelector(
     (state) => state.home_view
   );
   console.log(listEventPosition);
+  const getKioskLocation = async () => {
+    const kioskId = localStorage.getItem("KIOSK_ID");
+    const resKioskInfo = await getKioskById(kioskId);
+    if (resKioskInfo.data.kioskLocationId) {
+      const resKioksLocationInfo = await getLocationByIdService(
+        resKioskInfo.data.kioskLocationId
+      );
+      console.log(resKioksLocationInfo.data)
 
+      setKioskLocation(resKioksLocationInfo.data);
+    } else {
+      toast.error("can not get kiosk information");
+    }
+  };
+  useEffect(() => {
+    getKioskLocation()
+  }, []);
   return (
     <>
       <div style={{ marginTop: 100, marginLeft: 50, marginRight: 50 }}>
         <Row>
           <Col span={16}>
-            <Carousel style={{ margin: 10 }} autoplay autoplaySpeed={1000}>
-              <div>
-                <h3 style={contentStyle}>1</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>2</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>3</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>4</h3>
-              </div>
+            <Carousel style={{ margin: 10, textAlign: "center", alignItems: "center" }} autoplay autoplaySpeed={2000}>
+              {
+                kioskLocation?.listImage?.map(image => {
+                  return <div style={contentStyle}><Image style={{ textAlign: "center" }} key={image.id} src={image.link} /></div>
+                })
+              }
             </Carousel>
           </Col>
           <Col span={8}>
-            <div className="location-info"></div>
+            <div className="location-info">
+              {
+                kioskLocation ?
+                  <>
+                    <div style={{ textAlign: "center" }}>
+                      <h2 style={{ fontWeight: "bold", fontSize: 30, color: PRIMARY_COLOR }}>{kioskLocation.name}</h2>
+                    </div>
+                    <div style={{ width: "100%" }}>
+                      <Row span={24}>
+                        <Col span={24}>
+                          <div style={{ background: "#afeb9d", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
+                            <Row>
+                              <Col span={2}>
+                                <PhoneFilled />
+                              </Col>
+                              <Col span={22} style={{ textAlign: "center" }}>
+                                {kioskLocation.hotLine}
+                              </Col>
+                            </Row>
+                          </div>
+                        </Col>
+
+                      </Row>
+                      <Row span={24}>
+                        <Col span={24}>
+                          <div style={{ background: "#eb9dab", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
+                            <Row>
+                              <Col span={2}>
+                                <MailFilled />
+                              </Col>
+                              <Col span={22} style={{ textAlign: "center" }}>
+                                {kioskLocation.ownerEmail}
+                              </Col>
+                            </Row>
+                          </div>
+                        </Col>
+                      </Row>
+
+                    </div>
+
+                  </> : null
+              }
+
+            </div>
           </Col>
         </Row>
       </div>
