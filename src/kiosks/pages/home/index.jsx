@@ -1,4 +1,4 @@
-import { Carousel, Col, Descriptions, Image, Row, Typography } from "antd";
+import { Carousel, Col, Descriptions, Image, Row, Spin, Typography } from "antd";
 import "./styles.css";
 import { Card, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
 import { getKioskById } from "../../services/kiosk_service";
 import { toast } from "react-toastify";
-import { PhoneFilled, MailFilled } from "@ant-design/icons";
+import { PhoneFilled, MailFilled, InfoCircleFilled } from "@ant-design/icons";
+import ModalLocationDescription from "./modalLocationDescrtiption";
 const { Title } = Typography;
 const { Meta } = Card;
 const style = { background: "#0092ff", padding: "8px 0" };
@@ -23,6 +24,7 @@ const contentStyle = {
 const HomePage = () => {
   const navigator = useNavigate();
   const [kioskLocation, setKioskLocation] = useState()
+  const [isLocationDescriptionModalVisible,setLocationDescriptionModalVisible]=useState(false)
   const { id, listEventPosition, listAppCatePosition } = useSelector(
     (state) => state.home_view
   );
@@ -44,6 +46,9 @@ const HomePage = () => {
   useEffect(() => {
     getKioskLocation()
   }, []);
+  const onCancelModalLocation=()=>{
+    setLocationDescriptionModalVisible(false)
+  }
   return (
     <>
       <div style={{ marginTop: 100, marginLeft: 50, marginRight: 50 }}>
@@ -51,9 +56,9 @@ const HomePage = () => {
           <Col span={16}>
             <Carousel style={{ margin: 10, textAlign: "center", alignItems: "center" }} autoplay autoplaySpeed={2000}>
               {
-                kioskLocation?.listImage?.map(image => {
+                kioskLocation?kioskLocation.listImage?.map(image => {
                   return <div style={contentStyle}><Image style={{ textAlign: "center" }} key={image.id} src={image.link} /></div>
-                })
+                }):<Spin className="center"/>
               }
             </Carousel>
           </Col>
@@ -94,17 +99,36 @@ const HomePage = () => {
                             </Row>
                           </div>
                         </Col>
+                      </Row><Row span={24}>
+                        <Col span={24}>
+                          <div style={{ background: "#59def0", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
+                            <Row>
+                              <Col span={2}>
+                                <InfoCircleFilled />
+                              </Col>
+                              <Col span={22} style={{ textAlign: "center" }} onClick={()=>{setLocationDescriptionModalVisible(true)}}>
+                                Description
+                              </Col>
+                            </Row>
+                          </div>
+                        </Col>
                       </Row>
 
                     </div>
 
-                  </> : null
+                  </> :<Spin className="center"/>
               }
 
             </div>
           </Col>
         </Row>
       </div>
+      {
+        kioskLocation?<ModalLocationDescription 
+        onCancelModalLocation={onCancelModalLocation}
+        visible={isLocationDescriptionModalVisible} 
+        description={kioskLocation.description}/>:null
+      }
       <div style={{ margin: 40 }}>
         {/* <>{id}</>
             {
