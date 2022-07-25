@@ -21,7 +21,7 @@ const MyAddress = ({ currentLocation }) => {
         }
     }
     useEffect(() => {
-       // getMyAddress();
+        getMyAddress();
     }, []);
 
     return <>
@@ -29,7 +29,6 @@ const MyAddress = ({ currentLocation }) => {
             {isMyAddressLoading ? <Spin /> :
                 myAddress ? <>
                     <img
-                        style={{ width: 20, heigh: 20, marginRight: 10 }}
                         alt="example"
                         src={require("../../../../assets/images/marker-1.png")}
                     />
@@ -38,7 +37,7 @@ const MyAddress = ({ currentLocation }) => {
                 </> : <></>
             }
         </div>
-        <div id="marker-my-address-text1">
+        <div id="back-to-home-page">
             <Button type="primary" style={{ marginLeft: '20%' }} onClick={() => navigate("/")}>
                 Back to Home
             </Button>

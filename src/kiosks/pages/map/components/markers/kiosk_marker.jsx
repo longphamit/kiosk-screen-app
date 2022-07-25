@@ -1,4 +1,4 @@
-import { Col, Descriptions, Modal, Spin, } from "antd";
+import { Descriptions, Modal, Spin, } from "antd";
 import { useState } from "react";
 import QRCode from "react-qr-code";
 import { getDirectUrl } from "../../../../../@app/utils/direct_url_util";

@@ -19,10 +19,10 @@ export const SubLocationInfomation = ({ currentItem, currentLocation, modalVisib
                         footer={null}
                         onCancel={() => setModalVisible(false)}
                     >
-                        <div style={{maxHeight:'80vh', overflowX: 'auto'}}>
-                        {currentItem.timeStart ? < SpecificEventLocation event={currentItem} currentLocation={currentLocation} /> :
-                            <SpecificPOILocation poi={currentItem} currentLocation={currentLocation} />
-                        }
+                        <div className="sub-info-scroll-bar">
+                            {currentItem.timeStart ? < SpecificEventLocation event={currentItem} currentLocation={currentLocation} /> :
+                                <SpecificPOILocation poi={currentItem} currentLocation={currentLocation} />
+                            }
                         </div>
                     </Modal>
                 </> : null

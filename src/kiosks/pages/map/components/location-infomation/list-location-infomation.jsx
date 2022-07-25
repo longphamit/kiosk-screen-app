@@ -1,12 +1,9 @@
 import { Col, Row } from "antd"
-import { useEffect, useState } from "react";
 import "./../../styles.css";
 
 const defaultImg = 'https://product.hstatic.net/1000068876/product/may-tra-cuu-thong-tin-kisok-32-goodm-grande_1e7f9647ea464053852d0f723cc7c4ad.png';
 export const ListLocationInformation = ({ locations, setCurrentItem }) => {
-    useEffect(() => {
-        console.log(locations)
-    }, []);
+   
     return <>
         <div className="list-location-infomation">
             {locations.map((e) => {
