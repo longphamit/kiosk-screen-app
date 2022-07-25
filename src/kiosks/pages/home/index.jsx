@@ -88,7 +88,7 @@ const HomePage = () => {
                       </Row>
                       <Row span={24}>
                         <Col span={24}>
-                          <div style={{ background: "#eb9dab", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
+                          <div style={{ background: "#ff8442", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
                             <Row>
                               <Col span={2}>
                                 <MailFilled />
