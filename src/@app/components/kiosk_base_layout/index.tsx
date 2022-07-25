@@ -7,8 +7,13 @@ import {
   notification,
   BackTop,
   Button,
+  Affix,
 } from "antd";
-import { DownloadOutlined, PoweroffOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  HomeFilled,
+  PoweroffOutlined,
+} from "@ant-design/icons";
 import { ReactNode, useEffect, useState } from "react";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
@@ -27,12 +32,14 @@ import {
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import ModalChangeCurrenKiosk from "./modalChangeCurrentKiosk";
 import { getLocationByIdService } from "../../services/kiosk_location_service";
+import { PRIMARY_COLOR } from "../../constants/colors";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
   let navigate = useNavigate();
+  const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
@@ -66,12 +73,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   };
   useEffect(() => {
     doCronJob();
-    
-  },[]);
+  }, []);
   const dispatch = useDispatch();
   getTokenCustom(setTokenFound);
-
-  
 
   const handleCancelModal = () => {
     setIsChangeCurrentKioskModal(false);
@@ -181,9 +185,25 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
               {children}
               <>
                 <BackTop />
-                Scroll down to see the bottom-right
-                <strong className="site-back-top-basic"> gray </strong>
-                button.
+                <div>
+                  <Affix
+                    offsetBottom={top}
+                    className="center"
+                    style={{ textAlign: "center"}}
+                  >
+                    <div style={{ color: PRIMARY_COLOR}}>
+                      <Row>
+                        <HomeFilled
+                         className="center afflix-bottom"
+                          onClick={() => {
+                            navigate("/home-page");
+                          }}
+                          style={{ color: "#fff", fontSize: 40 }}
+                        />
+                      </Row>
+                    </div>
+                  </Affix>
+                </div>
               </>
             </Content>
           </Layout>
