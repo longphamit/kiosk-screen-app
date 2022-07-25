@@ -134,7 +134,7 @@ const HomePage = () => {
           visible={isLocationDescriptionModalVisible}
           description={kioskLocation.description} /> : null
       }
-      <div style={{ margin: 40 }}>
+      <div style={{ marginLeft: 40,marginRight:40,marginBottom:40 }}>
         {/* <>{id}</>
             {
                 listAppCatePosition?.map(e => {
@@ -143,7 +143,54 @@ const HomePage = () => {
                     </div>)
                 })
             } */}
+<Col span={24}>
+          
+          <div>
+            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+              {/* {
+                            listEventPosition?.map(e => {
+                                return (<Col xl={6} xs={12}>
+                                    <div className="event-box">
+                                        <img
+                                            className="event-image"
+                                            alt="example"
+                                            src={require('../../../assets/images/event-1.png')}
+                                        />
 
+                                    </div>
+                                </Col>)
+                            })
+                        } */}
+              <Col xl={6} xs={12}>
+                <div className="event-box">
+                  <img
+                    className="event-image"
+                    alt="example"
+                    src={require("../../../assets/images/event-2.png")}
+                  />
+                </div>
+              </Col>
+              <Col xl={6} xs={12}>
+                <div className="event-box">
+                  <img
+                    className="event-image"
+                    alt="example"
+                    src={require("../../../assets/images/event-3.png")}
+                  />
+                </div>
+              </Col>
+              <Col xl={6} xs={12}>
+                <div className="event-box">
+                  <img
+                    className="event-image"
+                    alt="example"
+                    src={require("../../../assets/images/event-4.png")}
+                  />
+                </div>
+              </Col>
+            </Row>
+          </div>
+        </Col>
         <Col span={24}>
           <Row span={24}>
             <div className="title-home-box">App Category</div>
@@ -264,56 +311,7 @@ const HomePage = () => {
             </Row>
           </div>
         </Col>
-        <Col span={24}>
-          <Row span={24}>
-            <div className="title-home-box">Events</div>
-          </Row>
-          <div>
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              {/* {
-                            listEventPosition?.map(e => {
-                                return (<Col xl={6} xs={12}>
-                                    <div className="event-box">
-                                        <img
-                                            className="event-image"
-                                            alt="example"
-                                            src={require('../../../assets/images/event-1.png')}
-                                        />
-
-                                    </div>
-                                </Col>)
-                            })
-                        } */}
-              <Col xl={6} xs={12}>
-                <div className="event-box">
-                  <img
-                    className="event-image"
-                    alt="example"
-                    src={require("../../../assets/images/event-2.png")}
-                  />
-                </div>
-              </Col>
-              <Col xl={6} xs={12}>
-                <div className="event-box">
-                  <img
-                    className="event-image"
-                    alt="example"
-                    src={require("../../../assets/images/event-3.png")}
-                  />
-                </div>
-              </Col>
-              <Col xl={6} xs={12}>
-                <div className="event-box">
-                  <img
-                    className="event-image"
-                    alt="example"
-                    src={require("../../../assets/images/event-4.png")}
-                  />
-                </div>
-              </Col>
-            </Row>
-          </div>
-        </Col>
+        
       </div>
     </>
   );
