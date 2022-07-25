@@ -24,7 +24,9 @@ import TimeView from "./time";
 import useDispatch from "../../hooks/use_dispatch";
 import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
 import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
-import { getKioskTemplate } from "../../../kiosks/services/kiosk_service";
+import {
+  getKioskTemplate,
+} from "../../../kiosks/services/kiosk_service";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import ModalChangeCurrenKiosk from "./modalChangeCurrentKiosk";
 import { getLocationByIdService } from "../../services/kiosk_location_service";
@@ -149,11 +151,11 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                     y2="0"
                   >
                     <stop
-                      stop-color="rgba(47.954, 133.12, 208.924, 1)"
+                      stopColor="rgba(47.954, 133.12, 208.924, 1)"
                       offset="0%"
                     ></stop>
                     <stop
-                      stop-color="rgba(51.331, 248.79, 255, 1)"
+                      stopColor="rgba(51.331, 248.79, 255, 1)"
                       offset="100%"
                     ></stop>
                   </linearGradient>
@@ -172,11 +174,11 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                     y2="0"
                   >
                     <stop
-                      stop-color="rgba(60.71, 240.799, 240.188, 1)"
+                      stopColor="rgba(60.71, 240.799, 240.188, 1)"
                       offset="0%"
                     ></stop>
                     <stop
-                      stop-color="rgba(48.895, 148.436, 249.906, 1)"
+                      stopColor="rgba(48.895, 148.436, 249.906, 1)"
                       offset="100%"
                     ></stop>
                   </linearGradient>

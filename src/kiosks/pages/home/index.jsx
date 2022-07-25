@@ -6,13 +6,11 @@ import useSelector from "../../../@app/hooks/use_selector";
 import { PRIMARY_COLOR } from "../../../@app/constants/colors";
 import { useEffect, useState } from "react";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
-import { getKioskById } from "../../services/kiosk_service";
 import { toast } from "react-toastify";
 import { PhoneFilled, MailFilled, InfoCircleFilled, ArrowRightOutlined } from "@ant-design/icons";
 import ModalLocationDescription from "./modalLocationDescrtiption";
-const { Title } = Typography;
+import { getKioskInfoService } from "../../services/kiosk_service";
 const { Meta } = Card;
-const style = { background: "#0092ff", padding: "8px 0" };
 const contentStyle = {
   height: "300px",
   color: "#fff",
@@ -25,13 +23,13 @@ const HomePage = () => {
   const navigator = useNavigate();
   const [kioskLocation, setKioskLocation] = useState()
   const [isLocationDescriptionModalVisible, setLocationDescriptionModalVisible] = useState(false)
-  const { id, listEventPosition, listAppCatePosition } = useSelector(
+  const { listEventPosition } = useSelector(
     (state) => state.home_view
   );
   console.log(listEventPosition);
   const getKioskLocation = async () => {
     const kioskId = localStorage.getItem("KIOSK_ID");
-    const resKioskInfo = await getKioskById(kioskId);
+    const resKioskInfo = await getKioskInfoService(kioskId);
     if (resKioskInfo.data.kioskLocationId) {
       const resKioksLocationInfo = await getLocationByIdService(
         resKioskInfo.data.kioskLocationId
