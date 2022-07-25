@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import { PRIMARY_COLOR } from "../../constants/colors";
 
 import {
   ACCESS_TOKEN,
+  USER_EMAIL,
   USER_FRIST_NAME,
   USER_ID,
 } from "../../constants/key";
@@ -22,6 +23,9 @@ import {
   ROLE_SERVICE_PROVIDER,
 } from "../../constants/role";
 import { LENGTH_PASSWORD_REQUIRED } from "../../constants/number_constants";
+import { useState } from "react";
+import ModalChooseKiosk from "./modalChooseKiosk";
+import { getListKioskService } from "../../services/kiosk_service";
 const validateMessages: ValidateMessages = {
   required: "${label} is required!",
   string: {
@@ -33,47 +37,73 @@ const validateMessages: ValidateMessages = {
   },
 };
 const LoginPage: React.FC = () => {
+  const [isLoading, setLoading] = useState(false);
+  const [isModalChooseKioskVisible, setIsModalChooseKioskVisible] =
+    useState(false);
+  const [partyId, setPartyId] = useState();
   const { t } = useTranslation();
   let navigate = useNavigate();
   const dispatch = useDispatch();
+
   const onFinish = async (values: any) => {
+    setLoading(true);
     dispatch(loginAction({ email: values.email, password: values.password }))
       .then(async (response: any) => {
-        console.log(response);
-        if (response.error) {
+        setLoading(false);
+        if (response.error?.message === "Request failed with status code 404") {
           toast.error("Wrong Username or password");
+        } else if (
+          response.error?.message === "Request failed with status code 403"
+        ) {
+          return;
         } else {
           localStorage.setItem(ACCESS_TOKEN, response.payload.data.token);
           localStorage.setItem(USER_ID, response.payload.data.id);
+          localStorage.setItem(USER_EMAIL, response.payload.data.email);
           localStorage.setItem(
             USER_FRIST_NAME,
             response.payload.data.firstName
           );
-          if(!response.payload.data.passwordIsChanged){
+          if (!response.payload.data.passwordIsChanged) {
             navigate("/reset-pass");
-          }else{
-            switch (response.payload.data.roleName) {
-              case ROLE_ADMIN:
-                return navigate("/homepage");
-              case ROLE_LOCATION_OWNER:
-                return navigate("/homepage");
-              case ROLE_SERVICE_PROVIDER:
-                break;
+          } else {
+            if (response.payload.data.roleName === ROLE_LOCATION_OWNER) {
+              setPartyId(response.payload.data.id);
+              const kioskId = localStorage.getItem("KIOSK_ID");
+              if (!kioskId) {
+                setIsModalChooseKioskVisible(true);
+              }else{
+                navigate("/home-page");
+              }
             }
-            toast.success("Sign in successfull");
           }
         }
       })
       .catch((error: any) => {
         console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+
+  const handleCancelModal = () => {
+    setIsModalChooseKioskVisible(false);
+  };
+
   return (
     <div>
+      {partyId ? (
+        <ModalChooseKiosk
+          partyId={partyId}
+          isModalChooseKioskVisible={isModalChooseKioskVisible}
+          handleCancelModal={handleCancelModal}
+        />
+      ) : null}
       <Row
         justify="center"
         align="middle"
@@ -106,7 +136,13 @@ const LoginPage: React.FC = () => {
             <Form.Item
               label="Password"
               name="password"
-              rules={[{ required: true, type: "string", min: LENGTH_PASSWORD_REQUIRED }]}
+              rules={[
+                {
+                  required: true,
+                  type: "string",
+                  min: LENGTH_PASSWORD_REQUIRED,
+                },
+              ]}
               style={{ marginBottom: 0 }}
             >
               <Input.Password />
@@ -123,9 +159,13 @@ const LoginPage: React.FC = () => {
             </Row>
             <Row justify="center" align="middle">
               <Form.Item style={{ marginTop: 10 }}>
-                <Button type="primary" htmlType="submit">
-                  {t("signin")}
-                </Button>
+                {isLoading ? (
+                  <Spin />
+                ) : (
+                  <Button type="primary" htmlType="submit">
+                    {t("signin")}
+                  </Button>
+                )}
               </Form.Item>
             </Row>
           </Form>

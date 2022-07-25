@@ -1,5 +1,19 @@
-import { Layout, Menu, Breadcrumb, Row, Col, notification, BackTop } from "antd";
-import { SmileOutlined } from "@ant-design/icons";
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Row,
+  Col,
+  notification,
+  BackTop,
+  Button,
+  Affix,
+} from "antd";
+import {
+  DownloadOutlined,
+  HomeFilled,
+  PoweroffOutlined,
+} from "@ant-design/icons";
 import { ReactNode, useEffect, useState } from "react";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
@@ -11,15 +25,26 @@ import useDispatch from "../../hooks/use_dispatch";
 import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
 import { onMessage } from "firebase/messaging";
 import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
-import { getKioskTemplate } from "../../../kiosks/services/kiosk_service";
+import {
+  getKioskById,
+  getKioskTemplate,
+} from "../../../kiosks/services/kiosk_service";
+import { SizeType } from "antd/lib/config-provider/SizeContext";
+import ModalChangeCurrenKiosk from "./modalChangeCurrentKiosk";
+import { getLocationByIdService } from "../../services/kiosk_location_service";
+import { PRIMARY_COLOR } from "../../constants/colors";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
   let navigate = useNavigate();
+  const [top, setTop] = useState(10);
+  const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
+  const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
+    useState(false);
   const logout = () => {
     localStorageClearService();
     navigate("/signin");
@@ -48,21 +73,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   };
   useEffect(() => {
     doCronJob();
-  });
+  }, []);
   const dispatch = useDispatch();
   getTokenCustom(setTokenFound);
-  // onMessage(messaging, (payload) => {
-  //   const data = JSON.parse(payload.data?.json ? payload.data?.json : "");
-  //   console.log(data);
-  //   dispatch(setReceiveNotifyChangeTemplate(data));
-  //   notification.open({
-  //     message: payload.notification?.title,
-  //     description: payload.notification?.body,
-  //     icon: <SmileOutlined style={{ color: "#108ee9" }} />,
-  //   });
-  // });
+
+  const handleCancelModal = () => {
+    setIsChangeCurrentKioskModal(false);
+  };
   return (
     <>
+      <ModalChangeCurrenKiosk
+        isChangeCurrentKioskModal={isChangeCurrentKioskModal}
+        handleCancelModal={handleCancelModal}
+      />
       <Layout>
         {/* <Header className="header">
           <div className="logo" />
@@ -84,6 +107,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
             </Row>
           </div>
         </Header> */}
+
         <Layout>
           <Layout>
             <Content className="site-layout-background">
@@ -142,19 +166,44 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                 ></path>
               </svg>
 
-              <Row>
-                <Col span={18}></Col>
-                <Col span={6}>
+              <Row style={{ marginTop: 10 }}>
+                <Col span={15}></Col>
+                <Col span={5}>
                   <TimeView />
+                </Col>
+                <Col span={2}></Col>
+                <Col span={2}>
+                  <PoweroffOutlined
+                    style={{ fontSize: 20, margin: 10, color: "#fff" }}
+                    onClick={() => {
+                      setIsChangeCurrentKioskModal(true);
+                    }}
+                  />
                 </Col>
               </Row>
 
               {children}
               <>
                 <BackTop />
-                Scroll down to see the bottom-right
-                <strong className="site-back-top-basic"> gray </strong>
-                button.
+                <div>
+                  <Affix
+                    offsetBottom={top}
+                    className="center"
+                    style={{ textAlign: "center"}}
+                  >
+                    <div style={{ color: PRIMARY_COLOR}}>
+                      <Row>
+                        <HomeFilled
+                         className="center afflix-bottom"
+                          onClick={() => {
+                            navigate("/home-page");
+                          }}
+                          style={{ color: "#fff", fontSize: 40 }}
+                        />
+                      </Row>
+                    </div>
+                  </Affix>
+                </div>
               </>
             </Content>
           </Layout>

@@ -6,14 +6,10 @@ export const getKioskTemplate = async (kioskId: any) => {
     `${HOST}/v1/kiosks/testSendNoti?id=${kioskId}`
   );
   return response.data;
-}
-
 export const getKioskInfoService = async (kioskId: any) => {
-  const response = await request.get(
-    `${HOST}/v1/parties/kioskId?kioskId=${kioskId}`
-  );
+  const response = await request.get(`${HOST}/v1/kiosks/${kioskId}`);
   return response.data;
-}
+};
 
 export const getKioskNearbyService = async (longitude: any, latitude: any) => {
   const response = await request.get(
