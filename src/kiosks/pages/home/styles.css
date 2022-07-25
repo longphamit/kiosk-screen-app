@@ -22,10 +22,12 @@
   margin-right: auto;
   display: block;
   height: 200px;
+  border-radius: 20px;
 }
 .event-box {
   margin-top: 10px;
   margin-bottom: 10px;
+  border-radius: 20px;
 }
 .title-home-box {
   padding: 10px;

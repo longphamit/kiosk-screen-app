@@ -23,16 +23,14 @@ import { localStorageClearService } from "../../services/localstorage_service";
 import TimeView from "./time";
 import useDispatch from "../../hooks/use_dispatch";
 import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
-import { onMessage } from "firebase/messaging";
 import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
-import {
-  getKioskById,
-  getKioskTemplate,
-} from "../../../kiosks/services/kiosk_service";
+import { getKioskTemplate } from "../../../kiosks/services/kiosk_service";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import ModalChangeCurrenKiosk from "./modalChangeCurrentKiosk";
 import { getLocationByIdService } from "../../services/kiosk_location_service";
 import { PRIMARY_COLOR } from "../../constants/colors";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { HOST_SIGNALR } from "../../constants/host";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
@@ -71,8 +69,32 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       "America/Los_Angeles"
     );
   };
+
+  const joinRoom = async () => {
+    try {
+      const KioskId = localStorage.getItem("KIOSK_ID");
+      const RoomId = KioskId;
+      const connection = new HubConnectionBuilder()
+        .withUrl(HOST_SIGNALR)
+        //.withUrl("https://localhost:5001/signalR")
+        .configureLogging(LogLevel.Information)
+        .build();
+      connection.on(
+        "KIOSK_CONNECTION_CHANNEL",
+        (KioskId: any, message: any) => {
+          console.log(JSON.parse(message));
+          dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
+        }
+      );
+      await connection.start();
+      await connection.invoke("joinRoom", { KioskId, RoomId });
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
     doCronJob();
+    joinRoom();
   }, []);
   const dispatch = useDispatch();
   getTokenCustom(setTokenFound);
@@ -189,12 +211,12 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   <Affix
                     offsetBottom={top}
                     className="center"
-                    style={{ textAlign: "center"}}
+                    style={{ textAlign: "center" }}
                   >
-                    <div style={{ color: PRIMARY_COLOR}}>
+                    <div style={{ color: PRIMARY_COLOR }}>
                       <Row>
                         <HomeFilled
-                         className="center afflix-bottom"
+                          className="center afflix-bottom"
                           onClick={() => {
                             navigate("/home-page");
                           }}

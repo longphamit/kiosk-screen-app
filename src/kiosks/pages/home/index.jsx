@@ -42,7 +42,20 @@ const HomePage = () => {
     } else {
       toast.error("can not get kiosk information");
     }
+    const rows = new Map()
+    Promise.all(listEventPosition.map(event => {
+      if (!rows.has(event.RowIndex)) {
+        const array=[]
+        array.push(event)
+        rows.set(event.RowIndex,array)
+      } else {
+        console.log(rows.get(event.RowIndex))
+      }
+    })).then(() => {
+      console.log(rows)
+    })
   };
+
   useEffect(() => {
     getKioskLocation()
   }, []);
@@ -134,60 +147,27 @@ const HomePage = () => {
           visible={isLocationDescriptionModalVisible}
           description={kioskLocation.description} /> : null
       }
-      <div style={{ marginLeft: 40,marginRight:40,marginBottom:40 }}>
-        {/* <>{id}</>
-            {
-                listAppCatePosition?.map(e => {
-                    return (<div>
-                        {e.appCategoryName}
-                    </div>)
-                })
-            } */}
-<Col span={24}>
-          
+      <div style={{ marginLeft: 40, marginRight: 40, marginBottom: 40 }}>
+
+        <Col span={24}>
+
           <div>
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              {/* {
-                            listEventPosition?.map(e => {
-                                return (<Col xl={6} xs={12}>
-                                    <div className="event-box">
-                                        <img
-                                            className="event-image"
-                                            alt="example"
-                                            src={require('../../../assets/images/event-1.png')}
-                                        />
+              {
+                listEventPosition?.map(e => {
+                  return (<Col xl={6} xs={12}>
+                    <div className="event-box">
+                      <img
+                        className="event-image"
+                        alt="example"
+                        src={e.EventThumbnail.Link}
+                      />
+                      {e.Description}
+                    </div>
+                  </Col>)
+                })
+              }
 
-                                    </div>
-                                </Col>)
-                            })
-                        } */}
-              <Col xl={6} xs={12}>
-                <div className="event-box">
-                  <img
-                    className="event-image"
-                    alt="example"
-                    src={require("../../../assets/images/event-2.png")}
-                  />
-                </div>
-              </Col>
-              <Col xl={6} xs={12}>
-                <div className="event-box">
-                  <img
-                    className="event-image"
-                    alt="example"
-                    src={require("../../../assets/images/event-3.png")}
-                  />
-                </div>
-              </Col>
-              <Col xl={6} xs={12}>
-                <div className="event-box">
-                  <img
-                    className="event-image"
-                    alt="example"
-                    src={require("../../../assets/images/event-4.png")}
-                  />
-                </div>
-              </Col>
             </Row>
           </div>
         </Col>
@@ -215,103 +195,32 @@ const HomePage = () => {
                   />
                 </div>
               </Col>
-              <Col xl={6} span={12}>
-                <div className="app-box">
-                  <img
-                    className="app-image"
-                    alt="example"
-                    src={require("../../../assets/images/hotel.png")}
-                  />
-                  <Meta
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    title="Europe Street beat"
-                  />
-                </div>
-              </Col>
-              <Col xl={6} span={12}>
-                <div className="app-box">
-                  <img
-                    className="app-image"
-                    alt="example"
-                    src={require("../../../assets/images/fast-food.png")}
-                  />
-                  <Meta
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    title="Europe Street beat"
-                  />
-                </div>
-              </Col>
-              <Col xl={6} span={12}>
-                <div className="app-box">
-                  <img
-                    className="app-image"
-                    alt="example"
-                    src={require("../../../assets/images/cinema.png")}
-                  />
-                  <Meta
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    title="Europe Street beat"
-                  />
-                </div>
-              </Col>
-            </Row>
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              <Col xl={6} span={12}>
-                <div className="app-box">
-                  <img
-                    className="app-image"
-                    alt="example"
-                    src={require("../../../assets/images/ship.png")}
-                  />
-                  <Meta
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    title="Europe Street beat"
-                  />
-                </div>
-              </Col>
-              <Col xl={6} span={12}>
-                <div className="app-box">
-                  <img
-                    className="app-image"
-                    alt="example"
-                    src={require("../../../assets/images/Train.png")}
-                  />
-                  <Meta
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    title="Europe Street beat"
-                  />
-                </div>
-              </Col>
-              <Col xl={6} span={12}>
-                <div className="app-box">
-                  <img
-                    className="app-image"
-                    alt="example"
-                    src={require("../../../assets/images/car.png")}
-                  />
-                  <Meta
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    title="Europe Street beat"
-                  />
-                </div>
-              </Col>
-              <Col xl={6} span={12}>
-                <div className="app-box">
-                  <img
-                    className="app-image"
-                    alt="example"
-                    src={require("../../../assets/images/flight.png")}
-                  />
-                  <Meta
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    title="Europe Street beat"
-                  />
-                </div>
-              </Col>
+              {
+                listAppCatePosition?.map(e => {
+                  return (<Col xl={6} xs={12}>
+                    <div
+                      className="app-box"
+                      onClick={() => {
+                        navigator("/map");
+                      }}
+                    >
+                      <img
+                        className="app-image"
+                        alt="example"
+                        src={e.AppCategoryLogo}
+                      />
+                      <Meta
+                        style={{ marginTop: 10, marginBottom: 10 }}
+                        title={e.AppCategoryName}
+                      />
+                    </div>
+                  </Col>)
+                })
+              }
             </Row>
           </div>
         </Col>
-        
+
       </div>
     </>
   );
