@@ -43,7 +43,7 @@ const MapPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [viewport, setViewport] = useState({
     width: "100%",
-    height: '95vh',
+    height: '93vh',
     latitude: currentLocation.latitude,
     longitude: currentLocation.longitude,
     zoom: 13,

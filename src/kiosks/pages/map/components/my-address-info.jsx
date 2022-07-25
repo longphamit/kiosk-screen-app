@@ -33,14 +33,8 @@ const MyAddress = ({ currentLocation }) => {
                         src={require("../../../../assets/images/marker-1.png")}
                     />
                     {myAddress}
-
                 </> : <></>
             }
-        </div>
-        <div id="back-to-home-page">
-            <Button type="primary" style={{ marginLeft: '20%' }} onClick={() => navigate("/")}>
-                Back to Home
-            </Button>
         </div>
     </>
 }

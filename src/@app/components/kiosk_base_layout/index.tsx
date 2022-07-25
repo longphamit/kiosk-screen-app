@@ -26,7 +26,6 @@ import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
 import { onMessage } from "firebase/messaging";
 import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
 import {
-  getKioskById,
   getKioskTemplate,
 } from "../../../kiosks/services/kiosk_service";
 import { SizeType } from "antd/lib/config-provider/SizeContext";

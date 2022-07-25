@@ -10,9 +10,7 @@ import { toast } from "react-toastify";
 import { PhoneFilled, MailFilled, InfoCircleFilled, ArrowRightOutlined } from "@ant-design/icons";
 import ModalLocationDescription from "./modalLocationDescrtiption";
 import { getKioskInfoService } from "../../services/kiosk_service";
-const { Title } = Typography;
 const { Meta } = Card;
-const style = { background: "#0092ff", padding: "8px 0" };
 const contentStyle = {
   height: "300px",
   color: "#fff",
@@ -25,7 +23,7 @@ const HomePage = () => {
   const navigator = useNavigate();
   const [kioskLocation, setKioskLocation] = useState()
   const [isLocationDescriptionModalVisible, setLocationDescriptionModalVisible] = useState(false)
-  const { id, listEventPosition, listAppCatePosition } = useSelector(
+  const { listEventPosition } = useSelector(
     (state) => state.home_view
   );
   console.log(listEventPosition);
