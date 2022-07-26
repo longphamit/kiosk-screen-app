@@ -11,6 +11,7 @@ import { PhoneFilled, MailFilled, InfoCircleFilled, ArrowRightOutlined } from "@
 import ModalLocationDescription from "./modalLocationDescrtiption";
 import { getKioskInfoService } from "../../services/kiosk_service";
 import { Carousel as PrimeFaceCarousel } from 'primereact/carousel';
+import ScrollContainer from 'react-indiana-drag-scroll'
 const { Meta } = Card;
 const contentStyle = {
   height: "300px",
@@ -152,33 +153,24 @@ const HomePage = () => {
       <div style={{ marginLeft: 40, marginRight: 40, marginBottom: 40 }}>
         <Col span={24}>
           <div>
-
-            {/* {
-              listEventPosition?.map(row => {
-                return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                  <Col span={24}>
-                    <PrimeFaceCarousel numVisible={4} value={row} itemTemplate={eventShow}></PrimeFaceCarousel>
-                  </Col>
-                </Row>
-              })
-            } */}
             {
               listEventPosition?.map(row => {
                 return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                 <Col span={24}>
-                 <Carousel slidesToShow={row.length <= 4 ? row.length : 4} style={{ margin: 10, textAlign: "center", alignItems: "center" }} autoplay autoplaySpeed={2000}>
-                    {
-                      row.map(e => {
-                        return <Col span={24}><div className="event-box">
-                          <img
-                            className="event-image"
-                            alt="example"
-                            src={e.EventThumbnail.Link}
-                          />
-                        </div></Col>
-                      })
-                    }
-                  </Carousel></Col>
+                  <Col span={24}>
+                    <ScrollContainer className="drag-list-container" horizontal={true}>
+                      {
+                        row.map(e => {
+                          return <div className="event-box">
+                            <img
+                              className="event-image"
+                              alt="example"
+                              src={e.EventThumbnail.Link}
+                            />
+                            <p style={{marginTop:20}}>{e.EventName}</p>
+                          </div>
+                        })
+                      }
+                    </ScrollContainer></Col>
                 </Row>
               })
             }
@@ -193,33 +185,31 @@ const HomePage = () => {
               listAppCatePosition?.map(row => {
                 return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                   <Col span={24}>
-                    <Carousel slidesToShow={row.length <= 4 ? row.length : 4} style={{ margin: 10, textAlign: "center", alignItems: "center" }} autoplay autoplaySpeed={2000}>
+                    <ScrollContainer className="drag-list-container" horizontal>
                       {
                         row.map(e => {
                           return (
-                            <Col span={24}>
-                              <div
-                                className="app-box"
-                                onClick={() => {
-                                  navigator(`/app-list?id=${e.AppCategoryId}`);
-                                }}
-                              >
-                                <img
-                                  className="app-image"
-                                  alt="example"
-                                  src={e.AppCategoryLogo}
-                                />
-                                <Meta
-                                  style={{ marginTop: 10, marginBottom: 10 }}
-                                  title={e.AppCategoryName}
-                                />
-                              </div>
 
-                            </Col>
+                            <div
+                              className="app-box"
+                              onClick={() => {
+                                navigator(`/app-list?id=${e.AppCategoryId}`);
+                              }}
+                            >
+                              <img
+                                className="app-image"
+                                alt="example"
+                                src={e.AppCategoryLogo}
+                              />
+                              <Meta
+                                style={{ marginTop: 10, marginBottom: 10 }}
+                                title={e.AppCategoryName}
+                              />
+                            </div>
                           )
                         })
                       }
-                    </Carousel>
+                    </ScrollContainer>
                   </Col>
                 </Row>
               })

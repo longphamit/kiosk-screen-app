@@ -8,6 +8,7 @@ import {
   BackTop,
   Button,
   Affix,
+  Modal,
 } from "antd";
 import {
   DownloadOutlined,
@@ -33,6 +34,7 @@ import { getLocationByIdService } from "../../services/kiosk_location_service";
 import { PRIMARY_COLOR } from "../../constants/colors";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { HOST_SIGNALR } from "../../constants/host";
+import Iframe from "react-iframe";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
@@ -43,6 +45,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
+  const [modalGoogleVisible, setModalGoogleVisible] = useState(false);
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
   const logout = () => {
@@ -125,6 +128,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
         navigate("/map");
       },
     },
+    
   ];
   return (
     <>
@@ -231,8 +235,10 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
               {children}
 
               <>
-                <ScrollTop style={{backgroundColor:PRIMARY_COLOR}} icon="pi pi-arrow-up"/>
-
+                <ScrollTop
+                  style={{ backgroundColor: PRIMARY_COLOR }}
+                  icon="pi pi-arrow-up"
+                />
 
                 <div>
                   <Affix
@@ -241,15 +247,30 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                     style={{ textAlign: "center" }}
                   >
                     <div>
-                      <Dock  model={dockItems} />
+                      <Dock model={dockItems} />
                     </div>
                   </Affix>
                 </div>
               </>
+             
             </Content>
           </Layout>
         </Layout>
       </Layout>
+      <Modal
+        visible={modalGoogleVisible}
+        onCancel={() => {
+          setModalGoogleVisible(false);
+        }}
+        footer={[]}
+        width={1000}
+      >
+        <Iframe
+          width="100%"
+          height="600px"
+          url="https://www.google.com/?igu=1"
+        />
+      </Modal>
     </>
   );
 };
