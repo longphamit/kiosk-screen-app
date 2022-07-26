@@ -73,7 +73,7 @@ const AppListPage = () => {
                           }}
                         >
                           <img
-                            style={{ height: 100 }}
+                            style={{ height: 200 }}
                             className="app-image"
                             alt="example"
                             src={items.logo}
