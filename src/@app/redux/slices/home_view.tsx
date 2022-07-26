@@ -16,11 +16,11 @@ const homeViewSlice = createSlice({
   name: "homeview",
   initialState,
   reducers: {
-    setReceiveNotifyChangeTemplate: (state, action) => {
+    setReceiveNotifyChangeTemplate:  (state, action) => {
       console.log(action)
       state.id = action.payload.Id;
-      state.listAppCatePosition = action.payload.ListAppCatePosition;
-      state.listEventPosition = action.payload.ListEventPosition;
+      state.listAppCatePosition = action.payload.appCategories;
+      state.listEventPosition = action.payload.events;
     },
   },
 });

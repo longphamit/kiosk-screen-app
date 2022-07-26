@@ -14,6 +14,8 @@ import {
   HomeFilled,
   PoweroffOutlined,
 } from "@ant-design/icons";
+import { ScrollTop } from "primereact/scrolltop";
+import { Dock } from "primereact/dock";
 import { ReactNode, useEffect, useState } from "react";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
@@ -24,9 +26,7 @@ import TimeView from "./time";
 import useDispatch from "../../hooks/use_dispatch";
 import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
 import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
-import {
-  getKioskTemplate,
-} from "../../../kiosks/services/kiosk_service";
+import { getKioskTemplate } from "../../../kiosks/services/kiosk_service";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import ModalChangeCurrenKiosk from "./modalChangeCurrentKiosk";
 import { getLocationByIdService } from "../../services/kiosk_location_service";
@@ -77,8 +77,8 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       const KioskId = localStorage.getItem("KIOSK_ID");
       const RoomId = KioskId;
       const connection = new HubConnectionBuilder()
-        .withUrl(HOST_SIGNALR)
-        //.withUrl("https://localhost:5001/signalR")
+        //.withUrl(HOST_SIGNALR)
+        .withUrl("https://localhost:5001/signalR")
         .configureLogging(LogLevel.Information)
         .build();
       connection.on(
@@ -104,6 +104,28 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const handleCancelModal = () => {
     setIsChangeCurrentKioskModal(false);
   };
+  const dockItems = [
+    {
+      label: "Finder",
+      icon: () => <HomeFilled style={{ color: PRIMARY_COLOR, fontSize: 70 }} />,
+      command: () => {
+        navigate("/home-page");
+      },
+    },
+    {
+      label: "Finder",
+      icon: () => (
+        <img
+          style={{ width: 70 }}
+          alt="example"
+          src={require("../../../assets/images/map.png")}
+        />
+      ),
+      command: () => {
+        navigate("/map");
+      },
+    },
+  ];
   return (
     <>
       <ModalChangeCurrenKiosk
@@ -207,24 +229,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
               </Row>
 
               {children}
+
               <>
-                <BackTop />
+                <ScrollTop style={{backgroundColor:PRIMARY_COLOR}} icon="pi pi-arrow-up"/>
+
+
                 <div>
                   <Affix
                     offsetBottom={top}
                     className="center"
                     style={{ textAlign: "center" }}
                   >
-                    <div style={{ color: PRIMARY_COLOR }}>
-                      <Row>
-                        <HomeFilled
-                          className="center afflix-bottom"
-                          onClick={() => {
-                            navigate("/home-page");
-                          }}
-                          style={{ color: "#fff", fontSize: 40 }}
-                        />
-                      </Row>
+                    <div>
+                      <Dock  model={dockItems} />
                     </div>
                   </Affix>
                 </div>

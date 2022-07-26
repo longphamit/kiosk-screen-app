@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { PhoneFilled, MailFilled, InfoCircleFilled, ArrowRightOutlined } from "@ant-design/icons";
 import ModalLocationDescription from "./modalLocationDescrtiption";
 import { getKioskInfoService } from "../../services/kiosk_service";
+import { Carousel as PrimeFaceCarousel } from 'primereact/carousel';
 const { Meta } = Card;
 const contentStyle = {
   height: "300px",
@@ -23,10 +24,9 @@ const HomePage = () => {
   const navigator = useNavigate();
   const [kioskLocation, setKioskLocation] = useState()
   const [isLocationDescriptionModalVisible, setLocationDescriptionModalVisible] = useState(false)
-  const { listEventPosition } = useSelector(
+  const { listEventPosition, listAppCatePosition } = useSelector(
     (state) => state.home_view
   );
-  console.log(listEventPosition);
   const getKioskLocation = async () => {
     const kioskId = localStorage.getItem("KIOSK_ID");
     const resKioskInfo = await getKioskInfoService(kioskId);
@@ -40,19 +40,9 @@ const HomePage = () => {
     } else {
       toast.error("can not get kiosk information");
     }
-    const rows = new Map()
-    Promise.all(listEventPosition.map(event => {
-      if (!rows.has(event.RowIndex)) {
-        const array=[]
-        array.push(event)
-        rows.set(event.RowIndex,array)
-      } else {
-        console.log(rows.get(event.RowIndex))
-      }
-    })).then(() => {
-      console.log(rows)
-    })
+
   };
+
 
   useEffect(() => {
     getKioskLocation()
@@ -95,7 +85,6 @@ const HomePage = () => {
                             </Row>
                           </div>
                         </Col>
-
                       </Row>
                       <Row span={24}>
                         <Col span={24}>
@@ -110,7 +99,8 @@ const HomePage = () => {
                             </Row>
                           </div>
                         </Col>
-                      </Row><Row span={24}>
+                      </Row>
+                      <Row span={24}>
                         <Col span={24}>
                           <div onClick={() => { setLocationDescriptionModalVisible(true) }} style={{ background: "#59def0", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
                             <Row>
@@ -127,14 +117,28 @@ const HomePage = () => {
                           </div>
                         </Col>
                       </Row>
-
+                      <Row span={24}>
+                        <Col span={24}>
+                          <div onClick={() => { setLocationDescriptionModalVisible(true) }} style={{ background: "#59def0", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
+                            <Row>
+                              <Col span={2}>
+                                <InfoCircleFilled />
+                              </Col>
+                              <Col span={20} style={{ textAlign: "center" }} >
+                                Information
+                              </Col>
+                              <Col span={2}>
+                                <ArrowRightOutlined />
+                              </Col>
+                            </Row>
+                          </div>
+                        </Col>
+                      </Row>
                     </div>
-
                   </> : <Row>
                     <Spin className="center" />
                   </Row>
               }
-
             </div>
           </Col>
         </Row>
@@ -146,27 +150,38 @@ const HomePage = () => {
           description={kioskLocation.description} /> : null
       }
       <div style={{ marginLeft: 40, marginRight: 40, marginBottom: 40 }}>
-
         <Col span={24}>
-
           <div>
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              {
-                listEventPosition?.map(e => {
-                  return (<Col xl={6} xs={12}>
-                    <div className="event-box">
-                      <img
-                        className="event-image"
-                        alt="example"
-                        src={e.EventThumbnail.Link}
-                      />
-                      {e.Description}
-                    </div>
-                  </Col>)
-                })
-              }
 
-            </Row>
+            {/* {
+              listEventPosition?.map(row => {
+                return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                  <Col span={24}>
+                    <PrimeFaceCarousel numVisible={4} value={row} itemTemplate={eventShow}></PrimeFaceCarousel>
+                  </Col>
+                </Row>
+              })
+            } */}
+            {
+              listEventPosition?.map(row => {
+                return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                 <Col span={24}>
+                 <Carousel slidesToShow={row.length <= 4 ? row.length : 4} style={{ margin: 10, textAlign: "center", alignItems: "center" }} autoplay autoplaySpeed={2000}>
+                    {
+                      row.map(e => {
+                        return <Col span={24}><div className="event-box">
+                          <img
+                            className="event-image"
+                            alt="example"
+                            src={e.EventThumbnail.Link}
+                          />
+                        </div></Col>
+                      })
+                    }
+                  </Carousel></Col>
+                </Row>
+              })
+            }
           </div>
         </Col>
         <Col span={24}>
@@ -174,48 +189,41 @@ const HomePage = () => {
             <div className="title-home-box">App Category</div>
           </Row>
           <div>
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              <Col xl={6} span={12}>
-                <div
-                  className="app-box"
-                  onClick={() => {
-                    navigator("/map");
-                  }}
-                >
-                  <img
-                    className="app-image"
-                    alt="example"
-                    src={require("../../../assets/images/map.png")}
-                  />
-                  <Meta
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    title="Europe Street beat"
-                  />
-                </div>
-              </Col>
-              {
-                listAppCatePosition?.map(e => {
-                  return (<Col xl={6} xs={12}>
-                    <div
-                      className="app-box"
-                      onClick={() => {
-                        navigator("/map");
-                      }}
-                    >
-                      <img
-                        className="app-image"
-                        alt="example"
-                        src={e.AppCategoryLogo}
-                      />
-                      <Meta
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                        title={e.AppCategoryName}
-                      />
-                    </div>
-                  </Col>)
-                })
-              }
-            </Row>
+            {
+              listAppCatePosition?.map(row => {
+                return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                  <Col span={24}>
+                    <Carousel slidesToShow={row.length <= 4 ? row.length : 4} style={{ margin: 10, textAlign: "center", alignItems: "center" }} autoplay autoplaySpeed={2000}>
+                      {
+                        row.map(e => {
+                          return (
+                            <Col span={24}>
+                              <div
+                                className="app-box"
+                                onClick={() => {
+                                  navigator(`/app-list?id=${e.AppCategoryId}`);
+                                }}
+                              >
+                                <img
+                                  className="app-image"
+                                  alt="example"
+                                  src={e.AppCategoryLogo}
+                                />
+                                <Meta
+                                  style={{ marginTop: 10, marginBottom: 10 }}
+                                  title={e.AppCategoryName}
+                                />
+                              </div>
+
+                            </Col>
+                          )
+                        })
+                      }
+                    </Carousel>
+                  </Col>
+                </Row>
+              })
+            }
           </div>
         </Col>
 
