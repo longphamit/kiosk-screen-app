@@ -108,6 +108,7 @@
 
 .location-information {
   height: 100%;
+  overflow-y: auto;
 }
 
 .specific-location #preview-image {
