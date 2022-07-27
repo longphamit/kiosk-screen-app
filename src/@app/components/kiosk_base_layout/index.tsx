@@ -57,6 +57,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     navigate(url);
   };
   const doCronJob = () => {
+    // one house check
     new CronJob(
       "* * 1 * * *",
       async function () {
@@ -80,8 +81,8 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       const KioskId = localStorage.getItem("KIOSK_ID");
       const RoomId = KioskId;
       const connection = new HubConnectionBuilder()
-        //.withUrl(HOST_SIGNALR)
-        .withUrl("https://localhost:5001/signalR")
+        .withUrl(HOST_SIGNALR)
+        //.withUrl("https://tikap.cf:9953/signalR")
         .configureLogging(LogLevel.Information)
         .build();
       connection.on(
