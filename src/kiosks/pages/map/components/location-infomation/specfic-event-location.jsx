@@ -1,5 +1,4 @@
-import { Col, Image, Row, Spin, Tag } from 'antd'
-import { useEffect, useState } from 'react';
+import { Col, Row, Tag } from 'antd'
 import QRCode from 'react-qr-code';
 import { getDirectUrl } from '../../../../../@app/utils/direct_url_util';
 import "./../../styles.css";
@@ -8,9 +7,6 @@ import { Galleria } from 'primereact/galleria';
 import { STATUS_COMING_SOON, STATUS_ON_GOING } from '../../../../../@app/constants/event_constants';
 import { itemTemplate, prepareGallery, responsiveOptions, thumbnailTemplate } from './utils';
 export const SpecificEventLocation = ({ event, currentLocation }) => {
-    useEffect(() => {
-        console.log(event.description)
-    }, []);
     return <>
         <div className="specific-location">
             {/* thumbnail & images */}
