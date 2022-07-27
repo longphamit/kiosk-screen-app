@@ -2,7 +2,6 @@
   width: 100vw;
 }
 
-
 .poi-category-card-box {
   background-color: #fff;
   border-radius: 10px;
@@ -133,17 +132,30 @@
   margin-left: 15px;
 }
 
-.element-description,
+.element-description-event,
+.element-description-poi,
 .element-direction {
   margin-top: 10px;
   font-size: 16px;
 }
 
-.element-description {
+.element-description-event,
+.element-description-poi {
+  margin-top: 20px;
   border-top: 0.5px solid rgb(184, 184, 184);
 }
 
-.element-description p {
+.element-description-event {
+  margin-bottom: 50px;
+}
+
+.element-description-event p {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.element-description-poi p {
+  margin-top: 15px;
   margin-left: 15px;
 }
 
@@ -195,4 +207,12 @@
   align-items: center;
   width: 33px;
   border: .5px solid rgb(128, 126, 126);
+}
+
+.embeddedHTML img {
+  width: 95%;
+}
+
+.list-info-tag {
+  margin-top: 15px;
 }

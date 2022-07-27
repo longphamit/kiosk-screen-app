@@ -1,86 +1,62 @@
-import { Col, Image, Row, Tag } from 'antd'
-import { useEffect, useState } from 'react';
+import { Col, Row, Tag } from 'antd'
 import QRCode from 'react-qr-code';
 import { getDirectUrl } from '../../../../../@app/utils/direct_url_util';
 import "./../../styles.css";
 import moment from "moment";
+import { Galleria } from 'primereact/galleria';
 import { STATUS_COMING_SOON, STATUS_ON_GOING } from '../../../../../@app/constants/event_constants';
+import { itemTemplate, prepareGallery, responsiveOptions, thumbnailTemplate } from './utils';
 export const SpecificEventLocation = ({ event, currentLocation }) => {
-    const [visible, setVisible] = useState(false);
-    useEffect(() => {
-        console.log(event)
-    }, []);
     return <>
         <div className="specific-location">
             {/* thumbnail & images */}
             <Row id="preview-image">
-                <Image
-                    preview={{
-                        visible: false,
-                    }}
-                    width={'100%'}
-                    height={200}
-                    src={event.thumbnail?.link}
-                    onClick={() => setVisible(true)}
-                />
-                <div
-                    style={{
-                        display: 'none',
-                    }}
-                >
-                    <Image.PreviewGroup
-                        preview={{
-                            visible,
-                            onVisibleChange: (vis) => setVisible(vis),
-                        }}
-                    >
-
-                        <Image src={event.thumbnail?.link} />
-                        {event.listImage ?
-                            <>
-                                {event.listImage.map((e) => {
-                                    return <Image src={e.link} />
-                                })}
-                            </> : null
-                        }
-                    </Image.PreviewGroup>
-                </div>
+                <Galleria value={prepareGallery(event)} responsiveOptions={responsiveOptions} numVisible={5} circular style={{ width: '100%' }}
+                    showItemNavigators showItemNavigatorsOnHover item={itemTemplate} thumbnail={thumbnailTemplate} />
             </Row>
             <Row>
-                <Col>
+                <Col span={16}>
                     <Row className="element-title">
                         <div>{event.name}</div>
                     </Row>
                     <Row className="element-other-info event-status" >
                         {event.status === STATUS_COMING_SOON ? (
                             <Tag color={"yellow"} >
-                                <div style={{ marginTop: 5 }}>
+                                <div style={{ padding: 5, fontWeight: 'bold' }}>
                                     Up coming
                                 </div>
                             </Tag>
                         ) : event.status === STATUS_ON_GOING ?
                             (
-                                <Tag color={"green"}>On going</Tag>
+                                <Tag color={"green"}>
+                                    <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                        On going
+                                    </div>
+                                </Tag>
                             ) :
                             (
-                                <Tag color={"grey"}>End</Tag>
+                                <Tag color={"grey"}>
+                                    <div style={{ marginTop: 5 }}>
+                                        End
+                                    </div>
+                                </Tag>
                             )
                         }
                     </Row>
                 </Col>
-                <Col>
-                    <Row className="element-direction" justify="center">
-                        <Row style={{ width: '100%', marginTop: 10 }}>
-                            <QRCode className="qrCode" size={70} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, event.latitude, event.longtitude)} />
+                <Col span={8}>
+                    <div style={{ width: '100%' }}>
+                        <Row className="element-direction" justify="center" style={{ float: 'right' }}>
+                            <Row style={{ width: '100%', marginTop: 10 }}>
+                                <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, event.latitude, event.longtitude)} />
+                            </Row>
+                            <Row>
+                                <p>Direction</p>
+                            </Row>
                         </Row>
-                        <Row>
-                            <p>Direction</p>
-                        </Row>
-                    </Row>
+                    </div>
                 </Col>
             </Row>
-
-
 
             <Row className="element-other-info" >
                 <Col span={4}>
@@ -105,9 +81,11 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                     </Row>
                 </Col>
             </Row>
-            <Row className="element-description" >
-                <p>{event.description}</p>
-            </Row>
-        </div>
+            {event.description ?
+                <Row className="element-description-event" >
+                    <div dangerouslySetInnerHTML={{ __html: event.description }} className="embeddedHTML" />
+                </Row>
+                : null}
+        </div >
     </>
 }

@@ -1,12 +1,13 @@
-import { Col, Image, Row } from 'antd'
+import { Col, Row } from 'antd'
+import { Galleria } from 'primereact/galleria';
 import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { convertTime } from '../../../../../@app/utils/date_util';
 import { getDirectUrl } from '../../../../../@app/utils/direct_url_util';
 import "./../../styles.css";
+import { itemTemplate, prepareGallery, responsiveOptions, thumbnailTemplate } from './utils';
 
 export const SpecificPOILocation = ({ poi, currentLocation }) => {
-    const [visible, setVisible] = useState(false);
     const [openTime, setOpenTime] = useState();
     const [closeTime, setCloseTime] = useState();
     const [dayOfWeeks, setDayOfWeeks] = useState();
@@ -24,57 +25,37 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
 
         setDayOfWeeks(poi.dayOfWeek.split('-'))
     }, []);
+
     return <>
         <div className="specific-location">
             {/* thumbnail & images */}
             <Row id="preview-image">
-                <Image
-                    preview={{
-                        visible: false,
-                    }}
-                    width={'100%'}
-                    height={200}
-                    src={poi.thumbnail?.link}
-                    onClick={() => setVisible(true)}
-                />
-                <div
-                    style={{
-                        display: 'none',
-                    }}
-                >
-                    <Image.PreviewGroup
-                        preview={{
-                            visible,
-                            onVisibleChange: (vis) => setVisible(vis),
-                        }}
-                    >
-                        <Image src={poi.thumbnail?.link} />
-                        {poi.listImage ?
-                            <>
-                                {poi.listImage.map((e) => {
-                                    return <Image src={e.link} />
-                                })}
-                            </> : null
-                        }
-                    </Image.PreviewGroup>
-                </div>
+                <Galleria value={prepareGallery(poi)} responsiveOptions={responsiveOptions} numVisible={5} circular style={{ width: '100%' }}
+                    showItemNavigators showItemNavigatorsOnHover item={itemTemplate} thumbnail={thumbnailTemplate} />
             </Row>
-            <Row className="element-title">
-                <div>{poi.name}</div>
-                <div id='poi-category'>{poi.poicategoryName}</div>
-            </Row>
-            <Row className="element-description" >
-                <p>{poi.description}</p>
-            </Row>
-            <Row className="element-direction" justify="center">
+            <Row>
+                <Col span={16}>
+                    <Row className="element-title">
+                        <div>{poi.name}</div>
+                        <div id='poi-category'>{poi.poicategoryName}</div>
+                    </Row>
+                </Col>
+                <Col span={8}>
+                    <div style={{ width: '100%' }}>
+                        <Row className="element-direction" justify="center" style={{ float: 'right' }}>
+                            <Row style={{ width: '100%', marginTop: 10 }}>
+                                <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, poi.latitude, poi.longtitude)} />
+                            </Row>
+                            <Row>
+                                <p>Direction</p>
+                            </Row>
 
-                <Row style={{ width: '100%', marginTop: 10 }}>
-                    <QRCode className="qrCode" size={150} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, poi.latitude, poi.longtitude)} />
-                </Row>
-                <Row>
-                    <p>Direction</p>
-                </Row>
-
+                        </Row>
+                    </div>
+                </Col>
+            </Row>
+            <Row className="element-description-poi" >
+                <p >{poi.description} </p>
             </Row>
             <Row className="element-other-info" >
                 <Col span={4}>
