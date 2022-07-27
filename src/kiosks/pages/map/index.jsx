@@ -8,7 +8,7 @@ import "./styles.css";
 import { getAllPOICategoriesService, getPOINearbyByCategoryIdService, getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
 import { getEventNearbyService } from "../../services/event_service";
-import { PARTY_ID } from "../../../@app/constants/key";
+import { USER_ID } from "../../../@app/constants/key";
 import { getKioskNearbyService } from "../../services/kiosk_service";
 import { AimOutlined, SearchOutlined } from "@ant-design/icons";
 import { ListLocationInformation } from "./components/location-infomation/list-location-infomation";
@@ -119,7 +119,7 @@ const MapPage = () => {
   };
   const getListEventNearby = async (long, lat) => {
     try {
-      const events = await getEventNearbyService(long, lat, localStorage.getItem(PARTY_ID));
+      const events = await getEventNearbyService(long, lat, localStorage.getItem(USER_ID));
       setListEventNearby(events.data.data);
 
     } catch (e) {
