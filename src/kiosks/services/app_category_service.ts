@@ -9,7 +9,7 @@ export const getListApplicationCategoryService = async (Name:any,size: any,page:
 };
 export const getAppCategoryByIdService = async (id:any) => {
   const response = await request.get(
-    `${HOST}/v1/categories?id=${id}&page=1&size=1`
+    `${HOST}/v1/categories/${id}`
   );
   return response.data;
 };

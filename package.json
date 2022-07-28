@@ -41,6 +41,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.0.1",
+    "react-tracking": "^9.2.0",
     "serve": "^13.0.2",
     "typescript": "^4.7.2",
     "web-vitals": "^2.1.4",
@@ -83,6 +84,7 @@
   },
   "devDependencies": {
     "@types/d3-ease": "^3.0.0",
-    "@types/leaflet": "^1.7.10"
+    "@types/leaflet": "^1.7.10",
+    "@types/react-tracking": "^8.1.3"
   }
 }

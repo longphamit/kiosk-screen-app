@@ -1,4 +1,4 @@
-import { Col, Form, Row, Typography } from "antd";
+import { Col, Form, Row, Spin, Typography } from "antd";
 import "./styles.css";
 import { Card } from "antd";
 import { toast } from "react-toastify";
@@ -12,7 +12,7 @@ const { Meta } = Card;
 const AppListPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [appCategory,setAppCategory]=useState()
-  const [listApp, setListApp] = useState([]);
+  const [listApp, setListApp] = useState();
   const [id, setId] = useState(null);
 
   let navigate = useNavigate();
@@ -20,7 +20,6 @@ const AppListPage = () => {
   const onNavigate = (url) => {
     navigate(url);
   };
-
   const getInitValue = async () => {
     let id = searchParams.get("id");
     if (id == null) {
@@ -28,8 +27,8 @@ const AppListPage = () => {
       return;
     }
     try {
-      
-      
+      window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+      const resAppCategory= await getAppCategoryByIdService(id);
       const res = await getListApplicationService(
         "",
         "",
@@ -42,6 +41,8 @@ const AppListPage = () => {
       );
       setId(id);
       setListApp(res.data.data);
+      setAppCategory(resAppCategory.data)
+      
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -55,7 +56,7 @@ const AppListPage = () => {
       <div style={{ margin: 40, height: '100vh' }}>
         <Col span={24}>
           <Row span={24}>
-            <Col span={24}><Title style={{textAlign:"center"}} className="center" level={2}>App List</Title></Col>
+            <Col span={24}><Title style={{textAlign:"center",color:"#fff"}} className="center" level={2}>{appCategory?.name}</Title></Col>
           </Row>
 
           <div>
@@ -90,7 +91,7 @@ const AppListPage = () => {
                     </Col>
                   );
                 })
-                : null}
+                : <Spin size="large" className="center"/>}
             </Row>
           </div>
         </Col>
