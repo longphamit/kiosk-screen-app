@@ -5,7 +5,6 @@ import "./styles.css";
 import { toast } from "react-toastify";
 import { ValidateMessages } from "rc-field-form/lib/interface";
 import { PRIMARY_COLOR } from "../../constants/colors";
-
 import {
   ACCESS_TOKEN,
   USER_EMAIL,
@@ -14,18 +13,14 @@ import {
 } from "../../constants/key";
 import useDispatch from "../../hooks/use_dispatch";
 import { loginAction } from "../../redux/actions/login_action";
-
 import "../../constants/role";
 import { useTranslation } from "react-i18next";
 import {
-  ROLE_ADMIN,
   ROLE_LOCATION_OWNER,
-  ROLE_SERVICE_PROVIDER,
 } from "../../constants/role";
 import { LENGTH_PASSWORD_REQUIRED } from "../../constants/number_constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalChooseKiosk from "./modalChooseKiosk";
-import { getListKioskService } from "../../services/kiosk_service";
 const validateMessages: ValidateMessages = {
   required: "${label} is required!",
   string: {
@@ -44,7 +39,11 @@ const LoginPage: React.FC = () => {
   const { t } = useTranslation();
   let navigate = useNavigate();
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    let isSignined = localStorage.getItem("ACCESS_TOKEN") !== null;
+    if (isSignined)
+      navigate('/home-page')
+  }, []);
   const onFinish = async (values: any) => {
     setLoading(true);
     dispatch(loginAction({ email: values.email, password: values.password }))
@@ -72,7 +71,7 @@ const LoginPage: React.FC = () => {
               const kioskId = localStorage.getItem("KIOSK_ID");
               if (!kioskId) {
                 setIsModalChooseKioskVisible(true);
-              }else{
+              } else {
                 navigate("/home-page");
               }
             }

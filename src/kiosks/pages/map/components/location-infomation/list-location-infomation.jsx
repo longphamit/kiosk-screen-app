@@ -41,7 +41,7 @@ export const ListLocationInformation = ({ locations, setCurrentItem }) => {
                                             )
                                         }
                                     </div > :
-                                    <p> {e.description?.length > 23 ? e.description.slice(0, 20) + '...' : e.description}</p>
+                                    <p > {e.description?.length > 23 ? e.description.slice(0, 20) + '...' : e.description}</p>
                                 }
 
                             </Col>
