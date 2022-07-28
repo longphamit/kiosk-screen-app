@@ -23,7 +23,7 @@ import {
   ROLE_SERVICE_PROVIDER,
 } from "../../constants/role";
 import { LENGTH_PASSWORD_REQUIRED } from "../../constants/number_constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalChooseKiosk from "./modalChooseKiosk";
 import { getListKioskService } from "../../services/kiosk_service";
 const validateMessages: ValidateMessages = {
@@ -44,7 +44,11 @@ const LoginPage: React.FC = () => {
   const { t } = useTranslation();
   let navigate = useNavigate();
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    let isSignined = localStorage.getItem("ACCESS_TOKEN") === null || localStorage.getItem("ACCESS_TOKEN")?.length === 0;
+    if (isSignined)
+      navigate('/home-page')
+  }, []);
   const onFinish = async (values: any) => {
     setLoading(true);
     dispatch(loginAction({ email: values.email, password: values.password }))
@@ -72,7 +76,7 @@ const LoginPage: React.FC = () => {
               const kioskId = localStorage.getItem("KIOSK_ID");
               if (!kioskId) {
                 setIsModalChooseKioskVisible(true);
-              }else{
+              } else {
                 navigate("/home-page");
               }
             }
