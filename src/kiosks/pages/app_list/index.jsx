@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getListApplicationService } from "../../services/application_service";
+import { getAppCategoryByIdService } from "../../services/app_category_service";
 const { Title } = Typography;
 const { Meta } = Card;
 
 const AppListPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [appCategory,setAppCategory]=useState()
   const [listApp, setListApp] = useState([]);
   const [id, setId] = useState(null);
 
@@ -26,6 +28,8 @@ const AppListPage = () => {
       return;
     }
     try {
+      
+      
       const res = await getListApplicationService(
         "",
         "",
@@ -48,44 +52,44 @@ const AppListPage = () => {
   }, []);
   return (
     <>
-      <div style={{ margin: 40 }}>
+      <div style={{ margin: 40, height: '100vh' }}>
         <Col span={24}>
           <Row span={24}>
-            <Title level={2}>App List</Title>
+            <Col span={24}><Title style={{textAlign:"center"}} className="center" level={2}>App List</Title></Col>
           </Row>
 
           <div>
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
               {listApp
                 ? listApp.map((items) => {
-                    return (
-                      <Col xl={6} span={12}>
-                        <div
-                          className="app-box"
-                          onClick={() => {
-                            onNavigate({
-                              pathname:
-                                "/./iframe-interface?link=" +
-                                items.link +
-                                "&id=" +
-                                id,
-                            });
-                          }}
-                        >
-                          <img
-                            style={{ height: 200 }}
-                            className="app-image"
-                            alt="example"
-                            src={items.logo}
-                          />
-                          <Meta
-                            style={{ marginTop: 10, marginBottom: 10 }}
-                            title={items.name}
-                          />
-                        </div>
-                      </Col>
-                    );
-                  })
+                  return (
+                    <Col xl={6} span={12}>
+                      <div
+                        className="app-box"
+                        onClick={() => {
+                          onNavigate({
+                            pathname:
+                              "/./iframe-interface?link=" +
+                              items.link +
+                              "&id=" +
+                              id,
+                          });
+                        }}
+                      >
+                        <img
+                          style={{ height: 200 }}
+                          className="app-image"
+                          alt="example"
+                          src={items.logo}
+                        />
+                        <Meta
+                          style={{ marginTop: 10, marginBottom: 10 }}
+                          title={items.name}
+                        />
+                      </div>
+                    </Col>
+                  );
+                })
                 : null}
             </Row>
           </div>

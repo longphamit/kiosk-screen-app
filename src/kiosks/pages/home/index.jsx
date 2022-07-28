@@ -118,23 +118,7 @@ const HomePage = () => {
                           </div>
                         </Col>
                       </Row>
-                      <Row span={24}>
-                        <Col span={24}>
-                          <div onClick={() => { setLocationDescriptionModalVisible(true) }} style={{ background: "#59def0", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
-                            <Row>
-                              <Col span={2}>
-                                <InfoCircleFilled />
-                              </Col>
-                              <Col span={20} style={{ textAlign: "center" }} >
-                                Information
-                              </Col>
-                              <Col span={2}>
-                                <ArrowRightOutlined />
-                              </Col>
-                            </Row>
-                          </div>
-                        </Col>
-                      </Row>
+                     
                     </div>
                   </> : <Row>
                     <Spin className="center" />

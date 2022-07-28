@@ -80,8 +80,8 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       const KioskId = localStorage.getItem("KIOSK_ID");
       const RoomId = KioskId;
       const connection = new HubConnectionBuilder()
-        //.withUrl(HOST_SIGNALR)
-        .withUrl("https://localhost:5001/signalR")
+        .withUrl(HOST_SIGNALR)
+        //.withUrl("https://localhost:5001/signalR")
         .configureLogging(LogLevel.Information)
         .build();
       connection.on(
