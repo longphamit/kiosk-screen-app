@@ -85,9 +85,9 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                 </Row>
                 {event.description ?
                     <Row className="element-description-event" >
-                        {event.description.includes('<p>') ?
+                        {event.description.charAt(0) === '<' ?
                             <div dangerouslySetInnerHTML={{ __html: event.description }} className="embeddedHTML" />
-                            : <p>{event.description}</p>
+                            : <div><p>{event.description}</p></div>
                         }
                     </Row>
                     : null}

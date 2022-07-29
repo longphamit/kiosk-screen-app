@@ -143,18 +143,20 @@
 .element-description-poi {
   margin-top: 20px;
   border-top: 0.5px solid rgb(184, 184, 184);
+  margin-bottom: 80px;
 }
 
-.element-description-event {
-  margin-bottom: 50px;
+#basic-info-row {
+  border-bottom: 0.5px solid rgb(184, 184, 184);
 }
 
-.element-description-event p {
+
+.element-description-event div {
   margin-top: 15px;
   margin-left: 15px;
 }
 
-.element-description-poi p {
+.element-description-poi div {
   margin-top: 15px;
   margin-left: 15px;
 }
