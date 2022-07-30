@@ -40,6 +40,7 @@ const { Header, Content, Sider } = Layout;
 
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
+  const kioskId=localStorage.getItem("KIOSK_ID")
   let navigate = useNavigate();
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
@@ -60,18 +61,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     new CronJob(
       "* * 1 * * *",
       async function () {
-        getKioskTemplate("095B3D09-0F5B-49C9-9EAA-5C5DB3DB841D").then((res) => {
+        console.log("hello")
+        getKioskTemplate(kioskId).then((res) => {
           console.log(res.data.kioskScheduleTemplate.template);
-          dispatch(
-            setReceiveNotifyChangeTemplate(
-              res.data.kioskScheduleTemplate.template
-            )
-          );
+          // dispatch(
+          //   setReceiveNotifyChangeTemplate(
+          //     res.data.kioskScheduleTemplate.template
+          //   )
+          // );
         });
       },
       null,
       true,
-      "America/Los_Angeles"
+      "ASIA/HO_CHI_MINH"
     );
   };
 
@@ -91,6 +93,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
           dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
         }
       );
+      connection.on(
+        "KIOSK_MESSAGE_CONNECTED_CHANNEL",
+        (KioskId: any, message: any) => {
+          toast.success(message)
+        }
+      );
+
       await connection.start();
       await connection.invoke("joinRoom", { KioskId, RoomId });
     } catch (e: any) {
