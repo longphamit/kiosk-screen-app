@@ -146,7 +146,7 @@ const HomePage = () => {
                     <ScrollContainer className="drag-list-container" horizontal={true}>
                       {
                         row.map(e => {
-                          return <div className="event-box">
+                          return <div className="event-box" onClick={() => { }}>
                             <img
                               className="event-image"
                               alt="example"
