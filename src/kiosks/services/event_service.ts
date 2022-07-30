@@ -11,3 +11,9 @@ export const getEventNearbyService = async (
     );
     return response.data;
 };
+
+export const getEventByIdService = async (id: any) => {
+    const response = await request.get(`${HOST}/v1/events/${id}`);
+    return response.data;
+
+}
