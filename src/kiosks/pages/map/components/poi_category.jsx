@@ -6,11 +6,11 @@ const POICategoryComponent = ({ listPoiCategories, eventOnClick }) => {
     const ExtraCategory = [
         {
             name: 'Kiosk',
-            icon: <KioskIcon />
+            icon: <img width={20} src={require("../../../../assets/images/kiosk_marker.png")}/>
         },
         {
             name: 'Event',
-            icon: <EventIcon />
+            icon: <img width={20} src={require("../../../../assets/images/event-marker.png")}/>
         }
     ]
     return (

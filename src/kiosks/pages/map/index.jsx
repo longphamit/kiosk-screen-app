@@ -3,12 +3,12 @@ import ReactMapGL, {
   NavigationControl,
   ScaleControl,
 } from "@goongmaps/goong-map-react";
-import { Col, Empty, Row, Space, Spin } from "antd";
+import { Col, Empty, Row, Skeleton, Space } from "antd";
 import "./styles.css";
 import { getAllPOICategoriesService, getPOINearbyByCategoryIdService, getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
 import { getEventNearbyService } from "../../services/event_service";
-import { PARTY_ID } from "../../../@app/constants/key";
+import { USER_ID } from "../../../@app/constants/key";
 import { getKioskNearbyService } from "../../services/kiosk_service";
 import { AimOutlined, SearchOutlined } from "@ant-design/icons";
 import { ListLocationInformation } from "./components/location-infomation/list-location-infomation";
@@ -119,7 +119,7 @@ const MapPage = () => {
   };
   const getListEventNearby = async (long, lat) => {
     try {
-      const events = await getEventNearbyService(long, lat, localStorage.getItem(PARTY_ID));
+      const events = await getEventNearbyService(long, lat, localStorage.getItem(USER_ID));
       setListEventNearby(events.data.data);
 
     } catch (e) {
@@ -183,7 +183,7 @@ const MapPage = () => {
   return (
     <>
       <Row className="map-parent">
-        {isMarkerLoading ? <Spin /> :
+        {isMarkerLoading ? <Skeleton /> :
           <ReactMapGL
             {...viewport}
             className="map"
@@ -198,7 +198,7 @@ const MapPage = () => {
                     <input placeholder="Search..." />
                     <SearchOutlined style={{ padding: 5 }} />
                   </div>
-                  {isDataLoading ? <Spin /> :
+                  {isDataLoading ? <Skeleton /> :
                     locations && locations.data ?
                       <div class="location-information">
                         {locations.data.length === 1 ? <>
@@ -220,7 +220,7 @@ const MapPage = () => {
               <Col span={18}>
                 <Row>
                   {/* POI Category */}
-                  {isPOICategoryLoading ? <Spin /> :
+                  {isPOICategoryLoading ? <Skeleton /> :
                     <POICategoryComponent listPoiCategories={listPoiCategories} eventOnClick={filterData} />
                   }
                 </Row>

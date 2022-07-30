@@ -40,6 +40,7 @@ const { Header, Content, Sider } = Layout;
 
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
+  const kioskId=localStorage.getItem("KIOSK_ID")
   let navigate = useNavigate();
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
@@ -59,21 +60,17 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const doCronJob = () => {
     // one house check
     new CronJob(
-      "* * 1 * * *",
+      '0 * * * *',
       async function () {
-        getKioskTemplate("095B3D09-0F5B-49C9-9EAA-5C5DB3DB841D").then((res) => {
-          console.log(res.data.kioskScheduleTemplate.template);
-          dispatch(
-            setReceiveNotifyChangeTemplate(
-              res.data.kioskScheduleTemplate.template
-            )
-          );
+        console.log("hello")
+        getKioskTemplate(kioskId).then((res) => {
+          console.log(res.data);
         });
       },
       null,
       true,
-      "America/Los_Angeles"
-    );
+      "ASIA/HO_CHI_MINH"
+    ).start();
   };
 
   const joinRoom = async () => {
@@ -82,7 +79,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       const RoomId = KioskId;
       const connection = new HubConnectionBuilder()
         .withUrl(HOST_SIGNALR)
-        //.withUrl("https://tikap.cf:9953/signalR")
+        //.withUrl("https://localhost:5001/signalR")
         .configureLogging(LogLevel.Information)
         .build();
       connection.on(
@@ -92,6 +89,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
           dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
         }
       );
+      connection.on(
+        "KIOSK_MESSAGE_CONNECTED_CHANNEL",
+        (KioskId: any, message: any) => {
+          toast.success(message)
+        }
+      );
+
       await connection.start();
       await connection.invoke("joinRoom", { KioskId, RoomId });
     } catch (e: any) {

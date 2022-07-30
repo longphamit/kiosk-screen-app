@@ -8,8 +8,8 @@ export const getListKioskLocationService = async (Name:string,page: any, size: a
     return response.data;
   };
   
-  export const getLocationByIdService = async (id:any) => {
-    const response = await request.get(`${HOST}/v1/kioskLocations/id?id=${id}`);
+  export const getLocationByIdService = async (id:any,isNotDes:boolean) => {
+    const response = await request.get(`${HOST}/v1/kioskLocations/id?id=${id}&isNotDes=${isNotDes}`);
     return response.data;
   };
 

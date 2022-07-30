@@ -1,4 +1,4 @@
-import { Carousel, Col, Descriptions, Image, Row, Spin, Typography } from "antd";
+import { Carousel, Col, Descriptions, Image, Modal, Row, Skeleton, Spin, Typography } from "antd";
 import "./styles.css";
 import { Card, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -7,11 +7,13 @@ import { PRIMARY_COLOR } from "../../../@app/constants/colors";
 import { useEffect, useState } from "react";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
 import { toast } from "react-toastify";
-import { PhoneFilled, MailFilled, InfoCircleFilled, ArrowRightOutlined } from "@ant-design/icons";
+import { PhoneFilled, MailFilled, InfoCircleFilled, ArrowRightOutlined, Location } from "@ant-design/icons";
 import ModalLocationDescription from "./modalLocationDescrtiption";
 import { getKioskInfoService } from "../../services/kiosk_service";
 import { Carousel as PrimeFaceCarousel } from 'primereact/carousel';
 import ScrollContainer from 'react-indiana-drag-scroll'
+import { SpecificEventLocation } from "../map/components/location-infomation/specfic-event-location";
+import { getEventByIdService } from "../../services/event_service";
 const { Meta } = Card;
 const contentStyle = {
   height: "300px",
@@ -25,6 +27,8 @@ const HomePage = () => {
   const navigator = useNavigate();
   const [kioskLocation, setKioskLocation] = useState()
   const [isLocationDescriptionModalVisible, setLocationDescriptionModalVisible] = useState(false)
+  const [eventDetailsVisibile, setEventDetailsVisible] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState();
   const { listEventPosition, listAppCatePosition } = useSelector(
     (state) => state.home_view
   );
@@ -33,10 +37,10 @@ const HomePage = () => {
     const resKioskInfo = await getKioskInfoService(kioskId);
     if (resKioskInfo.data.kioskLocationId) {
       const resKioksLocationInfo = await getLocationByIdService(
-        resKioskInfo.data.kioskLocationId
+        resKioskInfo.data.kioskLocationId,
+        false
       );
       console.log(resKioksLocationInfo.data)
-
       setKioskLocation(resKioksLocationInfo.data);
     } else {
       toast.error("can not get kiosk information");
@@ -48,6 +52,18 @@ const HomePage = () => {
   useEffect(() => {
     getKioskLocation()
   }, []);
+  const onOpenEventDetailsModal = async (position) => {
+    let eventId = position.EventId;
+    try {
+      let res = await getEventByIdService(eventId);
+      setSelectedEvent(res.data);
+      setEventDetailsVisible(true);
+    } catch (e) {
+      setSelectedEvent({});
+      console.error(e);
+      toast.error('Cannot get the event infomation!');
+    }
+  }
   const onCancelModalLocation = () => {
     setLocationDescriptionModalVisible(false)
   }
@@ -75,7 +91,7 @@ const HomePage = () => {
                     <div style={{ width: "100%" }}>
                       <Row span={24}>
                         <Col span={24}>
-                          <div style={{ background: "#afeb9d", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
+                          <div style={{ background: "#afeb9d", margin: 5, marginBottom: 20, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
                             <Row>
                               <Col span={2}>
                                 <PhoneFilled />
@@ -89,7 +105,7 @@ const HomePage = () => {
                       </Row>
                       <Row span={24}>
                         <Col span={24}>
-                          <div style={{ background: "#ff8442", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
+                          <div style={{ background: "#ff8442", margin: 5, marginBottom: 20, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
                             <Row>
                               <Col span={2}>
                                 <MailFilled />
@@ -103,7 +119,8 @@ const HomePage = () => {
                       </Row>
                       <Row span={24}>
                         <Col span={24}>
-                          <div onClick={() => { setLocationDescriptionModalVisible(true) }} style={{ background: "#59def0", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
+                          <div onClick={() => { setLocationDescriptionModalVisible(true) }}
+                            style={{ background: "#59def0", margin: 5, marginBottom: 20, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
                             <Row>
                               <Col span={2}>
                                 <InfoCircleFilled />
@@ -118,23 +135,8 @@ const HomePage = () => {
                           </div>
                         </Col>
                       </Row>
-                      <Row span={24}>
-                        <Col span={24}>
-                          <div onClick={() => { setLocationDescriptionModalVisible(true) }} style={{ background: "#59def0", margin: 5, padding: 15, borderRadius: 10, color: "#fff", fontWeight: "bold", fontSize: 30 }}>
-                            <Row>
-                              <Col span={2}>
-                                <InfoCircleFilled />
-                              </Col>
-                              <Col span={20} style={{ textAlign: "center" }} >
-                                Information
-                              </Col>
-                              <Col span={2}>
-                                <ArrowRightOutlined />
-                              </Col>
-                            </Row>
-                          </div>
-                        </Col>
-                      </Row>
+
+
                     </div>
                   </> : <Row>
                     <Spin className="center" />
@@ -160,13 +162,13 @@ const HomePage = () => {
                     <ScrollContainer className="drag-list-container" horizontal={true}>
                       {
                         row.map(e => {
-                          return <div className="event-box">
+                          return <div className="event-box" onClick={() => { onOpenEventDetailsModal(e) }}>
                             <img
                               className="event-image"
                               alt="example"
                               src={e.EventThumbnail.Link}
                             />
-                            <p style={{marginTop:20}}>{e.EventName}</p>
+                            <p style={{ marginTop: 20 }}>{e.EventName}</p>
                           </div>
                         })
                       }
@@ -216,6 +218,23 @@ const HomePage = () => {
             }
           </div>
         </Col>
+
+        <>
+          <Modal
+            title="Event Details"
+            mask={true}
+            visible={eventDetailsVisibile}
+            footer={null}
+            onCancel={() => setEventDetailsVisible(false)}
+          >
+            {selectedEvent ?
+              <div className="sub-info-scroll-bar">
+                < SpecificEventLocation event={selectedEvent} currentLocation={null} />
+              </div>
+              : <Skeleton />
+            }
+          </Modal>
+        </>
 
       </div>
     </>

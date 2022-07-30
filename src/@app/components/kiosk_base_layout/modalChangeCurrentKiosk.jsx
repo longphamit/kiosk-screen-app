@@ -1,3 +1,4 @@
+import { combineReducers } from "@reduxjs/toolkit";
 import { Button, Col, Form, Input, Modal, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,7 @@ import {
 } from "../../../kiosks/layouts/form_layout";
 import { KIOSK_ID, USER_EMAIL, USER_ID } from "../../constants/key";
 import { LENGTH_PASSWORD_REQUIRED } from "../../constants/number_constants";
+import { logoutRedux } from "../../redux/stores";
 import { signInService, signOutService } from "../../services/auth_service";
 import {
   changeStatusKioskService,
@@ -72,8 +74,9 @@ const ModalChangeCurrenKiosk = ({
     try {
       const currenKiosk = localStorage.getItem(KIOSK_ID);
       await changeStatusKioskService(currenKiosk);
-      await signOutService();
+      
       localStorageClearService();
+      logoutRedux()
       navigate("/");
     } catch (error) {
       console.log(error);
