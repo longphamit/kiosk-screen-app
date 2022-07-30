@@ -23,7 +23,6 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                         <Row className="element-other-info event-status" >
                             {event.status === STATUS_COMING_SOON ? (
                                 <Tag color={"yellow"} >
-
                                     <div style={{ padding: 5, fontWeight: 'bold' }}>
                                         Up coming
                                     </div>
@@ -38,7 +37,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                                 ) :
                                 (
                                     <Tag color={"grey"}>
-                                        <div style={{ marginTop: 5 }}>
+                                        <div style={{ padding: 5, fontWeight: 'bold' }}>
                                             End
                                         </div>
                                     </Tag>
@@ -46,18 +45,21 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                             }
                         </Row>
                     </Col>
-                    <Col span={8}>
-                        <div style={{ width: '100%' }}>
-                            <Row className="element-direction" justify="center" style={{ float: 'right' }}>
-                                <Row style={{ width: '100%', marginTop: 10 }}>
-                                    <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, event.latitude, event.longtitude)} />
+                    {currentLocation ?
+                        <Col span={8}>
+                            <div style={{ width: '100%' }}>
+                                <Row className="element-direction" justify="center" style={{ float: 'right' }}>
+                                    <Row style={{ width: '100%', marginTop: 10 }}>
+                                        <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, event.latitude, event.longtitude)} />
+                                    </Row>
+                                    <Row>
+                                        <p>Direction</p>
+                                    </Row>
                                 </Row>
-                                <Row>
-                                    <p>Direction</p>
-                                </Row>
-                            </Row>
-                        </div>
-                    </Col>
+                            </div>
+                        </Col>
+                        : null
+                    }
                 </Row>
 
                 <Row className="element-other-info" >
