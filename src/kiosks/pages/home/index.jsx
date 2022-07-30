@@ -37,7 +37,8 @@ const HomePage = () => {
     const resKioskInfo = await getKioskInfoService(kioskId);
     if (resKioskInfo.data.kioskLocationId) {
       const resKioksLocationInfo = await getLocationByIdService(
-        resKioskInfo.data.kioskLocationId
+        resKioskInfo.data.kioskLocationId,
+        false
       );
       console.log(resKioksLocationInfo.data)
       setKioskLocation(resKioksLocationInfo.data);
