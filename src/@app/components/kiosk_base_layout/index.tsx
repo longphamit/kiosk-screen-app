@@ -40,7 +40,6 @@ const { Header, Content, Sider } = Layout;
 
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
-  const kioskId=localStorage.getItem("KIOSK_ID")
   let navigate = useNavigate();
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
@@ -61,19 +60,18 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     new CronJob(
       "* * 1 * * *",
       async function () {
-        console.log("hello")
-        getKioskTemplate(kioskId).then((res) => {
+        getKioskTemplate("095B3D09-0F5B-49C9-9EAA-5C5DB3DB841D").then((res) => {
           console.log(res.data.kioskScheduleTemplate.template);
-          // dispatch(
-          //   setReceiveNotifyChangeTemplate(
-          //     res.data.kioskScheduleTemplate.template
-          //   )
-          // );
+          dispatch(
+            setReceiveNotifyChangeTemplate(
+              res.data.kioskScheduleTemplate.template
+            )
+          );
         });
       },
       null,
       true,
-      "ASIA/HO_CHI_MINH"
+      "America/Los_Angeles"
     );
   };
 
@@ -82,8 +80,8 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       const KioskId = localStorage.getItem("KIOSK_ID");
       const RoomId = KioskId;
       const connection = new HubConnectionBuilder()
-        // .withUrl(HOST_SIGNALR)
-        .withUrl("https://localhost:5001/signalR")
+        .withUrl(HOST_SIGNALR)
+        //.withUrl("https://localhost:5001/signalR")
         .configureLogging(LogLevel.Information)
         .build();
       connection.on(
@@ -93,13 +91,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
           dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
         }
       );
-      connection.on(
-        "KIOSK_MESSAGE_CONNECTED_CHANNEL",
-        (KioskId: any, message: any) => {
-          toast.success(message)
-        }
-      );
-
       await connection.start();
       await connection.invoke("joinRoom", { KioskId, RoomId });
     } catch (e: any) {
