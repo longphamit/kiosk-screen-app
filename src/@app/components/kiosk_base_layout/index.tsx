@@ -59,22 +59,17 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   };
   const doCronJob = () => {
     new CronJob(
-      "* * 1 * * *",
+      '0 * * * *',
       async function () {
         console.log("hello")
         getKioskTemplate(kioskId).then((res) => {
-          console.log(res.data.kioskScheduleTemplate.template);
-          // dispatch(
-          //   setReceiveNotifyChangeTemplate(
-          //     res.data.kioskScheduleTemplate.template
-          //   )
-          // );
+          console.log(res.data);
         });
       },
       null,
       true,
       "ASIA/HO_CHI_MINH"
-    );
+    ).start();
   };
 
   const joinRoom = async () => {
