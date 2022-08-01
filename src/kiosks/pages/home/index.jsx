@@ -24,6 +24,9 @@ import {
   InfoCircleFilled,
   ArrowRightOutlined,
   Location,
+  FrownOutlined,
+  MehOutlined,
+  SmileOutlined,
 } from "@ant-design/icons";
 import ModalLocationDescription from "./modalLocationDescrtiption";
 import { getKioskInfoService } from "../../services/kiosk_service";
@@ -120,6 +123,14 @@ const HomePage = () => {
   };
   const onCancelModalLocation = () => {
     setLocationDescriptionModalVisible(false);
+  };
+
+  const customIcons = {
+    1: <FrownOutlined />,
+    2: <FrownOutlined />,
+    3: <MehOutlined />,
+    4: <SmileOutlined />,
+    5: <SmileOutlined />,
   };
   return (
     <>
@@ -265,10 +276,18 @@ const HomePage = () => {
                           <Row style={{ textAlign: "center" }}>
                             <Col span={24}>
                               <span>
+                                {/* <Rate
+                                  tooltips={desc}
+                                  onChange={onChangeRating}
+                                  value={value}
+                                /> */}
                                 <Rate
                                   tooltips={desc}
                                   onChange={onChangeRating}
                                   value={value}
+                                  character={({ index }) =>
+                                    customIcons[index + 1]
+                                  }
                                 />
                                 {value ? (
                                   <span className="ant-rate-text">
