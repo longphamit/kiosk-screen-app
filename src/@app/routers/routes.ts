@@ -31,7 +31,7 @@ interface Route {
 const routes: Route[] = [
   {
     component: LoginPage,
-    path: "/",
+    path: "/signin",
     isLayout: false,
     authen: false,
     breadcrumb: "",

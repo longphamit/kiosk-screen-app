@@ -56,7 +56,7 @@ const AuthenLayout: React.FC<{ children: ReactNode }> = (props) => {
         <h2
           style={{ fontWeight: "bold", color: "#fff" }}
           onClick={() => {
-            onNavigate("/homepage");
+            onNavigate("/home-page");
           }}
         >
           TIKA Management - {localStorage.getItem(USER_FRIST_NAME)}
@@ -87,7 +87,7 @@ const AuthenLayout: React.FC<{ children: ReactNode }> = (props) => {
               icon={<HomeFilled />}
               key="1"
               onClick={() => {
-                onNavigate("/homepage");
+                onNavigate("/home-page");
               }}
             >
               {t("home")}

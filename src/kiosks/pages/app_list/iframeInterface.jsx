@@ -23,7 +23,7 @@ const IframeInterface = () => {
   const [link, setLink] = useState(null);
   const [id, setId] = useState(null);
   const [form] = Form.useForm();
-
+  const kioskId=localStorage.getItem("KIOSK_ID")
   let navigate = useNavigate();
   const onNavigate = (url) => {
     navigate(url);
@@ -76,7 +76,7 @@ const IframeInterface = () => {
             }}
           >
             <Iframe
-              url={link}
+              url={`${link}?kioskId=${kioskId}`}
               width="100%"
               height="100%"
               id="myId"

@@ -17,7 +17,7 @@ const NotFoundPage: React.FC = () => {
               <Button
                 style={{ margin: 10 }}
                 type="primary"
-                onClick={() => navigate("/homepage")}
+                onClick={() => navigate("/home-page")}
               >
                 Home
               </Button>

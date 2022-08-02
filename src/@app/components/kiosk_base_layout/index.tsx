@@ -149,7 +149,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                 <h2
                   style={{ fontWeight: "bold", color: "#fff" }}
                   onClick={() => {
-                    onNavigate("/");
+                    onNavigate("/signin");
                   }}
                 >
                   TIKA
