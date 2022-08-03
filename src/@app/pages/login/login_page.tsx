@@ -8,7 +8,7 @@ import { PRIMARY_COLOR } from "../../constants/colors";
 import {
   ACCESS_TOKEN,
   USER_EMAIL,
-  USER_FRIST_NAME,
+  USER_FIRST_NAME,
   USER_ID,
 } from "../../constants/key";
 import useDispatch from "../../hooks/use_dispatch";
@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
           localStorage.setItem(USER_ID, response.payload.data.id);
           localStorage.setItem(USER_EMAIL, response.payload.data.email);
           localStorage.setItem(
-            USER_FRIST_NAME,
+            USER_FIRST_NAME,
             response.payload.data.firstName
           );
           if (!response.payload.data.passwordIsChanged) {
