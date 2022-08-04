@@ -126,11 +126,11 @@ const HomePage = () => {
   };
 
   const customIcons = {
-    1: <FrownOutlined />,
-    2: <FrownOutlined />,
-    3: <MehOutlined />,
-    4: <SmileOutlined />,
-    5: <SmileOutlined />,
+    1: <FrownOutlined style={{marginLeft:10}}/>,
+    2: <FrownOutlined style={{marginLeft:10}}/>,
+    3: <MehOutlined style={{marginLeft:10}}/>,
+    4: <SmileOutlined style={{marginLeft:10}}/>,
+    5: <SmileOutlined style={{marginLeft:10}}/>,
   };
   return (
     <>
@@ -260,7 +260,7 @@ const HomePage = () => {
                       <Col span={24}>
                         <div
                           style={{
-                            background: "#59def0",
+                            background: "#f7a197",
                             margin: 5,
                             marginBottom: 20,
                             padding: 15,
@@ -271,7 +271,9 @@ const HomePage = () => {
                           }}
                         >
                           <Row style={{ textAlign: "center" }}>
-                            <Col span={24}>Rating</Col>
+                            <Col span={24} style={{fontSize:20}}>
+                              Rating
+                            </Col>
                           </Row>
                           <Row style={{ textAlign: "center" }}>
                             <Col span={24}>
@@ -282,6 +284,8 @@ const HomePage = () => {
                                   value={value}
                                 /> */}
                                 <Rate
+
+                                  style={{fontSize:50}}
                                   tooltips={desc}
                                   onChange={onChangeRating}
                                   value={value}
