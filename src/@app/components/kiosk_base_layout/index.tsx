@@ -88,17 +88,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
         "KIOSK_CONNECTION_CHANNEL",
         (KioskId: any, message: any) => {
           console.log(message+" : "+KioskId)
-          if(message==="CHANGE_STATUS_TO_DEACTIVATE"){
-            try {
-              localStorageClearService();
-              logoutRedux();
-              navigate("/signin");
-              window.location.reload();
-              toast.success("Your kiosk log out by change status in web !!")
-            } catch (error) {
-              console.log(error);
-            }
-          }
           console.log(JSON.parse(message));
           dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
         }
@@ -110,10 +99,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
         }
       );
       connection.on(
-        "CHANGE_STATUS_TO_DEACTIAVATE",
+        "KIOSK_STATUS_CHANNEL",
         (KioskId: any,message:any) => {
-          console.log("ABC"+KioskId)
-          toast.success(JSON.parse(message))
+          if(message==="CHANGE_STATUS_TO_DEACTIVATE"){
+            try {
+              localStorageClearService();
+              logoutRedux();
+              navigate("/signin");
+              window.location.reload();
+              toast.success("Your kiosk log out by change status in web !!")
+            } catch (error) {
+              console.log(error);
+            }
+          }
         }
       );
 
