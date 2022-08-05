@@ -35,6 +35,9 @@ import { PRIMARY_COLOR } from "../../constants/colors";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { HOST_SIGNALR } from "../../constants/host";
 import Iframe from "react-iframe";
+import { logoutRedux } from "../../redux/stores";
+import { changeStatusKioskService } from "../../services/kiosk_service";
+import { KIOSK_ID } from "../../constants/key";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
@@ -84,6 +87,18 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       connection.on(
         "KIOSK_CONNECTION_CHANNEL",
         (KioskId: any, message: any) => {
+          console.log(message+" : "+KioskId)
+          if(message==="CHANGE_STATUS_TO_DEACTIVATE"){
+            try {
+              localStorageClearService();
+              logoutRedux();
+              navigate("/signin");
+              window.location.reload();
+              toast.success("Your kiosk log out by change status in web !!")
+            } catch (error) {
+              console.log(error);
+            }
+          }
           console.log(JSON.parse(message));
           dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
         }
@@ -92,6 +107,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
         "KIOSK_MESSAGE_CONNECTED_CHANNEL",
         (KioskId: any, message: any) => {
           toast.success(message)
+        }
+      );
+      connection.on(
+        "CHANGE_STATUS_TO_DEACTIAVATE",
+        (KioskId: any,message:any) => {
+          console.log("ABC"+KioskId)
+          toast.success(JSON.parse(message))
         }
       );
 
