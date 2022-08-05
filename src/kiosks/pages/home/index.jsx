@@ -68,7 +68,7 @@ const HomePage = () => {
     if (resKioskInfo.data.kioskLocationId) {
       const resKioksLocationInfo = await getLocationByIdService(
         resKioskInfo.data.kioskLocationId,
-        false
+        true
       );
       console.log(resKioksLocationInfo.data);
       setKioskLocation(resKioksLocationInfo.data);
@@ -321,7 +321,6 @@ const HomePage = () => {
         <ModalLocationDescription
           onCancelModalLocation={onCancelModalLocation}
           visible={isLocationDescriptionModalVisible}
-          description={kioskLocation.description}
         />
       ) : null}
       <div style={{ marginLeft: 40, marginRight: 40, marginBottom: 40 }}>
