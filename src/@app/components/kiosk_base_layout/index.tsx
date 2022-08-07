@@ -14,6 +14,7 @@ import {
   DownloadOutlined,
   HomeFilled,
   PoweroffOutlined,
+  LeftCircleOutlined
 } from "@ant-design/icons";
 import { ScrollTop } from "primereact/scrolltop";
 import { Dock } from "primereact/dock";
@@ -27,7 +28,7 @@ import TimeView from "./time";
 import useDispatch from "../../hooks/use_dispatch";
 import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
 import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
-import { getKioskTemplate } from "../../../kiosks/services/kiosk_service";
+import { getKioskTemplateService } from "../../../kiosks/services/kiosk_service";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import ModalChangeCurrenKiosk from "./modalChangeCurrentKiosk";
 import { getLocationByIdService } from "../../services/kiosk_location_service";
@@ -38,6 +39,7 @@ import Iframe from "react-iframe";
 import { logoutRedux } from "../../redux/stores";
 import { changeStatusKioskService } from "../../services/kiosk_service";
 import { KIOSK_ID } from "../../constants/key";
+import useSelector from "../../hooks/use_selector";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
@@ -45,6 +47,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
   const kioskId=localStorage.getItem("KIOSK_ID")
   let navigate = useNavigate();
+  const {backToPageUrl,isBackButton}=useSelector((state)=>state.back_button);
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
@@ -65,7 +68,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       '0 * * * *',
       async function () {
         console.log("hello")
-        getKioskTemplate(kioskId).then((res) => {
+        getKioskTemplateService(kioskId).then((res) => {
           console.log(res.data);
         });
       },
@@ -132,15 +135,22 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     setIsChangeCurrentKioskModal(false);
   };
   const dockItems = [
+    isBackButton?{
+      label: "Back",
+      icon: () => <LeftCircleOutlined style={{ color: PRIMARY_COLOR, fontSize: 60 }} />,
+      command: () => {
+        navigate(backToPageUrl);
+      },
+    }:{},
     {
-      label: "Finder",
+      label: "Home",
       icon: () => <HomeFilled style={{ color: PRIMARY_COLOR, fontSize: 70 }} />,
       command: () => {
         navigate("/home-page");
       },
     },
     {
-      label: "Finder",
+      label: "Map",
       icon: () => (
         <img
           style={{ width: 70 }}
@@ -152,6 +162,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
         navigate("/map");
       },
     },
+    {}
     
   ];
   return (

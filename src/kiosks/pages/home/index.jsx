@@ -29,12 +29,13 @@ import {
   SmileOutlined,
 } from "@ant-design/icons";
 import ModalLocationDescription from "./modalLocationDescrtiption";
-import { getKioskInfoService } from "../../services/kiosk_service";
+import { getKioskInfoService, getKioskTemplate, getKioskTemplateService } from "../../services/kiosk_service";
 import { Carousel as PrimeFaceCarousel } from "primereact/carousel";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { SpecificEventLocation } from "../map/components/location-infomation/specfic-event-location";
 import { getEventByIdService } from "../../services/event_service";
 import { kioskRatingService } from "../../services/kiosk_rating_service";
+import { KIOSK_ID } from "../../../@app/constants/key";
 const { Meta } = Card;
 const contentStyle = {
   height: "300px",
@@ -105,9 +106,14 @@ const HomePage = () => {
       },
     });
   };
-
+  const getKioskTemplate=async()=>{
+    getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res=>{
+      console.log(res.data)
+    })
+  }
   useEffect(() => {
     getKioskLocation();
+    getKioskTemplate();
   }, []);
   const onOpenEventDetailsModal = async (position) => {
     let eventId = position.EventId;
