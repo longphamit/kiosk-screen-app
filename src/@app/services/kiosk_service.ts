@@ -14,7 +14,7 @@ export const getListKioskService = async (
     return response.data;
   };
 
-  export const changeStatusKioskService = async (id: string) => {
-    const response = await request.patch(`${HOST}/v1/kiosks/status?id=${id}`,null);
+  export const changeStatusKioskService = async (id: string,isKioskSetup:boolean) => {
+    const response = await request.patch(`${HOST}/v1/kiosks/status?id=${id}&isKioskSetup=${isKioskSetup}`,null);
     return response.data;
   };

@@ -80,3 +80,15 @@
 .drag-list-container {
   display: flex;
 }
+.div-description img{
+  max-width: 950px;
+}
+.div-description .ql-align-center{
+  text-align: center;
+}
+.div-description .ql-align-right{
+  text-align: right;
+}
+.div-description .ql-align-left{
+  text-align: left;
+}

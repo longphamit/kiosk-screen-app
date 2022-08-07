@@ -15,7 +15,7 @@ import { Fragment, ReactNode, useEffect, useState } from "react";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { USER_FRIST_NAME } from "../../constants/key";
+import { USER_FIRST_NAME } from "../../constants/key";
 
 import useSelector from "../../hooks/use_selector";
 import { AppState } from "../../redux/stores";
@@ -56,10 +56,10 @@ const AuthenLayout: React.FC<{ children: ReactNode }> = (props) => {
         <h2
           style={{ fontWeight: "bold", color: "#fff" }}
           onClick={() => {
-            onNavigate("/homepage");
+            onNavigate("/home-page");
           }}
         >
-          TIKA Management - {localStorage.getItem(USER_FRIST_NAME)}
+          TIKA Management - {localStorage.getItem(USER_FIRST_NAME)}
         </h2>
       </Header>
       <Layout>
@@ -87,7 +87,7 @@ const AuthenLayout: React.FC<{ children: ReactNode }> = (props) => {
               icon={<HomeFilled />}
               key="1"
               onClick={() => {
-                onNavigate("/homepage");
+                onNavigate("/home-page");
               }}
             >
               {t("home")}

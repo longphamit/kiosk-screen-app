@@ -23,7 +23,7 @@ const ModalChooseKiosk = ({
     setIsLoading(true);
     try {
       localStorage.setItem(KIOSK_ID, values.Kiosk);
-      await changeStatusKioskService(values.Kiosk);
+      await changeStatusKioskService(values.Kiosk,true);
       navigate("/home-page");
     } catch (error) {
       console.log(error);

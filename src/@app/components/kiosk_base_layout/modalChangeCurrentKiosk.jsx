@@ -1,4 +1,3 @@
-import { combineReducers } from "@reduxjs/toolkit";
 import { Button, Col, Form, Input, Modal, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +5,16 @@ import {
   formItemLayout,
   tailFormItemLayout,
 } from "../../../kiosks/layouts/form_layout";
-import { KIOSK_ID, USER_EMAIL, USER_ID } from "../../constants/key";
+import {
+  ACCESS_TOKEN,
+  KIOSK_ID,
+  USER_EMAIL,
+  USER_FIRST_NAME,
+  USER_ID,
+} from "../../constants/key";
 import { LENGTH_PASSWORD_REQUIRED } from "../../constants/number_constants";
 import { logoutRedux } from "../../redux/stores";
-import { signInService, signOutService } from "../../services/auth_service";
+import { signInService } from "../../services/auth_service";
 import {
   changeStatusKioskService,
   getListKioskService,
@@ -46,6 +51,7 @@ const ModalChangeCurrenKiosk = ({
       console.log(error);
     } finally {
       setIsLoading(false);
+      window.location.reload();
     }
   };
   const handleCancelPoiInModal = () => {
@@ -57,6 +63,10 @@ const ModalChangeCurrenKiosk = ({
       const userEmail = localStorage.getItem(USER_EMAIL);
       const userId = localStorage.getItem(USER_ID);
       const res = await signInService(userEmail, values.password);
+      localStorage.setItem(ACCESS_TOKEN, res.data.token);
+      localStorage.setItem(USER_ID, res.data.id);
+      localStorage.setItem(USER_EMAIL, res.data.email);
+      localStorage.setItem(USER_FIRST_NAME, res.data.firstName);
       if (res.code === 200) {
         const res = await getListKioskService(userId, "deactivate", 1, -1);
         setListKiosk(res.data.data);
@@ -73,15 +83,15 @@ const ModalChangeCurrenKiosk = ({
     setIsLoading(true);
     try {
       const currenKiosk = localStorage.getItem(KIOSK_ID);
-      await changeStatusKioskService(currenKiosk);
-      
+      await changeStatusKioskService(currenKiosk,false);
       localStorageClearService();
-      logoutRedux()
-      navigate("/");
+      logoutRedux();
+      navigate("/signin");
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
+      window.location.reload();
     }
   };
 
