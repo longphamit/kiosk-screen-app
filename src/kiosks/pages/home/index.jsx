@@ -18,6 +18,7 @@ import { PRIMARY_COLOR } from "../../../@app/constants/colors";
 import { useEffect, useState } from "react";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
 import { toast } from "react-toastify";
+import { FaAngry, FaFrownOpen, FaGrinAlt, FaGrinBeam, FaGrinHearts, FaGrinStars } from 'react-icons/fa';
 import {
   PhoneFilled,
   MailFilled,
@@ -132,11 +133,11 @@ const HomePage = () => {
   };
 
   const customIcons = {
-    1: <FrownOutlined style={{marginLeft:10}}/>,
-    2: <FrownOutlined style={{marginLeft:10}}/>,
-    3: <MehOutlined style={{marginLeft:10}}/>,
-    4: <SmileOutlined style={{marginLeft:10}}/>,
-    5: <SmileOutlined style={{marginLeft:10}}/>,
+    1: <FaAngry size={80} style={{marginLeft:10}}/>,
+    2: <FaFrownOpen size={80} style={{marginLeft:10}}/>,
+    3: <FaGrinAlt size={80} style={{marginLeft:10}}/>,
+    4: <FaGrinStars size={80} style={{marginLeft:10}}/>,
+    5: <FaGrinHearts size={80} style={{marginLeft:10}}/>,
   };
   return (
     <>
@@ -277,7 +278,7 @@ const HomePage = () => {
                           }}
                         >
                           <Row style={{ textAlign: "center" }}>
-                            <Col span={24} style={{fontSize:20}}>
+                            <Col span={24} style={{fontSize:20,marginBottom:10}}>
                               Rating
                             </Col>
                           </Row>
