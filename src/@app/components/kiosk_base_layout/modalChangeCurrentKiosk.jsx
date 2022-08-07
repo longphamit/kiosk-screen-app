@@ -83,7 +83,9 @@ const ModalChangeCurrenKiosk = ({
     setIsLoading(true);
     try {
       const currenKiosk = localStorage.getItem(KIOSK_ID);
-      await changeStatusKioskService(currenKiosk,false);
+      if(currenKiosk){
+        await changeStatusKioskService(currenKiosk,false);
+      }
       localStorageClearService();
       logoutRedux();
       navigate("/signin");

@@ -14,7 +14,7 @@ import {
   DownloadOutlined,
   HomeFilled,
   PoweroffOutlined,
-  LeftCircleOutlined
+  LeftCircleOutlined,
 } from "@ant-design/icons";
 import { ScrollTop } from "primereact/scrolltop";
 import { Dock } from "primereact/dock";
@@ -45,14 +45,17 @@ const { Header, Content, Sider } = Layout;
 
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
-  const kioskId=localStorage.getItem("KIOSK_ID")
+  const kioskId = localStorage.getItem("KIOSK_ID");
   let navigate = useNavigate();
-  const {backToPageUrl,isBackButton}=useSelector((state)=>state.back_button);
+  const { backToPageUrl, isBackButton } = useSelector(
+    (state) => state.back_button
+  );
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
   const [modalGoogleVisible, setModalGoogleVisible] = useState(false);
+  const [isConnectWS, setIsConnectWS] = useState(false);
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
   const logout = () => {
@@ -66,9 +69,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const doCronJob = () => {
     // one house check
     new CronJob(
-      '0 * * * *',
+      "0 * * * *",
       async function () {
-        console.log("hello")
+        console.log("hello");
         getKioskTemplateService(kioskId).then((res) => {
           console.log(res.data);
         });
@@ -91,7 +94,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       connection.on(
         "KIOSK_CONNECTION_CHANNEL",
         (KioskId: any, message: any) => {
-          console.log(message+" : "+KioskId)
+          console.log("connectd socket")
           console.log(JSON.parse(message));
           dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
         }
@@ -99,35 +102,33 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       connection.on(
         "KIOSK_MESSAGE_CONNECTED_CHANNEL",
         (KioskId: any, message: any) => {
-          toast.success(message)
+          toast.success(message);
         }
       );
-      connection.on(
-        "KIOSK_STATUS_CHANNEL",
-        (KioskId: any,message:any) => {
-          if(message==="CHANGE_STATUS_TO_DEACTIVATE"){
-            try {
-              localStorageClearService();
-              logoutRedux();
-              navigate("/signin");
-              window.location.reload();
-              toast.success("Your kiosk log out by change status in web !!")
-            } catch (error) {
-              console.log(error);
-            }
+      connection.on("KIOSK_STATUS_CHANNEL", (KioskId: any, message: any) => {
+        if (message === "CHANGE_STATUS_TO_DEACTIVATE") {
+          try {
+            localStorageClearService();
+            logoutRedux();
+            navigate("/signin");
+            window.location.reload();
+            toast.success("Your kiosk log out by change status in web !!");
+          } catch (error) {
+            console.log(error);
           }
         }
-      );
-
+      });
+      
       await connection.start();
       await connection.invoke("joinRoom", { KioskId, RoomId });
+      setIsConnectWS(true);
     } catch (e: any) {
       console.log(e);
     }
   };
   useEffect(() => {
-    doCronJob();
     joinRoom();
+    doCronJob();
   }, []);
   const dispatch = useDispatch();
   getTokenCustom(setTokenFound);
@@ -136,13 +137,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     setIsChangeCurrentKioskModal(false);
   };
   const dockItems = [
-    isBackButton?{
-      label: "Back",
-      icon: () => <LeftCircleOutlined style={{ color: PRIMARY_COLOR, fontSize: 60 }} />,
-      command: () => {
-        navigate(backToPageUrl);
-      },
-    }:{},
+    isBackButton
+      ? {
+          label: "Back",
+          icon: () => (
+            <LeftCircleOutlined
+              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
+            />
+          ),
+          command: () => {
+            navigate(backToPageUrl);
+          },
+        }
+      : {},
     {
       label: "Home",
       icon: () => <HomeFilled style={{ color: PRIMARY_COLOR, fontSize: 70 }} />,
@@ -163,8 +170,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
         navigate("/map");
       },
     },
-    {}
-    
+    {},
   ];
   return (
     <>
@@ -268,7 +274,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                 </Col>
               </Row>
 
-              {children}
+              {
+                isConnectWS?children:null
+              }
 
               <>
                 <ScrollTop
@@ -288,7 +296,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   </Affix>
                 </div>
               </>
-             
             </Content>
           </Layout>
         </Layout>

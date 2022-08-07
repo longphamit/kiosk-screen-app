@@ -17,7 +17,6 @@ const homeViewSlice = createSlice({
   initialState,
   reducers: {
     setReceiveNotifyChangeTemplate:  (state, action) => {
-      console.log(action)
       state.id = action.payload.Id;
       state.listAppCatePosition = action.payload.appCategories;
       state.listEventPosition = action.payload.events;
