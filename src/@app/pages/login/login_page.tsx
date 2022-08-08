@@ -146,16 +146,7 @@ const LoginPage: React.FC = () => {
             >
               <Input.Password />
             </Form.Item>
-            <Row justify="end" align="middle">
-              <a
-                onClick={() => {
-                  navigate("/forgot-pass");
-                }}
-                style={{ paddingRight: 50 }}
-              >
-                {t("forgot-password")}
-              </a>
-            </Row>
+            
             <Row justify="center" align="middle">
               <Form.Item style={{ marginTop: 10 }}>
                 {isLoading ? (
