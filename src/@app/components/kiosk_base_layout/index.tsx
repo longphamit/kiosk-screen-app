@@ -312,16 +312,15 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           App
                         </Col>
-                        <Col span={4}>
+                        <Col span={4} onClick={()=>navigate('/poi')}>
                           <div style={{textAlign:"center"}}>
                             <FaArchway
                               style={{ fontSize: 65, margin: 20 }}
                             />
-                            
                           </div>
                           POI
                         </Col>
-                        <Col span={4}>
+                        <Col span={4} onClick={()=>navigate("/event")}>
                           <div style={{textAlign:"center" }}>
                             <FaStar style={{ fontSize: 65, margin: 20 }} />
                           
