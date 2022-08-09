@@ -71,6 +71,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
   const [modalGoogleVisible, setModalGoogleVisible] = useState(false);
+  const [selectedIcon,setSelectedIcon]=useState("");
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
   const logout = () => {
@@ -149,6 +150,22 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const handleCancelModal = () => {
     setIsChangeCurrentKioskModal(false);
   };
+  const iconHomeOnClick=()=>{
+    setSelectedIcon("HOME");
+    navigate("/home-page")
+  }
+  const iconMapOnClick=()=>{
+    setSelectedIcon("MAP");
+    navigate("/map")
+  }
+  const iconEventOnClick=()=>{
+    setSelectedIcon("EVENT");
+    navigate("/home-page")
+  }
+  const iconInforOnClick=()=>{
+    setSelectedIcon("INFOR");
+    navigate("/infor")
+  }
   const dockItems = [
     isBackButton
       ? {
@@ -185,6 +202,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     },
     {},
   ];
+  
   return (
     <>
       <ModalChangeCurrenKiosk
@@ -303,9 +321,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   >
                     <div style={{ background: "#fff", borderRadius: 20, width: "100%" }}>
                       <Row className="center" style={{width: "100%"}}>
-                        <Col span={4} onClick={()=>{navigate("/home-page")}}>
+                        <Col span={4} onClick={()=>{iconHomeOnClick()}}>
                           <div style={{textAlign:"center" }} >
-                            <FaHome style={{ fontSize: 50, margin: 10 }} />
+                            <FaHome style={{ fontSize: 50, margin: 10,color:selectedIcon==="HOME"?"#059ef7":"#000" }} />
                           </div>
                           Home
                         </Col>
@@ -334,19 +352,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           Event
                         </Col>
-                        <Col span={4} onClick={()=>navigate("/map")}>
+                        <Col span={4} onClick={()=>iconMapOnClick()}>
                           <div style={{ textAlign:"center" }}>
                             <FaMapMarkerAlt
-                              style={{ fontSize: 50, margin: 10 }}
+                              style={{ fontSize: 50, margin: 10,color:selectedIcon==="MAP"?"#059ef7":"#000" }}
                             />
                             
                           </div>
                           Map
                         </Col>
-                        <Col span={4} onClick={()=>{navigate("/infor")}}>
+                        <Col span={4} onClick={()=>{iconInforOnClick()}}>
                           <div style={{ textAlign:"center" }}>
                             <FaInfoCircle
-                              style={{ fontSize: 50, margin: 10 }}
+                              style={{ fontSize: 50, margin: 10,color:selectedIcon==="INFOR"?"#059ef7":"#000" }}
                             />
                           </div>
                           Infor
