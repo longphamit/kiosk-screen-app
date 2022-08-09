@@ -36,7 +36,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { SpecificEventLocation } from "../map/components/location-infomation/specfic-event-location";
 import { getEventByIdService } from "../../services/event_service";
 import { kioskRatingService } from "../../services/kiosk_rating_service";
-import { KIOSK_ID } from "../../../@app/constants/key";
+import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, KIOSK_ID } from "../../../@app/constants/key";
 import { getHomeBannerService } from "../../services/home_service";
 const { Meta } = Card;
 const contentStyle = {
@@ -48,15 +48,22 @@ const contentStyle = {
   background: "#364d79",
 };
 const HomePage = () => {
-  const navigator = useNavigate();
   const [banners, setBanners] = useState()
   const getHomeBanner = async () => {
     const res = await getHomeBannerService();
     setBanners(res.data)
   }
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      localStorage.setItem(CURRENT_LOCATION_LATITUDE, position.coords.latitude)
+      localStorage.setItem(CURRENT_LOCATION_LONGITUDE, position.coords.longitude)
+      console.log(position)
+    });
+  }
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     getHomeBanner();
+    getCurrentLocation();
   }, []);
   const onClickBanner = (banner) => {
     if (banner.keyType === "app_image") {
@@ -66,7 +73,7 @@ const HomePage = () => {
       alert("event_image")
     }
     if (banner.keyType === "poi_image") {
-      
+
     }
 
   }

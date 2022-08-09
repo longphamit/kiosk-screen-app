@@ -3,9 +3,13 @@ import AppCatePage from "../../kiosks/pages/app_cate";
 import AppListPage from "../../kiosks/pages/app_list";
 import IframeInterface from "../../kiosks/pages/app_list/iframeInterface";
 import iframeInterface from "../../kiosks/pages/app_list/iframeInterface";
+import { AllEventsPage } from "../../kiosks/pages/event";
+import { SpecificEventPage } from "../../kiosks/pages/event/specific_event";
 import HomePage from "../../kiosks/pages/home";
 import KioskLocationInfoPage from "../../kiosks/pages/kiosk_location";
 import MapPage from "../../kiosks/pages/map";
+import { AllPOIsPage } from "../../kiosks/pages/POI";
+import { SpecificPOIPage } from "../../kiosks/pages/POI/specific_poi";
 
 import AuthenLayout from "../components/authen_layout";
 import ClientLayout from "../components/client_layout";
@@ -95,6 +99,42 @@ const routes: Route[] = [
   {
     component: IframeInterface,
     path: "/iframe-interface",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: AllPOIsPage,
+    path: "/poi",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: SpecificPOIPage,
+    path: "/poi/:id",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: AllEventsPage,
+    path: "/event",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: SpecificEventPage,
+    path: "/event/:id",
     isLayout: true,
     layout:KioskBaseLayout,
     authen: false,

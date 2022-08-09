@@ -75,7 +75,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
 
-  const getWeather = (latitude: any, longitude: any) => {};
+  const getWeather = (latitude: any, longitude: any) => { };
   const logout = () => {
     localStorageClearService();
     navigate("/signin");
@@ -175,16 +175,16 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const dockItems = [
     isBackButton
       ? {
-          label: "Back",
-          icon: () => (
-            <LeftCircleOutlined
-              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
-            />
-          ),
-          command: () => {
-            navigate(backToPageUrl);
-          },
-        }
+        label: "Back",
+        icon: () => (
+          <LeftCircleOutlined
+            style={{ color: PRIMARY_COLOR, fontSize: 60 }}
+          />
+        ),
+        command: () => {
+          navigate(backToPageUrl);
+        },
+      }
       : {},
     {
       label: "Home",
@@ -372,13 +372,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           App
                         </Col>
 
-                        <Col span={4}>
+                        <Col span={4} onClick={() => navigate('/poi')}>
                           <div style={{ textAlign: "center" }}>
                             <FaArchway style={{ fontSize: 50, margin: 10 }} />
                           </div>
                           POI
                         </Col>
-                        <Col span={4}>
+                        <Col span={4} onClick={() => navigate("/event")}>
                           <div style={{ textAlign: "center" }}>
                             <FaStar style={{ fontSize: 50, margin: 10 }} />
                           </div>
