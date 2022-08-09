@@ -1,10 +1,12 @@
 import { ReactNode } from "react";
+import AppCatePage from "../../kiosks/pages/app_cate";
 import AppListPage from "../../kiosks/pages/app_list";
 import IframeInterface from "../../kiosks/pages/app_list/iframeInterface";
 import iframeInterface from "../../kiosks/pages/app_list/iframeInterface";
 import { AllEventsPage } from "../../kiosks/pages/event";
 import { SpecificEventPage } from "../../kiosks/pages/event/specific_event";
 import HomePage from "../../kiosks/pages/home";
+import KioskLocationInfoPage from "../../kiosks/pages/kiosk_location";
 import MapPage from "../../kiosks/pages/map";
 import { AllPOIsPage } from "../../kiosks/pages/POI";
 import { SpecificPOIPage } from "../../kiosks/pages/POI/specific_poi";
@@ -70,6 +72,24 @@ const routes: Route[] = [
   {
     component: AppListPage,
     path: "/app-list",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: AppCatePage,
+    path: "/app-cate",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: KioskLocationInfoPage,
+    path: "/infor",
     isLayout: true,
     layout:KioskBaseLayout,
     authen: false,

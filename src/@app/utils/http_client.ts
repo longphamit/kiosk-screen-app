@@ -69,6 +69,7 @@ const multipartConfig = () => {
   return getConfig;
 };
 const request = {
+  get_notConfig:(url: string) => axios.get(url),
   get: (url: string) => axios.get(url, createConfig()),
   post: (url: string, data: any) => axios.post(url, data, createConfig()),
   put: (url: string, data: any) => axios.put(url, data, createConfig()),

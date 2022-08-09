@@ -65,7 +65,7 @@ const IframeInterface = () => {
         <Col span={20}>
           <div className="iframe-app-box">
             <Iframe
-              url={`${link}?kioskId=${kioskId}`}
+              url={`${link}?kioskId=${kioskId}&serviceApplicationId=${id}`}
               width="100%"
               height="100%"
               id="myId"

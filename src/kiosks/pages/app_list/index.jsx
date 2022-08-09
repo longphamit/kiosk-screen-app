@@ -53,7 +53,7 @@ const AppListPage = () => {
   }, []);
   return (
     <>
-      <div style={{ margin: 40, height: '100vh' }}>
+      <div style={{ margin:150,marginBottom:300 }}>
         <Col span={24}>
           <Row span={24}>
             <Col span={24}><Title style={{textAlign:"center",color:"#fff"}} className="center" level={2}>{appCategory?.name}</Title></Col>

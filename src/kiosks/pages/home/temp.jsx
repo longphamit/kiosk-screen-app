@@ -29,7 +29,7 @@ import {
     MehOutlined,
     SmileOutlined,
   } from "@ant-design/icons";
-  import ModalLocationDescription from "./modalLocationDescrtiption";
+  import ModalLocationDescription from "../kiosk_location/modalLocationDescrtiption";
   import { getKioskInfoService, getKioskTemplate, getKioskTemplateService } from "../../services/kiosk_service";
   import { Carousel as PrimeFaceCarousel } from "primereact/carousel";
   import ScrollContainer from "react-indiana-drag-scroll";
