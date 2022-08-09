@@ -113,7 +113,7 @@ const KioskLocationInfoPage = () => {
         })
     }
     useEffect(() => {
-        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         getKioskLocation();
         getKioskTemplate();
     }, []);
@@ -141,35 +141,69 @@ const KioskLocationInfoPage = () => {
         5: <FaGrinHearts size={60} style={{ marginLeft: 10 }} />,
     };
     return (
-        
-        <div >
-            <div style={{ marginTop: 10, marginLeft: 50, marginRight: 50, }}>
+        <div style={{ height: "100vh" }}>
+            <div style={{ marginLeft: 50, marginRight: 50, }}>
                 <Row>
-                    <Col span={24}>
+                    <Col span={17} style={{ margin: 10 }}>
+                        <div className="location-info">
+                            {
+                                !kioskLocation ?
+                                    <Skeleton /> :
+                                    <div >
+                                        <div style={{ textAlign: "center" }}>
+                                            <h2
+                                                style={{
+                                                    fontWeight: "bold",
+                                                    fontSize: 50,
+                                                    color: PRIMARY_COLOR,
+                                                }}
+                                            >
+                                                {kioskLocation.name}
+                                            </h2>
+                                        </div>
+                                        <div style={{ fontSize: 15 }} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
+                                    </div>
+                            }
+
+                        </div>
+                    </Col>
+                    <Col span={6} style={{ margin: 10 }}>
                         <div className="location-info">
                             {kioskLocation ? (
                                 <>
-                                    <div style={{ textAlign: "center" }}>
-                                        <h2
-                                            style={{
-                                                fontWeight: "bold",
-                                                fontSize: 50,
-                                                color: PRIMARY_COLOR,
-                                            }}
-                                        >
-                                            {kioskLocation.name}
-                                        </h2>
-                                    </div>
+
                                     <div style={{ width: "100%" }}>
                                         <div >
                                             <Row span={24}>
-                                                <Col span={6}></Col>
-                                                <Col span={6}>
+                                                <Col span={24}>
+                                                    <Carousel
+                                                        style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                                        autoplay
+                                                        autoplaySpeed={2000}
+                                                    >
+                                                        {kioskLocation ? (
+                                                            kioskLocation.listImage?.map((image) => {
+                                                                return (
+                                                                    <div style={contentStyle}>
+                                                                        <Image
+                                                                            style={{ textAlign: "center" }}
+                                                                            key={image.id}
+                                                                            src={image.link}
+                                                                        />
+                                                                    </div>
+                                                                );
+                                                            })
+                                                        ) : (
+                                                            <Spin className="center" />
+                                                        )}
+                                                    </Carousel>
+                                                </Col>
+                                                <Col span={24}></Col>
+                                                <Col span={24}>
                                                     <div
                                                         style={{
                                                             background: "#afeb9d",
-                                                            margin: 5,
-                                                            marginBottom: 20,
+                                                            marginBottom: 5,
                                                             padding: 15,
                                                             borderRadius: 10,
                                                             color: "#fff",
@@ -187,12 +221,11 @@ const KioskLocationInfoPage = () => {
                                                         </Row>
                                                     </div>
                                                 </Col>
-                                                <Col span={6}>
+                                                <Col span={24}>
                                                     <div
                                                         style={{
                                                             background: "#ff8442",
-                                                            margin: 5,
-                                                            marginBottom: 20,
+                                                            marginBottom: 5,
                                                             padding: 15,
                                                             borderRadius: 10,
                                                             color: "#fff",
@@ -210,7 +243,48 @@ const KioskLocationInfoPage = () => {
                                                         </Row>
                                                     </div>
                                                 </Col>
+                                                <Col span={24}>
+                                                    <div
+                                                        style={{
+                                                            background: "#f7a197",
+                                                            marginBottom: 20,
+                                                            borderRadius: 10,
+                                                            color: "#fff",
+                                                            fontWeight: "bold",
+                                                            fontSize: 30,
+                                                        }}
+                                                    >
+                                                        <Row style={{ textAlign: "center" }}>
+                                                            <Col span={24} style={{ fontSize: 20, marginBottom: 10 }}>
+                                                                Rating
+                                                            </Col>
+                                                        </Row>
+                                                        <Row style={{ textAlign: "center" }}>
+                                                            <Col span={24}>
+                                                                <span>
 
+                                                                    <Rate
+
+                                                                        style={{ fontSize: 30 }}
+                                                                        tooltips={desc}
+                                                                        onChange={onChangeRating}
+                                                                        value={value}
+                                                                        character={({ index }) =>
+                                                                            customIcons[index + 1]
+                                                                        }
+                                                                    />
+                                                                    {value ? (
+                                                                        <span className="ant-rate-text">
+                                                                            {desc[value - 1]}
+                                                                        </span>
+                                                                    ) : (
+                                                                        ""
+                                                                    )}
+                                                                </span>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                </Col>
                                             </Row>
                                         </div>
 
@@ -225,71 +299,7 @@ const KioskLocationInfoPage = () => {
                     </Col>
                 </Row>
             </div>
-            <div style={{ marginTop: 10, marginLeft: 50, marginRight: 50 }}>
-                <Row>
-                    <Col span={24} className="center">
-                        <div className="location-info">
-                            {
-                                !kioskLocation ?
-                                    <Skeleton /> : <div >
-                                        {
-                                            <div style={{fontSize:15}} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
-                                        }
-                                    </div>
-                            }
 
-                        </div>
-                    </Col>
-                </Row>
-            </div>
-            <Col className="center">
-                <div
-                    style={{
-                        background: "#f7a197",
-                        margin: 5,
-                        marginBottom: 20,
-                        padding: 15,
-                        borderRadius: 10,
-                        color: "#fff",
-                        fontWeight: "bold",
-                        fontSize: 30,
-                    }}
-                >
-                    <Row style={{ textAlign: "center" }}>
-                        <Col span={24} style={{ fontSize: 20, marginBottom: 10 }}>
-                            Rating
-                        </Col>
-                    </Row>
-                    <Row style={{ textAlign: "center" }}>
-                        <Col span={24}>
-                            <span>
-                                {/* <Rate
-                                    tooltips={desc}
-                                    onChange={onChangeRating}
-                                    value={value}
-                                  /> */}
-                                <Rate
-
-                                    style={{ fontSize: 30 }}
-                                    tooltips={desc}
-                                    onChange={onChangeRating}
-                                    value={value}
-                                    character={({ index }) =>
-                                        customIcons[index + 1]
-                                    }
-                                />
-                                {value ? (
-                                    <span className="ant-rate-text">
-                                        {desc[value - 1]}
-                                    </span>
-                                ) : (
-                                    ""
-                                )}
-                            </span>
-                        </Col>
-                    </Row>
-                </div>
-            </Col>
 
 
         </div>

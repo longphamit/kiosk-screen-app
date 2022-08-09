@@ -52,10 +52,9 @@ import {
   FaPlane,
   FaStar,
 } from "react-icons/fa";
-import {
-  IoApps,
-  IoFastFood
-} from "react-icons/io5";
+import { IoApps, IoFastFood } from "react-icons/io5";
+import { getWeatherService } from "../../services/weather_service";
+import WeatherView from "./weather";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
@@ -66,14 +65,17 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { backToPageUrl, isBackButton } = useSelector(
     (state) => state.back_button
   );
+  const [weather, setWeather] = useState();
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
   const [modalGoogleVisible, setModalGoogleVisible] = useState(false);
-  const [selectedIcon,setSelectedIcon]=useState("");
+  const [selectedIcon, setSelectedIcon] = useState("");
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
+
+  const getWeather = (latitude: any, longitude: any) => {};
   const logout = () => {
     localStorageClearService();
     navigate("/signin");
@@ -150,22 +152,26 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const handleCancelModal = () => {
     setIsChangeCurrentKioskModal(false);
   };
-  const iconHomeOnClick=()=>{
+  const iconHomeOnClick = () => {
     setSelectedIcon("HOME");
-    navigate("/home-page")
-  }
-  const iconMapOnClick=()=>{
+    navigate("/home-page");
+  };
+  const iconAppOnClick = () => {
+    setSelectedIcon("APP");
+    navigate("/app-cate");
+  };
+  const iconMapOnClick = () => {
     setSelectedIcon("MAP");
-    navigate("/map")
-  }
-  const iconEventOnClick=()=>{
+    navigate("/map");
+  };
+  const iconEventOnClick = () => {
     setSelectedIcon("EVENT");
-    navigate("/home-page")
-  }
-  const iconInforOnClick=()=>{
+    navigate("/home-page");
+  };
+  const iconInforOnClick = () => {
     setSelectedIcon("INFOR");
-    navigate("/infor")
-  }
+    navigate("/infor");
+  };
   const dockItems = [
     isBackButton
       ? {
@@ -202,7 +208,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     },
     {},
   ];
-  
+
   return (
     <>
       <ModalChangeCurrenKiosk
@@ -290,11 +296,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
               </svg>
 
               <Row style={{ marginTop: 10 }}>
-                <Col span={15}></Col>
-                <Col span={5}>
+                <Col span={14}></Col>
+                <Col span={4}>
                   <TimeView />
                 </Col>
-                <Col span={2}></Col>
+                <Col span={3}>
+                  <WeatherView />
+                </Col>
                 <Col span={2}>
                   <PoweroffOutlined
                     style={{ fontSize: 20, margin: 10, color: "#fff" }}
@@ -319,57 +327,95 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                     className="center"
                     style={{ textAlign: "center", width: "60%" }}
                   >
-                    <div style={{ background: "#fff", borderRadius: 20, width: "100%" }}>
-                      <Row className="center" style={{width: "100%"}}>
-                        <Col span={4} onClick={()=>{iconHomeOnClick()}}>
-                          <div style={{textAlign:"center" }} >
-                            <FaHome style={{ fontSize: 50, margin: 10,color:selectedIcon==="HOME"?"#059ef7":"#000" }} />
+                    <div
+                      style={{
+                        background: "#fff",
+                        borderRadius: 20,
+                        width: "100%",
+                      }}
+                    >
+                      <Row className="center" style={{ width: "100%" }}>
+                        <Col
+                          span={4}
+                          onClick={() => {
+                            iconHomeOnClick();
+                          }}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <FaHome
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "HOME" ? "#059ef7" : "#000",
+                              }}
+                            />
                           </div>
                           Home
                         </Col>
-                        <Col span={4}>
-                          <div style={{textAlign:"center" }}>
+                        <Col
+                          span={4}
+                          onClick={() => {
+                            iconAppOnClick();
+                          }}
+                        >
+                          <div style={{ textAlign: "center" }}>
                             <IoApps
-                              style={{ fontSize: 50, margin: 10 }}
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "APP" ? "#059ef7" : "#000",
+                              }}
                             />
                           </div>
                           App
                         </Col>
-                        
+
                         <Col span={4}>
-                          <div style={{textAlign:"center"}}>
-                            <FaArchway
-                              style={{ fontSize: 50, margin: 10 }}
-                            />
-                            
+                          <div style={{ textAlign: "center" }}>
+                            <FaArchway style={{ fontSize: 50, margin: 10 }} />
                           </div>
                           POI
                         </Col>
                         <Col span={4}>
-                          <div style={{textAlign:"center" }}>
+                          <div style={{ textAlign: "center" }}>
                             <FaStar style={{ fontSize: 50, margin: 10 }} />
-                          
                           </div>
                           Event
                         </Col>
-                        <Col span={4} onClick={()=>iconMapOnClick()}>
-                          <div style={{ textAlign:"center" }}>
+                        <Col span={4} onClick={() => iconMapOnClick()}>
+                          <div style={{ textAlign: "center" }}>
                             <FaMapMarkerAlt
-                              style={{ fontSize: 50, margin: 10,color:selectedIcon==="MAP"?"#059ef7":"#000" }}
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "MAP" ? "#059ef7" : "#000",
+                              }}
                             />
-                            
                           </div>
                           Map
                         </Col>
-                        <Col span={4} onClick={()=>{iconInforOnClick()}}>
-                          <div style={{ textAlign:"center" }}>
+                        <Col
+                          span={4}
+                          onClick={() => {
+                            iconInforOnClick();
+                          }}
+                        >
+                          <div style={{ textAlign: "center" }}>
                             <FaInfoCircle
-                              style={{ fontSize: 50, margin: 10,color:selectedIcon==="INFOR"?"#059ef7":"#000" }}
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "INFOR" ? "#059ef7" : "#000",
+                              }}
                             />
                           </div>
                           Infor
                         </Col>
-                        
+
                         {/* {isBackButton ? (
                           <div>
                             <LeftCircleOutlined

@@ -12,7 +12,6 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { HOST_SIGNALR } from "./@app/constants/host";
 
 function App() {
-  
   useEffect(() => {
     
   });

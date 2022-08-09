@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import AppCatePage from "../../kiosks/pages/app_cate";
 import AppListPage from "../../kiosks/pages/app_list";
 import IframeInterface from "../../kiosks/pages/app_list/iframeInterface";
 import iframeInterface from "../../kiosks/pages/app_list/iframeInterface";
@@ -67,6 +68,15 @@ const routes: Route[] = [
   {
     component: AppListPage,
     path: "/app-list",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: AppCatePage,
+    path: "/app-cate",
     isLayout: true,
     layout:KioskBaseLayout,
     authen: false,
