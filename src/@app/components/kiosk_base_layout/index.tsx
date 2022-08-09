@@ -48,8 +48,14 @@ import {
   FaInfoCircle,
   FaMapMarker,
   FaMapMarkerAlt,
+  FaMusic,
+  FaPlane,
   FaStar,
 } from "react-icons/fa";
+import {
+  IoApps,
+  IoFastFood
+} from "react-icons/io5";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
@@ -293,29 +299,29 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   <Affix
                     offsetBottom={top}
                     className="center"
-                    style={{ textAlign: "center", width: "50%" }}
+                    style={{ textAlign: "center", width: "60%" }}
                   >
                     <div style={{ background: "#fff", borderRadius: 20, width: "100%" }}>
-                      <Row className="center" style={{width: "100%",padding:20}}>
+                      <Row className="center" style={{width: "100%"}}>
                         <Col span={4} onClick={()=>{navigate("/home-page")}}>
                           <div style={{textAlign:"center" }} >
-                            <FaHome style={{ fontSize: 65, margin: 20 }} />
+                            <FaHome style={{ fontSize: 50, margin: 10 }} />
                           </div>
                           Home
                         </Col>
                         <Col span={4}>
                           <div style={{textAlign:"center" }}>
-                            <FaAppStoreIos
-                              style={{ fontSize: 65, margin: 20 }}
+                            <IoApps
+                              style={{ fontSize: 50, margin: 10 }}
                             />
-                            
                           </div>
                           App
                         </Col>
+                        
                         <Col span={4}>
                           <div style={{textAlign:"center"}}>
                             <FaArchway
-                              style={{ fontSize: 65, margin: 20 }}
+                              style={{ fontSize: 50, margin: 10 }}
                             />
                             
                           </div>
@@ -323,7 +329,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                         </Col>
                         <Col span={4}>
                           <div style={{textAlign:"center" }}>
-                            <FaStar style={{ fontSize: 65, margin: 20 }} />
+                            <FaStar style={{ fontSize: 50, margin: 10 }} />
                           
                           </div>
                           Event
@@ -331,16 +337,16 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                         <Col span={4} onClick={()=>navigate("/map")}>
                           <div style={{ textAlign:"center" }}>
                             <FaMapMarkerAlt
-                              style={{ fontSize: 65, margin: 20 }}
+                              style={{ fontSize: 50, margin: 10 }}
                             />
                             
                           </div>
                           Map
                         </Col>
-                        <Col span={4}>
+                        <Col span={4} onClick={()=>{navigate("/infor")}}>
                           <div style={{ textAlign:"center" }}>
                             <FaInfoCircle
-                              style={{ fontSize: 65, margin: 20 }}
+                              style={{ fontSize: 50, margin: 10 }}
                             />
                           </div>
                           Infor

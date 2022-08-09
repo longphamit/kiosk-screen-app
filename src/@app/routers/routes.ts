@@ -3,6 +3,7 @@ import AppListPage from "../../kiosks/pages/app_list";
 import IframeInterface from "../../kiosks/pages/app_list/iframeInterface";
 import iframeInterface from "../../kiosks/pages/app_list/iframeInterface";
 import HomePage from "../../kiosks/pages/home";
+import KioskLocationInfoPage from "../../kiosks/pages/kiosk_location";
 import MapPage from "../../kiosks/pages/map";
 
 import AuthenLayout from "../components/authen_layout";
@@ -66,6 +67,15 @@ const routes: Route[] = [
   {
     component: AppListPage,
     path: "/app-list",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: KioskLocationInfoPage,
+    path: "/infor",
     isLayout: true,
     layout:KioskBaseLayout,
     authen: false,
