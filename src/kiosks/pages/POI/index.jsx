@@ -1,17 +1,16 @@
-import { Button, Col, Row, Skeleton } from "antd"
+import { Row, Skeleton } from "antd"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
 import { CustomCard } from "../../../@app/components/card/custom_card";
 import { EmptyCard } from "../../../@app/components/card/empty_card";
+import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE } from "../../../@app/constants/key";
 import { getPOINearbyService } from "../../services/poi_service";
 
-const long = '106.7644724';
-const lat = '10.8578179'
 export const AllPOIsPage = ({ }) => {
     const [POIs, setPOIs] = useState();
     const getPOIsFunction = async () => {
         try {
-            let res = await getPOINearbyService(long, lat);
+            let res = await getPOINearbyService(localStorage.getItem(CURRENT_LOCATION_LONGITUDE),
+                localStorage.getItem(CURRENT_LOCATION_LATITUDE));
             setPOIs(res.data.data);
         } catch (e) {
             setPOIs([])
