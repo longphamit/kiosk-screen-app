@@ -61,8 +61,8 @@ const IframeInterface = () => {
     <Layout>
 
       <Row style={{ height: "100vh" }}>
-        <Col span={2}></Col>
-        <Col span={20}>
+  
+        <Col span={24}>
           <div className="iframe-app-box">
             <Iframe
               url={`${link}?kioskId=${kioskId}&serviceApplicationId=${id}`}
@@ -74,7 +74,7 @@ const IframeInterface = () => {
             />
           </div>
         </Col>
-        <Col span={2}></Col>
+
       </Row>
       {/* <Affix offsetBottom={bottom}>
         <Button type="primary" onClick={() => setBottom(bottom + 10)}>

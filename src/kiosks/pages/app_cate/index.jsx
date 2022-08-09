@@ -20,7 +20,7 @@ const AppCatePage = () => {
         getKioskTemplate()
       }, []);
     return <div>
-        <div style={{margin:200,marginBottom:300}}>
+        <div style={{margin:100,marginBottom:300}}>
             {listAppCatePosition?.map((row) => {
                 return (
                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
