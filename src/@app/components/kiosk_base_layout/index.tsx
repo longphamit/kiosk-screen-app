@@ -14,7 +14,8 @@ import {
   DownloadOutlined,
   HomeFilled,
   PoweroffOutlined,
-  LeftCircleOutlined
+  LeftCircleOutlined,
+  AppstoreFilled,
 } from "@ant-design/icons";
 import { ScrollTop } from "primereact/scrolltop";
 import { Dock } from "primereact/dock";
@@ -40,14 +41,25 @@ import { logoutRedux } from "../../redux/stores";
 import { changeStatusKioskService } from "../../services/kiosk_service";
 import { KIOSK_ID } from "../../constants/key";
 import useSelector from "../../hooks/use_selector";
+import {
+  FaAppStoreIos,
+  FaArchway,
+  FaHome,
+  FaInfoCircle,
+  FaMapMarker,
+  FaMapMarkerAlt,
+  FaStar,
+} from "react-icons/fa";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
-  const kioskId=localStorage.getItem("KIOSK_ID")
+  const kioskId = localStorage.getItem("KIOSK_ID");
   let navigate = useNavigate();
-  const {backToPageUrl,isBackButton}=useSelector((state)=>state.back_button);
+  const { backToPageUrl, isBackButton } = useSelector(
+    (state) => state.back_button
+  );
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
@@ -65,9 +77,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   };
   const doCronJob = () => {
     new CronJob(
-      '0 * * * *',
+      "0 * * * *",
       async function () {
-        console.log("hello")
+        console.log("hello");
         getKioskTemplateService(kioskId).then((res) => {
           console.log(res.data);
         });
@@ -90,7 +102,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       connection.on(
         "KIOSK_CONNECTION_CHANNEL",
         (KioskId: any, message: any) => {
-          console.log(message+" : "+KioskId)
+          console.log(message + " : " + KioskId);
           console.log(JSON.parse(message));
           dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
         }
@@ -98,25 +110,22 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       connection.on(
         "KIOSK_MESSAGE_CONNECTED_CHANNEL",
         (KioskId: any, message: any) => {
-          toast.success(message)
+          toast.success(message);
         }
       );
-      connection.on(
-        "KIOSK_STATUS_CHANNEL",
-        (KioskId: any,message:any) => {
-          if(message==="CHANGE_STATUS_TO_DEACTIVATE"){
-            try {
-              localStorageClearService();
-              logoutRedux();
-              navigate("/signin");
-              window.location.reload();
-              toast.success("Your kiosk log out by change status in web !!")
-            } catch (error) {
-              console.log(error);
-            }
+      connection.on("KIOSK_STATUS_CHANNEL", (KioskId: any, message: any) => {
+        if (message === "CHANGE_STATUS_TO_DEACTIVATE") {
+          try {
+            localStorageClearService();
+            logoutRedux();
+            navigate("/signin");
+            window.location.reload();
+            toast.success("Your kiosk log out by change status in web !!");
+          } catch (error) {
+            console.log(error);
           }
         }
-      );
+      });
 
       await connection.start();
       await connection.invoke("joinRoom", { KioskId, RoomId });
@@ -135,13 +144,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     setIsChangeCurrentKioskModal(false);
   };
   const dockItems = [
-    isBackButton?{
-      label: "Back",
-      icon: () => <LeftCircleOutlined style={{ color: PRIMARY_COLOR, fontSize: 60 }} />,
-      command: () => {
-        navigate(backToPageUrl);
-      },
-    }:{},
+    isBackButton
+      ? {
+          label: "Back",
+          icon: () => (
+            <LeftCircleOutlined
+              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
+            />
+          ),
+          command: () => {
+            navigate(backToPageUrl);
+          },
+        }
+      : {},
     {
       label: "Home",
       icon: () => <HomeFilled style={{ color: PRIMARY_COLOR, fontSize: 70 }} />,
@@ -162,8 +177,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
         navigate("/map");
       },
     },
-    {}
-    
+    {},
   ];
   return (
     <>
@@ -279,15 +293,79 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   <Affix
                     offsetBottom={top}
                     className="center"
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center", width: "50%" }}
                   >
-                    <div>
-                      <Dock model={dockItems} />
+                    <div style={{ background: "#fff", borderRadius: 20, width: "100%" }}>
+                      <Row className="center" style={{width: "100%",padding:20}}>
+                        <Col span={4} onClick={()=>{navigate("/home-page")}}>
+                          <div style={{textAlign:"center" }} >
+                            <FaHome style={{ fontSize: 65, margin: 20 }} />
+                          </div>
+                          Home
+                        </Col>
+                        <Col span={4}>
+                          <div style={{textAlign:"center" }}>
+                            <FaAppStoreIos
+                              style={{ fontSize: 65, margin: 20 }}
+                            />
+                            
+                          </div>
+                          App
+                        </Col>
+                        <Col span={4}>
+                          <div style={{textAlign:"center"}}>
+                            <FaArchway
+                              style={{ fontSize: 65, margin: 20 }}
+                            />
+                            
+                          </div>
+                          POI
+                        </Col>
+                        <Col span={4}>
+                          <div style={{textAlign:"center" }}>
+                            <FaStar style={{ fontSize: 65, margin: 20 }} />
+                          
+                          </div>
+                          Event
+                        </Col>
+                        <Col span={4} onClick={()=>navigate("/map")}>
+                          <div style={{ textAlign:"center" }}>
+                            <FaMapMarkerAlt
+                              style={{ fontSize: 65, margin: 20 }}
+                            />
+                            
+                          </div>
+                          Map
+                        </Col>
+                        <Col span={4}>
+                          <div style={{ textAlign:"center" }}>
+                            <FaInfoCircle
+                              style={{ fontSize: 65, margin: 20 }}
+                            />
+                          </div>
+                          Infor
+                        </Col>
+                        
+                        {/* {isBackButton ? (
+                          <div>
+                            <LeftCircleOutlined
+                              className="center"
+                              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
+                            />
+                            Back
+                          </div>
+                        ) : null} */}
+                      </Row>
+
+                      {/* <img
+                          style={{ width: 80 }}
+                          alt="example"
+                          src={require("../../../assets/images/map.png")}
+                        /> */}
                     </div>
                   </Affix>
                 </div>
               </>
-             
             </Content>
           </Layout>
         </Layout>
