@@ -6,6 +6,7 @@ import ReactMapGL, {
 import { Col, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import { HereMarker } from "../../../kiosks/pages/map/components/markers/here_marker";
+import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE } from "../../constants/key";
 
 const scaleControlStyle = {
     left: '25%',
@@ -35,6 +36,9 @@ export const CustomMap = ({ marker }) => {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
             });
+
+            localStorage.setItem(CURRENT_LOCATION_LATITUDE, position.coords.latitude)
+            localStorage.setItem(CURRENT_LOCATION_LONGITUDE, position.coords.longitude)
             setViewport({
                 ...viewport,
                 latitude: position.coords.latitude,
