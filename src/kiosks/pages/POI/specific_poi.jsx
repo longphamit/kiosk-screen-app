@@ -34,7 +34,7 @@ export const SpecificPOIPage = ({ }) => {
                     </Col>
                     <Col span={10}>
                         <Row justify="center" align="middle">
-                            <div style={{ backgroundColor: 'white', width: '600px', padding: 30, borderRadius: 20, boxShadow: ' 2px 2px 4px #303134', marginTop: -100 }}>
+                            <div style={{ backgroundColor: 'white', width: '600px', padding: 30, borderRadius: 20, boxShadow: ' 2px 2px 4px #303134', marginTop: -250 }}>
                                 <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 18 }}>
                                     {poi.name}
                                 </Row>
