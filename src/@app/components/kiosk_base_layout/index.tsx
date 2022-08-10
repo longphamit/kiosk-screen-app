@@ -52,7 +52,7 @@ import {
   FaPlane,
   FaStar,
 } from "react-icons/fa";
-import { IoApps, IoFastFood } from "react-icons/io5";
+import { IoApps, IoFastFood, IoReloadCircleSharp } from "react-icons/io5";
 import { getWeatherService } from "../../services/weather_service";
 import WeatherView from "./weather";
 var CronJob = require("cron").CronJob;
@@ -236,7 +236,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
 
         <Layout>
           <Layout>
-            <Content className="site-layout-background" >
+            <Content className="site-layout-background">
               <svg
                 id="wave"
                 className="wave-box"
@@ -309,19 +309,19 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   />
                 </Col>
               </Row>
-              <div style={{marginBottom:100}}>
-              {children}  
-              </div>
-               
-              
+              <div style={{ marginBottom: 100 }}>{children}</div>
 
               <>
                 <div>
-                  
                   <Affix
                     offsetBottom={top}
                     className="center"
-                    style={{ textAlign: "center", width: "60%",position:"fixed",left:"20%" }}
+                    style={{
+                      textAlign: "center",
+                      width: "60%",
+                      position: "fixed",
+                      left: "20%",
+                    }}
                   >
                     <div
                       style={{
@@ -450,10 +450,38 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                         /> */}
                     </div>
                   </Affix>
+                  <Affix
+                    offsetBottom={top}
+                    style={{
+                      textAlign: "right",
+
+                      position: "fixed",
+                      left: "80%",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          padding: 15,
+                          margin: 50,
+                          backgroundColor: "#fff",
+                          borderRadius: 20,
+                        }}
+                      >
+                        <IoReloadCircleSharp 
+                          onClick={()=>{window.location.reload()}}
+                          style={{
+                            fontSize: 50,
+                            color: "#3ac756",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </Affix>
                   <ScrollTop
-                  style={{ backgroundColor: PRIMARY_COLOR }}
-                  icon="pi pi-arrow-up"
-                />
+                    style={{ backgroundColor: PRIMARY_COLOR }}
+                    icon="pi pi-arrow-up"
+                  />
                 </div>
               </>
             </Content>

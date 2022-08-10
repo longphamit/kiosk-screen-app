@@ -11,6 +11,7 @@ import {
     Typography,
 } from "antd";
 import "./styles.css";
+import Slider from "react-slick";
 import { Card, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
 import useSelector from "../../../@app/hooks/use_selector";
@@ -45,6 +46,13 @@ const contentStyle = {
     textAlign: "center",
     contentAlign: "center",
     background: "#364d79",
+};
+const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
 };
 const KioskLocationInfoPage = () => {
     const navigator = useNavigate();
@@ -176,27 +184,28 @@ const KioskLocationInfoPage = () => {
                                         <div >
                                             <Row span={24}>
                                                 <Col span={24}>
-                                                    <Carousel
-                                                        style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                                                        autoplay
-                                                        autoplaySpeed={2000}
-                                                    >
-                                                        {kioskLocation ? (
-                                                            kioskLocation.listImage?.map((image) => {
-                                                                return (
-                                                                    <div style={contentStyle}>
-                                                                        <Image
-                                                                            style={{ textAlign: "center" }}
-                                                                            key={image.id}
-                                                                            src={image.link}
-                                                                        />
-                                                                    </div>
-                                                                );
-                                                            })
-                                                        ) : (
-                                                            <Spin className="center" />
-                                                        )}
-                                                    </Carousel>
+                                                    {
+                                                        kioskLocation ? <Slider
+                                                            {...sliderSettings}
+                                                            style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+
+                                                        >
+                                                            {
+                                                                kioskLocation.listImage?.map((image) => {
+                                                                    return (
+                                                                        <div style={contentStyle}>
+                                                                            <Image
+                                                                                style={{ textAlign: "center" }}
+                                                                                key={image.id}
+                                                                                src={image.link}
+                                                                            />
+                                                                        </div>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Slider> : null
+                                                    }
+
                                                 </Col>
                                                 <Col span={24}></Col>
                                                 <Col span={24}>

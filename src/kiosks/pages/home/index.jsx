@@ -1,4 +1,5 @@
 import {
+  Button,
   Carousel,
   Col,
   Descriptions,
@@ -19,16 +20,7 @@ import { useEffect, useState } from "react";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
 import { toast } from "react-toastify";
 import { FaAngry, FaFrownOpen, FaGrinAlt, FaGrinBeam, FaGrinHearts, FaGrinStars } from 'react-icons/fa';
-import {
-  PhoneFilled,
-  MailFilled,
-  InfoCircleFilled,
-  ArrowRightOutlined,
-  Location,
-  FrownOutlined,
-  MehOutlined,
-  SmileOutlined,
-} from "@ant-design/icons";
+import Slider from "react-slick";
 import ModalLocationDescription from "../kiosk_location/modalLocationDescrtiption";
 import { getKioskInfoService, getKioskTemplate, getKioskTemplateService } from "../../services/kiosk_service";
 import { Carousel as PrimeFaceCarousel } from "primereact/carousel";
@@ -46,6 +38,13 @@ const contentStyle = {
   textAlign: "center",
   contentAlign: "center",
   background: "#364d79",
+};
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1
 };
 const HomePage = () => {
   const [banners, setBanners] = useState()
@@ -87,25 +86,23 @@ const HomePage = () => {
       <div style={{ marginTop: 10, marginLeft: 50, marginRight: 50, height: "100vh" }}>
         <Row>
           <Col span={24}>
-            <Carousel
+            <Slider
+            {...sliderSettings}
               style={{ margin: 10, textAlign: "center", alignItems: "center" }}
               autoplay
               autoplaySpeed={2000}
             >
               {banners?.map((image) => {
                 return (
-                  <div style={contentStyle} onClick={() => { onClickBanner(image) }}>
-                    <Image
-                      onClick={() => { onClickBanner(image) }}
-                      style={{ textAlign: "center",minHeight:500 }}
-                      key={image.keyId}
-                      src={image.link}
-                    />
+                  <div>
+                    <Row>
+                    <img className="center" src={image.link} style={{maxHeight:700}}/>
+                    </Row>
                   </div>
                 );
               }
               )}
-            </Carousel>
+            </Slider>
           </Col>
         </Row>
 
