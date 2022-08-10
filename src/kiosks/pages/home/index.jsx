@@ -97,7 +97,7 @@ const HomePage = () => {
                   <div style={contentStyle} onClick={() => { onClickBanner(image) }}>
                     <Image
                       onClick={() => { onClickBanner(image) }}
-                      style={{ textAlign: "center" }}
+                      style={{ textAlign: "center",minHeight:500 }}
                       key={image.keyId}
                       src={image.link}
                     />
