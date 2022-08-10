@@ -29,14 +29,14 @@ export const SpecificEventPage = ({ }) => {
 
     return <>
         {event ?
-            <div style={{ height:"100%" }}>
+            <div style={{ height:"100%",marginBottom:200 }}>
                 <BannerCard item={event} />
 
                 <Row style={{ marginTop: 50 }}>
-                    <Col offset={1} span={11} >
+                    <Col  span={13} >
                         <CarouselCard item={event} />
                     </Col>
-                    <Col span={12}>
+                    <Col span={11}>
                         <Row justify="center" align="middle">
                             <div style={{ backgroundColor: 'white', width: '600px', padding: 30, borderRadius: 20, boxShadow: ' 2px 2px 4px #303134', marginTop: -250 }}>
                                 <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 18 }}>

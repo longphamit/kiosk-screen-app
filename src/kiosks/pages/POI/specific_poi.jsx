@@ -26,13 +26,13 @@ export const SpecificPOIPage = ({ }) => {
 
     return <>
         {poi ?
-            <div style={{ height: '100vh' }}>
+            <div style={{ height: "100%",marginBottom:200 }}>
                 <BannerCard item={poi} />
                 <Row style={{ marginTop: 50 }}>
-                    <Col offset={1} span={11} >
+                    <Col  span={13} >
                         <CarouselCard item={poi} imageHeight={680} />
                     </Col>
-                    <Col span={12}>
+                    <Col span={10}>
                         <Row justify="center" align="middle">
                             <div style={{ backgroundColor: 'white', width: '600px', padding: 30, borderRadius: 20, boxShadow: ' 2px 2px 4px #303134', marginTop: -100 }}>
                                 <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 18 }}>
