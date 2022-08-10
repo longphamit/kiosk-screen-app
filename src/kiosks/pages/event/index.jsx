@@ -21,13 +21,13 @@ export const AllEventsPage = ({ }) => {
         getEventsFunction();
     }, []);
     return <>
-        <div style={{ height: "100vh" }}>
+        <div style={{ height: '100vh' }}>
             <Row>
                 {events ?
                     events.length !== 0 ?
                         <>
                             {events.map((e) => {
-                                return <CustomCard colSpan={7} imgSrc={e.thumbnail.link} title={e.name} link={`/event/${e.id}`} />
+                                return <CustomCard colSpan={6} imgSrc={e.thumbnail.link} title={e.name} link={`/event/${e.id}`} />
                             })}
                         </> : <>
                             <div style={{ width: '100%' }}>
