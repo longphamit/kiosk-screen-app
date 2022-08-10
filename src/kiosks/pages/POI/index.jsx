@@ -30,7 +30,9 @@ export const AllPOIsPage = ({ }) => {
                                 return <CustomCard colSpan={6} imgSrc={e.thumbnail.link} title={e.name} link={`/poi/${e.id}`} />
                             })}
                         </> : <>
-                            <EmptyCard marginTop={250} />
+                            <div style={{ width: '100%' }}>
+                                <EmptyCard marginTop={250} />
+                            </div>
                         </> :
                     <Skeleton />
                 }
