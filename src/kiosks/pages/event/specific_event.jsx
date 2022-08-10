@@ -29,16 +29,16 @@ export const SpecificEventPage = ({ }) => {
 
     return <>
         {event ?
-            <div style={{ height: '100vh' }}>
+            <div style={{ height:"100%" }}>
                 <BannerCard item={event} />
 
                 <Row style={{ marginTop: 50 }}>
                     <Col offset={1} span={11} >
-                        <CarouselCard item={event} imageHeight={700} />
+                        <CarouselCard item={event} />
                     </Col>
                     <Col span={12}>
                         <Row justify="center" align="middle">
-                            <div style={{ backgroundColor: 'white', width: '600px', padding: 30, borderRadius: 20, boxShadow: ' 2px 2px 4px #303134', marginTop: -100 }}>
+                            <div style={{ backgroundColor: 'white', width: '600px', padding: 30, borderRadius: 20, boxShadow: ' 2px 2px 4px #303134', marginTop: -250 }}>
                                 <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 18 }}>
                                     {event.name}
                                 </Row>
@@ -102,8 +102,8 @@ export const SpecificEventPage = ({ }) => {
 
                             </div>
                         </Row>
-                        <Row justify="center" align="middle" style={{ marginTop: 60 }}>
-                            <div style={{ backgroundColor: 'black', width: '800px', height: '500px' }}>
+                        <Row justify="center" align="middle" style={{ marginTop: 30,marginBottom:100 }}>
+                            <div style={{ backgroundColor: 'black', width: '800px', height: '400px' }}>
                                 <CustomMap marker={<EventMarker item={event} setItem={() => { }} />} />
                             </div>
                         </Row>

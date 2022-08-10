@@ -7,7 +7,7 @@ export const CarouselCard = ({ item, imageHeight }) => {
                 <div className="product-item-content">
                     <Row justify='center' align='middle'>
                         <Image
-                            style={{ textAlign: "center" }}
+                            style={{ textAlign: "center",minHeight:500 }}
                             key={image.id}
                             src={image.link}
                             height={imageHeight}
