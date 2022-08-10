@@ -1,11 +1,12 @@
-import { Carousel, Col, Divider, Image, Row, Skeleton, Spin } from "antd";
+import { Col, Divider, Row, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPOIByIdService } from "../../services/poi_service";
 import POIMarker from "../map/components/markers/poi_marker";
 import { CustomMap } from "../../../@app/components/map/map";
 import { convertTime } from "../../../@app/utils/date_util";
-
+import { BannerCard } from "../../../@app/components/card/banner_card";
+import { CarouselCard } from "../../../@app/components/card/carousel_card";
 export const SpecificPOIPage = ({ }) => {
     const { id } = useParams();
     const [poi, setPOI] = useState();
@@ -23,49 +24,13 @@ export const SpecificPOIPage = ({ }) => {
         getPOIFunction();
     }, [])
 
-    const contentStyle = {
-        height: "300px",
-        color: "#fff",
-        lineHeight: "160px",
-        textAlign: "center",
-        contentAlign: "center",
-        background: "#364d79",
-        width: '40%'
-    };
     return <>
         {poi ?
-            <div style={{ height: "100vh" }}>
-                <Row>
-                    <Col span={24} style={{ backgroundColor: 'black' }}>
-                        <img src={poi.thumbnail.link} alt="" height={250} width={1920} style={{ opacity: 0.6 }} />
-                    </Col>
-                    <div style={{ zIndex: 1, position: 'relative', width: '40%', color: 'white', marginTop: -200, marginLeft: 30, fontWeight: 'bold', fontSize: 16 }}>
-                        <div dangerouslySetInnerHTML={{ __html: poi?.description }} />
-                    </div>
-                </Row>
-                <Row style={{ marginTop: 20 }}>
-                    <Col offset={1} span={11} style={{ background: 'yellow' }}>
-                        <Carousel
-                            style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                            autoplay
-                            autoplaySpeed={2000}
-                        >
-                            {poi ? (
-                                poi.listImage?.map((image) => {
-                                    return (
-                                        <div style={contentStyle}>
-                                            <Image
-                                                style={{ textAlign: "center" }}
-                                                key={image.id}
-                                                src={image.link}
-                                            />
-                                        </div>
-                                    );
-                                })
-                            ) : (
-                                <Spin className="center" />
-                            )}
-                        </Carousel>
+            <div style={{ height: '100vh' }}>
+                <BannerCard item={poi} />
+                <Row style={{ marginTop: 50 }}>
+                    <Col offset={1} span={11} >
+                        <CarouselCard item={poi} imageHeight={680} />
                     </Col>
                     <Col span={12}>
                         <Row justify="center" align="middle">

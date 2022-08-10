@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 export const CustomCard = ({ colSpan, imgSrc, title, link }) => {
     let navigate = useNavigate();
     return <>
-        <Col span={colSpan} style={{ marginBottom: 50, border: '.5px solid #d8d9d7', background: 'white', borderRadius: 10, marginLeft: 45, marginRight: 30 }}>
+        <Col span={1}></Col>
+        <Col span={colSpan} style={{ marginBottom: 50, border: '.5px solid #d8d9d7', background: 'white', borderRadius: 10 }}>
             <Row align="middle" justify="center" >
                 <div>
                     <img
@@ -26,5 +27,6 @@ export const CustomCard = ({ colSpan, imgSrc, title, link }) => {
                 </Button>
             </Row>
         </Col>
+        <Col span={1}></Col>
     </>
 }

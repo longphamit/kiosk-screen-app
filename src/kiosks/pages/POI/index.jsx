@@ -21,13 +21,13 @@ export const AllPOIsPage = ({ }) => {
         getPOIsFunction();
     }, []);
     return <>
-        <div style={{ height: "100vh" }}>
+        <div style={{ height: '100vh' }}>
             <Row>
                 {POIs ?
                     POIs.length !== 0 ?
                         <>
                             {POIs.map((e) => {
-                                return <CustomCard colSpan={7} imgSrc={e.thumbnail.link} title={e.name} link={`/poi/${e.id}`} />
+                                return <CustomCard colSpan={6} imgSrc={e.thumbnail.link} title={e.name} link={`/poi/${e.id}`} />
                             })}
                         </> : <>
                             <EmptyCard marginTop={250} />
