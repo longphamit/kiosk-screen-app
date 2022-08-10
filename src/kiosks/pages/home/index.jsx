@@ -53,6 +53,7 @@ const HomePage = () => {
     const res = await getHomeBannerService();
     setBanners(res.data)
   }
+  const navigate=useNavigate()
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       localStorage.setItem(CURRENT_LOCATION_LATITUDE, position.coords.latitude)
@@ -60,22 +61,25 @@ const HomePage = () => {
       console.log(position)
     });
   }
+ 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     getHomeBanner();
     getCurrentLocation();
   }, []);
   const onClickBanner = (banner) => {
+    console.log(banner)
+    let url=""
     if (banner.keyType === "app_image") {
-      navigator(`/iframe-interface?id=${banner.keyId}`)
+      url=`/iframe-interface?id=${banner.keyId}`
     }
     if (banner.keyType === "event_image") {
-      alert("event_image")
+      url=`/event/${banner.keyId}`
     }
     if (banner.keyType === "poi_image") {
-
+      url=`/poi/${banner.keyId}`
     }
-
+    navigate(url)
   }
 
   return (
@@ -90,7 +94,7 @@ const HomePage = () => {
             >
               {banners?.map((image) => {
                 return (
-                  <div style={contentStyle}>
+                  <div style={contentStyle} onClick={() => { onClickBanner(image) }}>
                     <Image
                       onClick={() => { onClickBanner(image) }}
                       style={{ textAlign: "center" }}
