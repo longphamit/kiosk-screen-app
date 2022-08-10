@@ -1,11 +1,15 @@
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 
 export const CustomCard = ({ colSpan, imgSrc, title, link }) => {
     let navigate = useNavigate();
     return <>
         <Col span={1}></Col>
-        <Col span={colSpan} style={{ marginBottom: 50, border: '.5px solid #d8d9d7', background: 'white', borderRadius: 10 }}  onClick={() => { navigate(`${link}`) }}>
+        <Col
+            span={colSpan}
+            style={{ marginBottom: 50, border: '.5px solid #d8d9d7', background: 'white', borderRadius: 10, padding: '40px 0px' }}
+            onClick={() => { navigate(`${link}`) }}
+        >
             <Row align="middle" justify="center" >
                 <div>
                     <img
@@ -21,7 +25,7 @@ export const CustomCard = ({ colSpan, imgSrc, title, link }) => {
                     {title}
                 </p>
             </Row>
-            
+
         </Col>
         <Col span={1}></Col>
     </>
