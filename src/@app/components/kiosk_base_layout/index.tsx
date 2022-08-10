@@ -74,13 +74,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const [selectedIcon, setSelectedIcon] = useState("");
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
-
-  const getWeather = (latitude: any, longitude: any) => { };
-  const logout = () => {
-    localStorageClearService();
-    navigate("/signin");
-    toast("Logout successfull");
-  };
   const onNavigate = (url: string) => {
     navigate(url);
   };
@@ -164,9 +157,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     setSelectedIcon("MAP");
     navigate("/map");
   };
+  const iconPOIOnClick = () => {
+    setSelectedIcon("POI");
+    navigate("/poi");
+  };
   const iconEventOnClick = () => {
     setSelectedIcon("EVENT");
-    navigate("/home-page");
+    navigate("/event");
   };
   const iconInforOnClick = () => {
     setSelectedIcon("INFOR");
@@ -175,16 +172,16 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const dockItems = [
     isBackButton
       ? {
-        label: "Back",
-        icon: () => (
-          <LeftCircleOutlined
-            style={{ color: PRIMARY_COLOR, fontSize: 60 }}
-          />
-        ),
-        command: () => {
-          navigate(backToPageUrl);
-        },
-      }
+          label: "Back",
+          icon: () => (
+            <LeftCircleOutlined
+              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
+            />
+          ),
+          command: () => {
+            navigate(backToPageUrl);
+          },
+        }
       : {},
     {
       label: "Home",
@@ -239,7 +236,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
 
         <Layout>
           <Layout>
-            <Content className="site-layout-background">
+            <Content className="site-layout-background" >
               <svg
                 id="wave"
                 className="wave-box"
@@ -316,16 +313,12 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
               {children}
 
               <>
-                <ScrollTop
-                  style={{ backgroundColor: PRIMARY_COLOR }}
-                  icon="pi pi-arrow-up"
-                />
-
                 <div>
+                  
                   <Affix
                     offsetBottom={top}
                     className="center"
-                    style={{ textAlign: "center", width: "60%" }}
+                    style={{ textAlign: "center", width: "60%",position:"fixed",left:"20%" }}
                   >
                     <div
                       style={{
@@ -372,20 +365,40 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           App
                         </Col>
 
-                        <Col span={4} onClick={() => navigate('/poi')}>
+                        <Col span={4} onClick={() => iconPOIOnClick()}>
                           <div style={{ textAlign: "center" }}>
-                            <FaArchway style={{ fontSize: 50, margin: 10 }} />
+                            <FaArchway
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "POI" ? "#059ef7" : "#000",
+                              }}
+                            />
                           </div>
                           POI
                         </Col>
-                        <Col span={4} onClick={() => navigate("/event")}>
+                        <Col span={4} onClick={() => iconEventOnClick()}>
                           <div style={{ textAlign: "center" }}>
-                            <FaStar style={{ fontSize: 50, margin: 10 }} />
+                            <FaStar
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "EVENT" ? "#059ef7" : "#000",
+                              }}
+                            />
                           </div>
                           Event
                         </Col>
                         <Col span={4} onClick={() => iconMapOnClick()}>
-                          <div style={{ textAlign: "center" }}>
+                          <div
+                            style={{
+                              textAlign: "center",
+                              color:
+                                selectedIcon === "APP" ? "#059ef7" : "#000",
+                            }}
+                          >
                             <FaMapMarkerAlt
                               style={{
                                 fontSize: 50,
@@ -434,6 +447,10 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                         /> */}
                     </div>
                   </Affix>
+                  <ScrollTop
+                  style={{ backgroundColor: PRIMARY_COLOR }}
+                  icon="pi pi-arrow-up"
+                />
                 </div>
               </>
             </Content>

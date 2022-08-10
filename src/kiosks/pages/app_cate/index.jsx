@@ -2,25 +2,33 @@ import { Card, Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { useNavigate } from "react-router-dom";
+import { KIOSK_ID } from "../../../@app/constants/key";
 import useSelector from "../../../@app/hooks/use_selector";
+import { localStorageGetReduxState } from "../../../@app/services/localstorage_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
 const { Meta } = Card;
+
 const AppCatePage = () => {
     const { listEventPosition, listAppCatePosition } = useSelector(
         (state) => state.home_view
-      );
-    const navigator=useNavigate()
-    const getKioskTemplate=async()=>{
-        getKioskTemplateService(localStorage.getItem("KIOSK_ID")).then(res=>{
-          console.log(res.data)
-        })
-      }
+    );
+    const navigator = useNavigate()
+    const getKioskTemplate = async () => {
+        setTimeout((() => {
+            console.log("abc")
+            getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res => {
+                console.log(res.data)
+            })
+        }), 3000)
+
+    }
     useEffect(() => {
+        console.log("abc")
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         getKioskTemplate()
-      }, []);
+    }, []);
     return <div>
-        <div style={{margin:100,marginBottom:300}}>
+        <div style={{ margin: 100, marginBottom: 300 }}>
             {listAppCatePosition?.map((row) => {
                 return (
                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>

@@ -76,7 +76,7 @@ const AppListPage = () => {
                                 "/./iframe-interface?link=" +
                                 items.link +
                                 "&id=" +
-                                id,
+                                items.id,
                             });
                           }}
                         >

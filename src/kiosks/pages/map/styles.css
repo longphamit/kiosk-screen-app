@@ -21,9 +21,9 @@
 
 /* Only use for display address */
 #marker-my-address-text {
-  bottom: 20px;
+  top: 100px;
   position: absolute;
-  margin-left: 70%;
+  margin-left: 20%;
   margin-bottom: 5px;
   background-color: #fff !important;
   padding: 0 5px;
