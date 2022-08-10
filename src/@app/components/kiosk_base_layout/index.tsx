@@ -15,6 +15,7 @@ import {
   HomeFilled,
   PoweroffOutlined,
   LeftCircleOutlined,
+  AppstoreFilled,
 } from "@ant-design/icons";
 import { ScrollTop } from "primereact/scrolltop";
 import { Dock } from "primereact/dock";
@@ -40,6 +41,20 @@ import { logoutRedux } from "../../redux/stores";
 import { changeStatusKioskService } from "../../services/kiosk_service";
 import { KIOSK_ID } from "../../constants/key";
 import useSelector from "../../hooks/use_selector";
+import {
+  FaAppStoreIos,
+  FaArchway,
+  FaHome,
+  FaInfoCircle,
+  FaMapMarker,
+  FaMapMarkerAlt,
+  FaMusic,
+  FaPlane,
+  FaStar,
+} from "react-icons/fa";
+import { IoApps, IoFastFood } from "react-icons/io5";
+import { getWeatherService } from "../../services/weather_service";
+import WeatherView from "./weather";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
 
@@ -50,19 +65,15 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { backToPageUrl, isBackButton } = useSelector(
     (state) => state.back_button
   );
+  const [weather, setWeather] = useState();
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
   const [modalGoogleVisible, setModalGoogleVisible] = useState(false);
-  const [isConnectWS, setIsConnectWS] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState("");
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
-  const logout = () => {
-    localStorageClearService();
-    navigate("/signin");
-    toast("Logout successfull");
-  };
   const onNavigate = (url: string) => {
     navigate(url);
   };
@@ -94,7 +105,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       connection.on(
         "KIOSK_CONNECTION_CHANNEL",
         (KioskId: any, message: any) => {
-          console.log("connectd socket")
+          console.log(message + " : " + KioskId);
           console.log(JSON.parse(message));
           dispatch(setReceiveNotifyChangeTemplate(JSON.parse(message)));
         }
@@ -118,7 +129,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
           }
         }
       });
-      
+
       await connection.start();
       await connection.invoke("joinRoom", { KioskId, RoomId });
       setIsConnectWS(true);
@@ -135,6 +146,30 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
 
   const handleCancelModal = () => {
     setIsChangeCurrentKioskModal(false);
+  };
+  const iconHomeOnClick = () => {
+    setSelectedIcon("HOME");
+    navigate("/home-page");
+  };
+  const iconAppOnClick = () => {
+    setSelectedIcon("APP");
+    navigate("/app-cate");
+  };
+  const iconMapOnClick = () => {
+    setSelectedIcon("MAP");
+    navigate("/map");
+  };
+  const iconPOIOnClick = () => {
+    setSelectedIcon("POI");
+    navigate("/poi");
+  };
+  const iconEventOnClick = () => {
+    setSelectedIcon("EVENT");
+    navigate("/event");
+  };
+  const iconInforOnClick = () => {
+    setSelectedIcon("INFOR");
+    navigate("/infor");
   };
   const dockItems = [
     isBackButton
@@ -172,6 +207,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     },
     {},
   ];
+
   return (
     <>
       <ModalChangeCurrenKiosk
@@ -202,7 +238,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
 
         <Layout>
           <Layout>
-            <Content className="site-layout-background">
+            <Content className="site-layout-background" >
               <svg
                 id="wave"
                 className="wave-box"
@@ -259,11 +295,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
               </svg>
 
               <Row style={{ marginTop: 10 }}>
-                <Col span={15}></Col>
+                <Col span={14}></Col>
                 <Col span={5}>
                   <TimeView />
                 </Col>
-                <Col span={2}></Col>
+                <Col span={3}>
+                  <WeatherView />
+                </Col>
                 <Col span={2}>
                   <PoweroffOutlined
                     style={{ fontSize: 20, margin: 10, color: "#fff" }}
@@ -273,27 +311,151 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   />
                 </Col>
               </Row>
-
-              {
-                isConnectWS?children:null
-              }
+              <div style={{marginBottom:100}}>
+              {children}  
+              </div>
+               
+              
 
               <>
-                <ScrollTop
-                  style={{ backgroundColor: PRIMARY_COLOR }}
-                  icon="pi pi-arrow-up"
-                />
-
                 <div>
+                  
                   <Affix
                     offsetBottom={top}
                     className="center"
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center", width: "60%",position:"fixed",left:"20%" }}
                   >
-                    <div>
-                      <Dock model={dockItems} />
+                    <div
+                      style={{
+                        background: "#fff",
+                        borderRadius: 20,
+                        width: "100%",
+                      }}
+                    >
+                      <Row className="center" style={{ width: "100%" }}>
+                        <Col
+                          span={4}
+                          onClick={() => {
+                            iconHomeOnClick();
+                          }}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <FaHome
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "HOME" ? "#059ef7" : "#000",
+                              }}
+                            />
+                          </div>
+                          Home
+                        </Col>
+                        <Col
+                          span={4}
+                          onClick={() => {
+                            iconAppOnClick();
+                          }}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <IoApps
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "APP" ? "#059ef7" : "#000",
+                              }}
+                            />
+                          </div>
+                          App
+                        </Col>
+
+                        <Col span={4} onClick={() => iconPOIOnClick()}>
+                          <div style={{ textAlign: "center" }}>
+                            <FaArchway
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "POI" ? "#059ef7" : "#000",
+                              }}
+                            />
+                          </div>
+                          POI
+                        </Col>
+                        <Col span={4} onClick={() => iconEventOnClick()}>
+                          <div style={{ textAlign: "center" }}>
+                            <FaStar
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "EVENT" ? "#059ef7" : "#000",
+                              }}
+                            />
+                          </div>
+                          Event
+                        </Col>
+                        <Col span={4} onClick={() => iconMapOnClick()}>
+                          <div
+                            style={{
+                              textAlign: "center",
+                              color:
+                                selectedIcon === "APP" ? "#059ef7" : "#000",
+                            }}
+                          >
+                            <FaMapMarkerAlt
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "MAP" ? "#059ef7" : "#000",
+                              }}
+                            />
+                          </div>
+                          Map
+                        </Col>
+                        <Col
+                          span={4}
+                          onClick={() => {
+                            iconInforOnClick();
+                          }}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <FaInfoCircle
+                              style={{
+                                fontSize: 50,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "INFOR" ? "#059ef7" : "#000",
+                              }}
+                            />
+                          </div>
+                          Infor
+                        </Col>
+
+                        {/* {isBackButton ? (
+                          <div>
+                            <LeftCircleOutlined
+                              className="center"
+                              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
+                            />
+                            Back
+                          </div>
+                        ) : null} */}
+                      </Row>
+
+                      {/* <img
+                          style={{ width: 80 }}
+                          alt="example"
+                          src={require("../../../assets/images/map.png")}
+                        /> */}
                     </div>
                   </Affix>
+                  <ScrollTop
+                  style={{ backgroundColor: PRIMARY_COLOR }}
+                  icon="pi pi-arrow-up"
+                />
                 </div>
               </>
             </Content>

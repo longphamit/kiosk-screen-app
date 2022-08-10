@@ -25,7 +25,12 @@ export const getPOINearbyByCategoryIdService = async (
   let response = await getPOINearby(longtitude, latitude, categoryId);
   return response;
 };
-
+export const getPOIByIdService = async (id: any) => {
+  const response = await request.get(
+    `${HOST}/v1/pois/${id}`
+  );
+  return response.data;
+}
 const getPOINearby = async (
   longtitude: any = '',
   latitude: any = '',
