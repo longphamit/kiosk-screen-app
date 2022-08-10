@@ -294,7 +294,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
 
               <Row style={{ marginTop: 10 }}>
                 <Col span={14}></Col>
-                <Col span={4}>
+                <Col span={5}>
                   <TimeView />
                 </Col>
                 <Col span={3}>
