@@ -309,8 +309,11 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   />
                 </Col>
               </Row>
-
-              {children}
+              <div style={{marginBottom:100}}>
+              {children}  
+              </div>
+               
+              
 
               <>
                 <div>

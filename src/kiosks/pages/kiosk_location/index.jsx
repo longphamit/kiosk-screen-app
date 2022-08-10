@@ -144,7 +144,7 @@ const KioskLocationInfoPage = () => {
         <div style={{ height: "100vh" }}>
             <div style={{ marginLeft: 50, marginRight: 50, }}>
                 <Row>
-                    <Col span={17} style={{ margin: 10 }}>
+                    <Col span={15} style={{ margin: 10 }}>
                         <div className="location-info">
                             {
                                 !kioskLocation ?
@@ -167,7 +167,7 @@ const KioskLocationInfoPage = () => {
 
                         </div>
                     </Col>
-                    <Col span={6} style={{ margin: 10 }}>
+                    <Col span={8} style={{ margin: 10 }}>
                         <div className="location-info">
                             {kioskLocation ? (
                                 <>
