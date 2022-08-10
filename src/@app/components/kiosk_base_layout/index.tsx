@@ -65,6 +65,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { backToPageUrl, isBackButton } = useSelector(
     (state) => state.back_button
   );
+  const [isConnectWS,setIsConnectWS]=useState(false)
   const [weather, setWeather] = useState();
   const [top, setTop] = useState(10);
   const [size, setSize] = useState<SizeType>("large");
