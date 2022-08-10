@@ -55,7 +55,7 @@ const AppListPage = () => {
   }, []);
   return (
     <>
-      <div style={{ margin: 100, marginBottom: 300 }}>
+      <div style={{ margin: 100, height:"100vh" }}>
         <Col span={24}>
           <Row span={24}>
             <Col span={24}><Title style={{ textAlign: "center", color: "#fff" }} className="center" level={2}>{appCategory?.name}</Title></Col>
@@ -76,7 +76,7 @@ const AppListPage = () => {
                                 "/./iframe-interface?link=" +
                                 items.link +
                                 "&id=" +
-                                id,
+                                items.id,
                             });
                           }}
                         >
