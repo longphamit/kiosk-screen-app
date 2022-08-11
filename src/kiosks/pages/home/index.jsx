@@ -41,7 +41,7 @@ const HomePage = () => {
   }
  
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 50, left: 0, behavior: 'smooth' });
     getHomeBanner();
     getCurrentLocation();
   }, []);
@@ -62,7 +62,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div style={{ marginTop: 10, marginLeft: 50, marginRight: 50, height: "100vh" }}>
+      <div style={{marginLeft: 50, marginRight: 50, height: "100vh" }}>
         <Row>
           <Col span={24}>
             <Slider
@@ -75,7 +75,7 @@ const HomePage = () => {
                 return (
                   <div>
                     <Row>
-                    <img className="center" src={image.link} style={{width:"100%",maxHeight:500}}/>
+                    <img className="center home-image-banner" src={image.link} style={{width:"100%",maxHeight:800}}/>
                     </Row>
                   </div>
                 );

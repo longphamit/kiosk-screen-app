@@ -328,7 +328,8 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                         background: "#fff",
                         borderRadius: 20,
                         width: "100%",
-                        fontWeight:"bold"
+                        fontWeight:"bold",
+                        opacity:0.8
                       }}
                     >
                       <Row className="center" style={{ width: "100%" }}>
@@ -467,6 +468,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           margin: 50,
                           backgroundColor: "#fff",
                           borderRadius: 20,
+                          opacity:0.8
                         }}
                       >
                         <IoReloadCircleSharp 
