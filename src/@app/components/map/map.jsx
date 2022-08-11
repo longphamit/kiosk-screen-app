@@ -2,6 +2,7 @@ import { AimOutlined } from "@ant-design/icons";
 import ReactMapGL, {
     NavigationControl,
     ScaleControl,
+    Layer
 } from "@goongmaps/goong-map-react";
 import { Col, Row, Space } from "antd";
 import { useEffect, useState } from "react";
@@ -16,7 +17,18 @@ const navControlStyle = {
     top: 10,
     left: 120
 };
+const parkLayer = {
+    id: 'landuse_park',
+    type: 'fill',
+    source: 'base',
+    'source-layer': 'landuse',
+    filter: ['==', 'class', 'park']
+  };
+  
+
+
 export const CustomMap = ({ marker }) => {
+    const [parkColor, setParkColor] = useState('#8fa');
     const [currentLocation, setCurrentLocation] = useState({
         longitude: 105.7982323,
         latitude: 21.0136133,
@@ -71,6 +83,7 @@ export const CustomMap = ({ marker }) => {
         onViewportChange={setViewport}
         goongApiAccessToken={"GlVNPt2Vav2Z75sQm6lJ7XymStHLVD8UcWwhbWMn"}
     >
+        <Layer {...parkLayer} paint={{'fill-color': parkColor}} />
         {
             currentLocation ?
                 <HereMarker currentLocation={currentLocation} /> : null
@@ -97,5 +110,6 @@ export const CustomMap = ({ marker }) => {
             unit="metric"
             style={scaleControlStyle}
         />
+        
     </ReactMapGL>
 }

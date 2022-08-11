@@ -52,7 +52,7 @@ import {
   FaPlane,
   FaStar,
 } from "react-icons/fa";
-import { IoApps, IoFastFood } from "react-icons/io5";
+import { IoApps, IoFastFood, IoReloadCircleSharp } from "react-icons/io5";
 import { getWeatherService } from "../../services/weather_service";
 import WeatherView from "./weather";
 var CronJob = require("cron").CronJob;
@@ -239,7 +239,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
 
         <Layout>
           <Layout>
-            <Content className="site-layout-background" >
+            <Content className="site-layout-background">
               <svg
                 id="wave"
                 className="wave-box"
@@ -312,25 +312,27 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   />
                 </Col>
               </Row>
-              <div style={{marginBottom:100}}>
-              {children}  
-              </div>
-               
-              
+              <div style={{ marginBottom: 100 }}>{children}</div>
 
               <>
                 <div>
-                  
                   <Affix
                     offsetBottom={top}
                     className="center"
-                    style={{ textAlign: "center", width: "60%",position:"fixed",left:"20%" }}
+                    style={{
+                      textAlign: "center",
+                      width: "60%",
+                      position: "fixed",
+                      left: "20%",
+                    }}
                   >
                     <div
                       style={{
                         background: "#fff",
                         borderRadius: 20,
                         width: "100%",
+                        fontWeight:"bold",
+                        opacity:0.8
                       }}
                     >
                       <Row className="center" style={{ width: "100%" }}>
@@ -343,7 +345,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaHome
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "HOME" ? "#059ef7" : "#000",
@@ -361,7 +363,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <IoApps
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "APP" ? "#059ef7" : "#000",
@@ -375,7 +377,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaArchway
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "POI" ? "#059ef7" : "#000",
@@ -388,7 +390,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaStar
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "EVENT" ? "#059ef7" : "#000",
@@ -407,7 +409,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           >
                             <FaMapMarkerAlt
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "MAP" ? "#059ef7" : "#000",
@@ -425,7 +427,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaInfoCircle
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "INFOR" ? "#059ef7" : "#000",
@@ -453,10 +455,39 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                         /> */}
                     </div>
                   </Affix>
+                  <Affix
+                    offsetBottom={top}
+                    style={{
+                      textAlign: "right",
+
+                      position: "fixed",
+                      left: "80%",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          padding: 15,
+                          margin: 50,
+                          backgroundColor: "#fff",
+                          borderRadius: 20,
+                          opacity:0.8
+                        }}
+                      >
+                        <IoReloadCircleSharp 
+                          onClick={()=>{window.location.reload()}}
+                          style={{
+                            fontSize: 50,
+                            color: "#3ac756",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </Affix>
                   <ScrollTop
-                  style={{ backgroundColor: PRIMARY_COLOR }}
-                  icon="pi pi-arrow-up"
-                />
+                    style={{ backgroundColor: PRIMARY_COLOR }}
+                    icon="pi pi-arrow-up"
+                  />
                 </div>
               </>
             </Content>
