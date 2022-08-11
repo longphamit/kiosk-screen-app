@@ -187,8 +187,9 @@ const KioskLocationInfoPage = () => {
                                                     {
                                                         kioskLocation ? <Slider
                                                             {...sliderSettings}
+                                                            autoplay
+                                                            autoplaySpeed={2000}
                                                             style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-
                                                         >
                                                             {
                                                                 kioskLocation.listImage?.map((image) => {

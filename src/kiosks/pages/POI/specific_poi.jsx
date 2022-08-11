@@ -7,7 +7,16 @@ import { CustomMap } from "../../../@app/components/map/map";
 import { convertTime } from "../../../@app/utils/date_util";
 import { BannerCard } from "../../../@app/components/card/banner_card";
 import { CarouselCard } from "../../../@app/components/card/carousel_card";
+import Slider from "react-slick";
+const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+};
 export const SpecificPOIPage = ({ }) => {
+
     const { id } = useParams();
     const [poi, setPOI] = useState();
     const getPOIFunction = async () => {
@@ -26,11 +35,27 @@ export const SpecificPOIPage = ({ }) => {
 
     return <>
         {poi ?
-            <div style={{ height: "100%",marginBottom:200 }}>
+            <div style={{ height: "100%", marginBottom: 200 }}>
                 <BannerCard item={poi} />
                 <Row style={{ marginTop: 50 }}>
-                    <Col  span={13} >
-                        <CarouselCard item={poi} imageHeight={680} />
+                    <Col span={13} >
+                        {
+                            <Slider
+                                {...sliderSettings}
+                                style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                autoplay
+                                autoplaySpeed={2000}
+                            >
+                                {
+                                    poi?.listImage.map(e => {
+                                        return (
+                                            <div  >
+                                                <img className="center" style={{ width: "90%", minHeight: 600, maxHeight: 668 }} key={e.id} src={e.link} />
+                                            </div>)
+                                    })
+                                }
+                            </Slider>
+                        }
                     </Col>
                     <Col span={10}>
                         <Row justify="center" align="middle">

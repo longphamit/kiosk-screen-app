@@ -145,7 +145,7 @@ const AppCatePage = () => {
                         {
                             listApp?.map(items => {
                                 return (
-                                    <Col span={6}>
+                                    <Col xl={8} xs={5}>
                                         <div
                                             className="app-box"
                                             onClick={() => {

@@ -328,6 +328,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                         background: "#fff",
                         borderRadius: 20,
                         width: "100%",
+                        fontWeight:"bold"
                       }}
                     >
                       <Row className="center" style={{ width: "100%" }}>
@@ -340,7 +341,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaHome
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "HOME" ? "#059ef7" : "#000",
@@ -358,7 +359,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <IoApps
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "APP" ? "#059ef7" : "#000",
@@ -372,7 +373,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaArchway
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "POI" ? "#059ef7" : "#000",
@@ -385,7 +386,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaStar
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "EVENT" ? "#059ef7" : "#000",
@@ -404,7 +405,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           >
                             <FaMapMarkerAlt
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "MAP" ? "#059ef7" : "#000",
@@ -422,7 +423,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaInfoCircle
                               style={{
-                                fontSize: 50,
+                                fontSize: 40,
                                 margin: 10,
                                 color:
                                   selectedIcon === "INFOR" ? "#059ef7" : "#000",
