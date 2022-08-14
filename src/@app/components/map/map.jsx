@@ -50,7 +50,7 @@ export const CustomMap = ({ marker, direction }) => {
         height: '100%',
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
-        zoom: 13,
+        zoom: 14,
     });
     const setLocationViewPort = () => {
         
