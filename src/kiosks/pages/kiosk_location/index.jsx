@@ -217,7 +217,7 @@ const KioskLocationInfoPage = () => {
                                                         <div
                                                             style={{
                                                                 background: "#afeb9d",
-                                                                marginBottom: 5,
+                                                                marginBottom: 10,
                                                                 padding: 15,
                                                                 borderRadius: 10,
                                                                 color: "#fff",
@@ -239,7 +239,7 @@ const KioskLocationInfoPage = () => {
                                                         <div
                                                             style={{
                                                                 background: "#ff8442",
-                                                                marginBottom: 5,
+                                                                marginBottom: 10,
                                                                 padding: 15,
                                                                 borderRadius: 10,
                                                                 color: "#fff",

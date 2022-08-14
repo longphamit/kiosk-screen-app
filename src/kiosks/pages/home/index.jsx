@@ -83,9 +83,17 @@ const HomePage = () => {
             >
               {banners?.map((image) => {
                 return (
-                  <div>
-                    <Row>
-                    <img className="center home-image-banner" src={image.link} style={{width:"100%",maxHeight:800}}/>
+                  <div >
+                    <Row >
+                      <div style={{
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        borderRadius:30,
+                        backgroundImage:`url(${image.link})`,width:"100%",height:800}}>
+                      
+                      </div>
+                      {/* <img className="center home-image-banner" src={image.link} style={{width:"100%",maxHeight:800}}/> */}
                     </Row>
                   </div>
                 );

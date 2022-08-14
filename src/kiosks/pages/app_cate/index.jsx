@@ -23,7 +23,6 @@ const AppCatePage = () => {
     const navigator = useNavigate()
     const getKioskTemplate = async () => {
         setTimeout((() => {
-            console.log("abc")
             getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res => {
                 console.log(res.data)
             })
