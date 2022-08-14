@@ -49,7 +49,7 @@ export const ListLocationInformation = ({ locations, setCurrentItem }) => {
                                 <Col span={6}>
                                     <img
                                         src={e.thumbnail ? e.thumbnail.link : defaultImg}
-                                        style={{ width: 70, height: 70 }}
+                                        style={{ width: 70, height: 70,borderRadius:10 }}
                                     />
                                 </Col>
                             </Row>
