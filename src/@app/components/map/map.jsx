@@ -5,9 +5,11 @@ import ReactMapGL, {
     Layer
 } from "@goongmaps/goong-map-react";
 import { Col, Row, Space } from "antd";
+import polyline from'@mapbox/polyline';
 import { useEffect, useState } from "react";
 import { HereMarker } from "../../../kiosks/pages/map/components/markers/here_marker";
-import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE } from "../../constants/key";
+import { getDirectionGoongMapService } from "../../../kiosks/services/goong_map_service";
+import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, GOONG_ACCESS_MAP_KEY } from "../../constants/key";
 
 const scaleControlStyle = {
     left: '25%',
@@ -17,17 +19,27 @@ const navControlStyle = {
     top: 10,
     left: 120
 };
-const parkLayer = {
-    id: 'landuse_park',
-    type: 'fill',
-    source: 'base',
-    'source-layer': 'landuse',
-    filter: ['==', 'class', 'park']
-  };
-  
 
 
-export const CustomMap = ({ marker }) => {
+
+export const CustomMap = ({ marker, direction }) => {
+    const directionLayer = {
+        id: 'route',
+        type: 'line',
+        source: ('route',{
+            'type':"geojson",
+            'data': polyline.toGeoJSON(direction.routes[0].overview_polyline.points)
+        }),
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#1e88e5',
+            'line-width': 8
+        }
+    };
+
     const [parkColor, setParkColor] = useState('#8fa');
     const [currentLocation, setCurrentLocation] = useState({
         longitude: 105.7982323,
@@ -41,6 +53,7 @@ export const CustomMap = ({ marker }) => {
         zoom: 13,
     });
     const setLocationViewPort = () => {
+        
         console.log("set view port")
         navigator.geolocation.getCurrentPosition((position) => {
             setCurrentLocation({
@@ -73,7 +86,9 @@ export const CustomMap = ({ marker }) => {
             });
         });
     };
-
+    const getDirection = () => {
+        getDirectionGoongMapService()
+    }
     useEffect(() => {
         setLocationViewPort();
     }, [])
@@ -81,9 +96,9 @@ export const CustomMap = ({ marker }) => {
         {...viewport}
         className="map"
         onViewportChange={setViewport}
-        goongApiAccessToken={"GlVNPt2Vav2Z75sQm6lJ7XymStHLVD8UcWwhbWMn"}
+        goongApiAccessToken={GOONG_ACCESS_MAP_KEY}
     >
-        <Layer {...parkLayer} paint={{'fill-color': parkColor}} />
+        <Layer {...directionLayer} />
         {
             currentLocation ?
                 <HereMarker currentLocation={currentLocation} /> : null
@@ -110,6 +125,6 @@ export const CustomMap = ({ marker }) => {
             unit="metric"
             style={scaleControlStyle}
         />
-        
+
     </ReactMapGL>
 }

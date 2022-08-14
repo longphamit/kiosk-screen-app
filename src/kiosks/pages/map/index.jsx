@@ -8,7 +8,7 @@ import "./styles.css";
 import { getAllPOICategoriesService, getPOINearbyByCategoryIdService, getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
 import { getEventNearbyService } from "../../services/event_service";
-import { USER_ID } from "../../../@app/constants/key";
+import { GOONG_ACCESS_MAP_KEY, USER_ID } from "../../../@app/constants/key";
 import { getKioskNearbyService } from "../../services/kiosk_service";
 import { AimOutlined, SearchOutlined } from "@ant-design/icons";
 import { ListLocationInformation } from "./components/location-infomation/list-location-infomation";
@@ -189,7 +189,7 @@ const MapPage = () => {
             {...viewport}
             className="map"
             onViewportChange={setViewport}
-            goongApiAccessToken={"GlVNPt2Vav2Z75sQm6lJ7XymStHLVD8UcWwhbWMn"}
+            goongApiAccessToken={GOONG_ACCESS_MAP_KEY}
           >
             <Row>
               {/* Search bar */}

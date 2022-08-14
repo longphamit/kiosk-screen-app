@@ -7,7 +7,9 @@ import { CustomMap } from "../../../@app/components/map/map";
 import { convertTime } from "../../../@app/utils/date_util";
 import { BannerCard } from "../../../@app/components/card/banner_card";
 import { CarouselCard } from "../../../@app/components/card/carousel_card";
+import "./styles.css"
 import Slider from "react-slick";
+import { getDirectionGoongMapService } from "../../services/goong_map_service";
 const sliderSettings = {
     dots: true,
     infinite: true,
@@ -19,11 +21,24 @@ export const SpecificPOIPage = ({ }) => {
 
     const { id } = useParams();
     const [poi, setPOI] = useState();
+    const [direction, setDirection] = useState()
     const getPOIFunction = async () => {
         try {
             let res = await getPOIByIdService(id);
             setPOI(res.data);
             console.log(res.data)
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const resDirection = await getDirectionGoongMapService(
+                    "bike",
+                    position.coords.longitude,
+                    position.coords.latitude,
+                    res.data.longtitude,
+                    res.data.latitude,
+                )
+                console.log(resDirection)
+                setDirection(resDirection)
+
+            });
         } catch (e) {
             console.error(e)
         }
@@ -32,30 +47,31 @@ export const SpecificPOIPage = ({ }) => {
     useEffect(() => {
         getPOIFunction();
     }, [])
-
     return <>
         {poi ?
             <div style={{ height: "100%", marginBottom: 200 }}>
                 <BannerCard item={poi} />
                 <Row style={{ marginTop: 50 }}>
                     <Col span={13} >
-                        {
-                            <Slider
-                                {...sliderSettings}
-                                style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                                autoplay
-                                autoplaySpeed={2000}
-                            >
-                                {
-                                    poi?.listImage.map(e => {
-                                        return (
-                                            <div  >
-                                                <img className="center" style={{ width: "90%", minHeight: 600, maxHeight: 668 }} key={e.id} src={e.link} />
-                                            </div>)
-                                    })
-                                }
-                            </Slider>
-                        }
+                        <div className="poi-image-box">
+                            {
+                                <Slider
+                                    {...sliderSettings}
+                                    style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                    autoplay
+                                    autoplaySpeed={2000}
+                                >
+                                    {
+                                        poi?.listImage.map(e => {
+                                            return (
+                                                <div  >
+                                                    <img className="center" style={{ width: "90%", height: 600 }} key={e.id} src={e.link} />
+                                                </div>)
+                                        })
+                                    }
+                                </Slider>
+                            }
+                        </div>
                     </Col>
                     <Col span={10}>
                         <Row justify="center" align="middle">
@@ -89,8 +105,11 @@ export const SpecificPOIPage = ({ }) => {
                             </div>
                         </Row>
                         <Row justify="center" align="middle" style={{ marginTop: 60 }}>
-                            <div style={{ backgroundColor: 'black', width: '800px', height: '500px' }}>
-                                <CustomMap marker={<POIMarker item={poi} setItem={() => { }} />} />
+                            <div className="poi-map-box" style={{ width: '800px', height: '500px' }}>
+                                {
+                                    direction ?
+                                        <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : null
+                                }
                             </div>
                         </Row>
                     </Col>
