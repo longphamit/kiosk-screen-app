@@ -7,7 +7,7 @@ export const CustomCard = ({ colSpan, imgSrc, title, link }) => {
         <Col span={1}></Col>
         <Col
             span={colSpan}
-            style={{ marginBottom: 50, border: '.5px solid #d8d9d7', background: 'white', borderRadius: 10, padding: 20 }}
+            style={{ marginBottom: 50, border: '.5px solid #d8d9d7', background: 'white', borderRadius: 20, padding: 20 }}
             onClick={() => { navigate(`${link}`) }}
         >
             <Row align="middle" justify="center" >
