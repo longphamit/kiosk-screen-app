@@ -10,6 +10,7 @@ import { CarouselCard } from "../../../@app/components/card/carousel_card";
 import "./styles.css"
 import Slider from "react-slick";
 import { getDirectionGoongMapService } from "../../services/goong_map_service";
+import { PoiBannerCard } from "../../../@app/components/card/banner_poi";
 const sliderSettings = {
     dots: true,
     infinite: true,
@@ -37,7 +38,6 @@ export const SpecificPOIPage = ({ }) => {
                 )
                 console.log(resDirection)
                 setDirection(resDirection)
-
             });
         } catch (e) {
             console.error(e)
@@ -50,9 +50,9 @@ export const SpecificPOIPage = ({ }) => {
     return <>
         {poi ?
             <div style={{ height: "100%", marginBottom: 200 }}>
-                <BannerCard item={poi} />
-                <Row style={{ marginTop: 50 }}>
-                    <Col span={13} >
+                <PoiBannerCard poi={poi} />
+                <Row style={{ marginTop: 5 }}>
+                    <Col span={10} >
                         <div className="poi-image-box">
                             {
                                 <Slider
@@ -65,7 +65,7 @@ export const SpecificPOIPage = ({ }) => {
                                         poi?.listImage.map(e => {
                                             return (
                                                 <div  >
-                                                    <img className="center" style={{ width: "90%", height: 600 }} key={e.id} src={e.link} />
+                                                    <img className="center" style={{ width: "100%", height: 500 }} key={e.id} src={e.link} />
                                                 </div>)
                                         })
                                     }
@@ -73,39 +73,10 @@ export const SpecificPOIPage = ({ }) => {
                             }
                         </div>
                     </Col>
-                    <Col span={10}>
-                        <Row justify="center" align="middle">
-                            <div style={{ backgroundColor: 'white', width: '600px', padding: 30, borderRadius: 20, boxShadow: ' 2px 2px 4px #303134', marginTop: -250 }}>
-                                <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 18 }}>
-                                    {poi.name}
-                                </Row>
-                                <Row>
-                                    <Col span={4}>
-                                        Open time
-                                    </Col>
-                                    <Col offset={1} span={18}>
-                                        {convertTime(poi.openTime.hours,
-                                            poi.openTime.minutes,
-                                            poi.openTime.seconds).format("HH:mm")} ~  {convertTime(poi.closeTime.hours,
-                                                poi.closeTime.minutes,
-                                                poi.closeTime.seconds).format("HH:mm")} <br />({poi.dayOfWeek.split('-').join(' - ')})
-                                    </Col>
-                                </Row>
-                                <Divider style={{ marginTop: 15, marginBottom: 15 }} />
-                                <Row>
-                                    <Col span={4}>
-                                        Location
-                                    </Col>
-                                    <Col offset={1} span={18}>
-                                        <p>
-                                            {`${poi.address} - ${poi.ward} ${poi.district} ${poi.city} `}
-                                        </p>
-                                    </Col>
-                                </Row>
-                            </div>
-                        </Row>
-                        <Row justify="center" align="middle" style={{ marginTop: 60 }}>
-                            <div className="poi-map-box" style={{ width: '800px', height: '500px' }}>
+                    <Col span={14}>
+                        
+                        <Row justify="center" align="middle" style={{ marginTop: 30 }}>
+                            <div className="poi-map-box" style={{ width: 1000, height: 600 }}>
                                 {
                                     direction ?
                                         <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : null

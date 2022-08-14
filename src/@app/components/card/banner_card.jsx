@@ -18,6 +18,11 @@ export const BannerCard = ({ item }) => {
                 <div style={{color:"#000",backgroundColor:"#fff",padding:20,borderRadius:20,opacity:0.8}}>
                 <div  dangerouslySetInnerHTML={{ __html: item.description }} />
                 </div>
+                <Row>
+                    <Col>
+                        
+                    </Col>
+                </Row>
             </div>
         </Row>
     </>
