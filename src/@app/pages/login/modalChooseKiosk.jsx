@@ -5,8 +5,8 @@ import {
   formItemLayout,
   tailFormItemLayout,
 } from "../../../kiosks/layouts/form_layout";
-import { KIOSK_ID, USER_ID } from "../../constants/key";
-import { changeStatusKioskService, getListKioskService } from "../../services/kiosk_service";
+import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, KIOSK_ID, USER_ID } from "../../constants/key";
+import { changeStatusKioskService, getKioskByIdService, getListKioskService, updateKioskService } from "../../services/kiosk_service";
 
 const ModalChooseKiosk = ({
   isModalChooseKioskVisible,
@@ -23,7 +23,14 @@ const ModalChooseKiosk = ({
     setIsLoading(true);
     try {
       localStorage.setItem(KIOSK_ID, values.Kiosk);
-      await changeStatusKioskService(values.Kiosk,true);
+      await changeStatusKioskService(values.Kiosk, true);
+      const res = await getKioskByIdService(values.Kiosk)
+      console.log(res)
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        localStorage.setItem(CURRENT_LOCATION_LATITUDE, position.coords.latitude)
+        localStorage.setItem(CURRENT_LOCATION_LONGITUDE, position.coords.longitude)
+        updateKioskService(values.Kiosk, res.data.name, position.coords.longitude, position.coords.latitude, res.data.kioskLocationId);
+      });
       navigate("/home-page");
     } catch (error) {
       console.log(error);
@@ -80,9 +87,9 @@ const ModalChooseKiosk = ({
             <Select name="selectProvince">
               {listKiosk
                 ? listKiosk.map((item) => (
-                  <Option key={item.id} value={item.id}>
+                  item.kioskLocationId ? <Option key={item.id} value={item.id}>
                     {item.name}
-                  </Option>
+                  </Option> : null
                 ))
                 : null}
             </Select>

@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { Route, useNavigate, Navigate } from "react-router-dom";
+import IdleDetect from "../components/kiosk_base_layout/idle_detec";
 import { ACCESS_TOKEN } from "../constants/key";
 import {
   ROLE_ADMIN,
@@ -15,7 +16,7 @@ interface Props {
   isLayout: boolean;
   authen: boolean;
   path: string;
-  roles:[string]
+  roles:string[]
 }
 const AppElement: React.FC<Props> = (props) => {
   const {
@@ -30,6 +31,9 @@ const AppElement: React.FC<Props> = (props) => {
   sessionStorage.setItem("PATH", path);
   console.log(access_token)
   if (!access_token && authen) {
+    if (path === "/home-page") {
+      return <LoginPage />;
+    }
     return <UnAuthPage />;
   }
   console.log(access_token&&authen)
@@ -47,6 +51,7 @@ const AppElement: React.FC<Props> = (props) => {
   }
   return isLayout && Layout ? (
     <Layout>
+      <IdleDetect />
       <Component />
     </Layout>
   ) : (

@@ -50,12 +50,22 @@ const IframeInterface = () => {
     setLink(link);
     dispatch(show({ backToPageUrl: "/./app-list?id=" + id, isBackButton: true }))
   };
+  function handleBlur() {
+    console.log("document blurred");
+  }
+  
+  function handleFocus() {
+    console.log("document focused");
+  }
   useEffect(() => {
     getInitValue();
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("blur", handleBlur);
     return () => {
-      console.log("hello cleaned")
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("blur", handleBlur);
       dispatch(hide())
-    }
+    };
   }, []);
   return (
     <Layout>

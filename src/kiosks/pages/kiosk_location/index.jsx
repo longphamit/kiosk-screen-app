@@ -16,7 +16,7 @@ import { Card, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
 import useSelector from "../../../@app/hooks/use_selector";
 import { PRIMARY_COLOR } from "../../../@app/constants/colors";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
 import { toast } from "react-toastify";
 import { FaAngry, FaFrownOpen, FaGrinAlt, FaGrinBeam, FaGrinHearts, FaGrinStars } from 'react-icons/fa';
@@ -38,6 +38,7 @@ import { getEventByIdService } from "../../services/event_service";
 import { kioskRatingService } from "../../services/kiosk_rating_service";
 import { KIOSK_ID } from "../../../@app/constants/key";
 import ModalLocationDescription from "./modalLocationDescrtiption";
+import { useDraggable } from "react-use-draggable-scroll";
 const { Meta } = Card;
 const contentStyle = {
     height: "300px",
@@ -55,6 +56,8 @@ const sliderSettings = {
     slidesToScroll: 1
 };
 const KioskLocationInfoPage = () => {
+    const ref = useRef();
+    const { events } = useDraggable(ref);
     const navigator = useNavigate();
     const [kioskLocation, setKioskLocation] = useState();
     const [
@@ -149,169 +152,169 @@ const KioskLocationInfoPage = () => {
         5: <FaGrinHearts size={60} style={{ marginLeft: 10 }} />,
     };
     return (
-        <div style={{ height: "100vh" }}>
-            <div style={{ marginLeft: 50, marginRight: 50, }}>
-                <Row>
-                    <Col span={15} style={{ margin: 10 }}>
-                        <div className="location-info">
-                            {
-                                !kioskLocation ?
-                                    <Skeleton /> :
-                                    <div >
-                                        <div style={{ textAlign: "center" }}>
-                                            <h2
-                                                style={{
-                                                    fontWeight: "bold",
-                                                    fontSize: 50,
-                                                    color: PRIMARY_COLOR,
-                                                }}
-                                            >
-                                                {kioskLocation.name}
-                                            </h2>
-                                        </div>
-                                        <div style={{ fontSize: 15 }} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
-                                    </div>
-                            }
+        <div ref={ref} {...events}>
+            <div style={{ height: "100vh" }}>
 
-                        </div>
-                    </Col>
-                    <Col span={8} style={{ margin: 10 }}>
-                        <div className="location-info">
-                            {kioskLocation ? (
-                                <>
-
-                                    <div style={{ width: "100%" }}>
+                <div style={{ marginLeft: 50, marginRight: 50, }}>
+                    <Row>
+                        <Col span={15} style={{ margin: 10 }}>
+                            <div className="location-info">
+                                {
+                                    !kioskLocation ?
+                                        <Skeleton /> :
                                         <div >
-                                            <Row span={24}>
-                                                <Col span={24}>
-                                                    {
-                                                        kioskLocation ? <Slider
-                                                            {...sliderSettings}
-                                                            autoplay
-                                                            autoplaySpeed={2000}
-                                                            style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                                                        >
-                                                            {
-                                                                kioskLocation.listImage?.map((image) => {
-                                                                    return (
-                                                                        <div style={contentStyle}>
-                                                                            <Image
-                                                                                style={{ textAlign: "center" }}
-                                                                                key={image.id}
-                                                                                src={image.link}
-                                                                            />
-                                                                        </div>
-                                                                    );
-                                                                })
-                                                            }
-                                                        </Slider> : null
-                                                    }
-
-                                                </Col>
-                                                <Col span={24}></Col>
-                                                <Col span={24}>
-                                                    <div
-                                                        style={{
-                                                            background: "#afeb9d",
-                                                            marginBottom: 5,
-                                                            padding: 15,
-                                                            borderRadius: 10,
-                                                            color: "#fff",
-                                                            fontWeight: "bold",
-                                                            fontSize: 30,
-                                                        }}
-                                                    >
-                                                        <Row>
-                                                            <Col span={2}>
-                                                                <PhoneFilled />
-                                                            </Col>
-                                                            <Col span={22} style={{ textAlign: "center" }}>
-                                                                {kioskLocation.hotLine}
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                </Col>
-                                                <Col span={24}>
-                                                    <div
-                                                        style={{
-                                                            background: "#ff8442",
-                                                            marginBottom: 5,
-                                                            padding: 15,
-                                                            borderRadius: 10,
-                                                            color: "#fff",
-                                                            fontWeight: "bold",
-                                                            fontSize: 30,
-                                                        }}
-                                                    >
-                                                        <Row>
-                                                            <Col span={2}>
-                                                                <MailFilled />
-                                                            </Col>
-                                                            <Col span={22} style={{ textAlign: "center" }}>
-                                                                {kioskLocation.ownerEmail}
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                </Col>
-                                                <Col span={24}>
-                                                    <div
-                                                        style={{
-                                                            background: "#f7a197",
-                                                            marginBottom: 20,
-                                                            borderRadius: 10,
-                                                            color: "#fff",
-                                                            fontWeight: "bold",
-                                                            fontSize: 30,
-                                                        }}
-                                                    >
-                                                        <Row style={{ textAlign: "center" }}>
-                                                            <Col span={24} style={{ fontSize: 20, marginBottom: 10 }}>
-                                                                Rating
-                                                            </Col>
-                                                        </Row>
-                                                        <Row style={{ textAlign: "center" }}>
-                                                            <Col span={24}>
-                                                                <span>
-
-                                                                    <Rate
-
-                                                                        style={{ fontSize: 30 }}
-                                                                        tooltips={desc}
-                                                                        onChange={onChangeRating}
-                                                                        value={value}
-                                                                        character={({ index }) =>
-                                                                            customIcons[index + 1]
-                                                                        }
-                                                                    />
-                                                                    {value ? (
-                                                                        <span className="ant-rate-text">
-                                                                            {desc[value - 1]}
-                                                                        </span>
-                                                                    ) : (
-                                                                        ""
-                                                                    )}
-                                                                </span>
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                </Col>
-                                            </Row>
+                                            <div style={{ textAlign: "center" }}>
+                                                <h2
+                                                    style={{
+                                                        fontWeight: "bold",
+                                                        fontSize: 50,
+                                                        color: PRIMARY_COLOR,
+                                                    }}
+                                                >
+                                                    {kioskLocation.name}
+                                                </h2>
+                                            </div>
+                                            <div style={{ fontSize: 15, }} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
                                         </div>
+                                }
 
-                                    </div>
-                                </>
-                            ) : (
-                                <Row>
-                                    <Spin className="center" />
-                                </Row>
-                            )}
-                        </div>
-                    </Col>
-                </Row>
+                            </div>
+                        </Col>
+                        <Col span={8} style={{ margin: 10 }}>
+                            <div className="location-info">
+                                {kioskLocation ? (
+                                    <>
+                                        <div style={{ width: "100%" }}>
+                                            <div >
+                                                <Row span={24}>
+                                                    <Col span={24}>
+                                                        {
+                                                            kioskLocation ? <Slider
+                                                                {...sliderSettings}
+                                                                autoplay
+                                                                autoplaySpeed={2000}
+                                                                style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                                            >
+                                                                {
+                                                                    kioskLocation.listImage?.map((image) => {
+                                                                        return (
+                                                                            <div style={contentStyle}>
+                                                                                <Image
+                                                                                    style={{ textAlign: "center" }}
+                                                                                    key={image.id}
+                                                                                    src={image.link}
+                                                                                />
+                                                                            </div>
+                                                                        );
+                                                                    })
+                                                                }
+                                                            </Slider> : null
+                                                        }
+
+                                                    </Col>
+                                                    <Col span={24}></Col>
+                                                    <Col span={24}>
+                                                        <div
+                                                            style={{
+                                                                background: "#afeb9d",
+                                                                marginBottom: 5,
+                                                                padding: 15,
+                                                                borderRadius: 10,
+                                                                color: "#fff",
+                                                                fontWeight: "bold",
+                                                                fontSize: 30,
+                                                            }}
+                                                        >
+                                                            <Row>
+                                                                <Col span={2}>
+                                                                    <PhoneFilled />
+                                                                </Col>
+                                                                <Col span={22} style={{ textAlign: "center" }}>
+                                                                    {kioskLocation.hotLine}
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                    </Col>
+                                                    <Col span={24}>
+                                                        <div
+                                                            style={{
+                                                                background: "#ff8442",
+                                                                marginBottom: 5,
+                                                                padding: 15,
+                                                                borderRadius: 10,
+                                                                color: "#fff",
+                                                                fontWeight: "bold",
+                                                                fontSize: 30,
+                                                            }}
+                                                        >
+                                                            <Row>
+                                                                <Col span={2}>
+                                                                    <MailFilled />
+                                                                </Col>
+                                                                <Col span={22} style={{ textAlign: "center" }}>
+                                                                    {kioskLocation.ownerEmail}
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                    </Col>
+                                                    <Col span={24}>
+                                                        <div
+                                                            style={{
+                                                                background: "#f7a197",
+                                                                marginBottom: 20,
+                                                                borderRadius: 10,
+                                                                color: "#fff",
+                                                                fontWeight: "bold",
+                                                                fontSize: 30,
+                                                            }}
+                                                        >
+                                                            <Row style={{ textAlign: "center" }}>
+                                                                <Col span={24} style={{ fontSize: 20, marginBottom: 10 }}>
+                                                                    Rating
+                                                                </Col>
+                                                            </Row>
+                                                            <Row style={{ textAlign: "center" }}>
+                                                                <Col span={24}>
+                                                                    <span>
+
+                                                                        <Rate
+
+                                                                            style={{ fontSize: 30 }}
+                                                                            tooltips={desc}
+                                                                            onChange={onChangeRating}
+                                                                            value={value}
+                                                                            character={({ index }) =>
+                                                                                customIcons[index + 1]
+                                                                            }
+                                                                        />
+                                                                        {value ? (
+                                                                            <span className="ant-rate-text">
+                                                                                {desc[value - 1]}
+                                                                            </span>
+                                                                        ) : (
+                                                                            ""
+                                                                        )}
+                                                                    </span>
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+
+                                        </div>
+                                    </>
+                                ) : (
+                                    <Row>
+                                        <Spin className="center" />
+                                    </Row>
+                                )}
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+
             </div>
-
-
-
         </div>
     );
 };

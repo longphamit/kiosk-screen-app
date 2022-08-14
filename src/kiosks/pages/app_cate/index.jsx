@@ -31,7 +31,7 @@ const AppCatePage = () => {
 
     }
     const getApp = async (id) => {
-        try{
+        try {
             const res = await getListApplicationService(
                 "",
                 "",
@@ -43,7 +43,7 @@ const AppCatePage = () => {
                 1
             );
             setListApp(res.data.data)
-        }catch(e){
+        } catch (e) {
             setListApp([])
         }
     }
@@ -104,39 +104,39 @@ const AppCatePage = () => {
                             <div style={{ color: "#fff", fontWeight: "bold", fontSize: 20 }}>ALL</div>
                         </div>
                         <Row>
-                        <ArrowUpOutlined className="center"/>
+                            <ArrowUpOutlined className="center" />
                         </Row>
                         {
-                            listAppCate?<ScrollContainer
-                            className="drag-list-vertical-container"
-                            
-                        >
-                            {
-                                listAppCate?.map(e => {
-                                    return (
-                                        <div
-                                            className="app-cate-box"
-                                            onClick={() => {
-                                                getApp(e.id)
-                                            }}
-                                        >
-                                            <img
-                                                className="app-cate-image"
-                                                alt="example"
-                                                src={e.logo}
-                                            />
-                                            <Meta
-                                                style={{ marginTop: 10, marginBottom: 10 }}
-                                                title={e.name}
-                                            />
-                                            <Divider/>
-                                        </div>
+                            listAppCate ? <ScrollContainer
+                                className="drag-list-vertical-container"
+
+                            >
+                                {
+                                    listAppCatePosition ? listAppCatePosition[0]?.map(e => {
+                                        return (
+                                            <div
+                                                className="app-cate-box"
+                                                onClick={() => {
+                                                    getApp(e.AppCategoryId)
+                                                }}
+                                            >
+                                                <img
+                                                    className="app-cate-image"
+                                                    alt="example"
+                                                    src={e.AppCategoryLogo}
+                                                />
+                                                <Meta
+                                                    style={{ marginTop: 10, marginBottom: 10 }}
+                                                    title={e.AppCategoryName}
+                                                />
+                                                <Divider />
+                                            </div>
 
 
-                                    )
-                                }) 
-                            }
-                        </ScrollContainer>:<Empty/>
+                                        )
+                                    }) : null
+                                }
+                            </ScrollContainer> : <Empty />
                         }
                     </div>
                 </Col>
@@ -174,10 +174,10 @@ const AppCatePage = () => {
                             })
                         }
                         {
-                            listApp?.length==0?<Empty className="center"/>:null
+                            listApp?.length == 0 ? <Empty className="center" /> : null
                         }
-                        
-                        
+
+
                     </Row>
                 </Col>
                 <Col span={1} />

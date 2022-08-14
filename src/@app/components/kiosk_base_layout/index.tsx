@@ -1,21 +1,8 @@
+import { Layout, Row, Col, Affix, Modal } from "antd";
 import {
-  Layout,
-  Menu,
-  Breadcrumb,
-  Row,
-  Col,
-  notification,
-  BackTop,
-  Button,
-  Affix,
-  Modal,
-} from "antd";
-import {
-  DownloadOutlined,
   HomeFilled,
   PoweroffOutlined,
   LeftCircleOutlined,
-  AppstoreFilled,
 } from "@ant-design/icons";
 import { ScrollTop } from "primereact/scrolltop";
 import { Dock } from "primereact/dock";
@@ -42,22 +29,20 @@ import { changeStatusKioskService } from "../../services/kiosk_service";
 import { KIOSK_ID } from "../../constants/key";
 import useSelector from "../../hooks/use_selector";
 import {
-  FaAppStoreIos,
   FaArchway,
   FaHome,
   FaInfoCircle,
-  FaMapMarker,
   FaMapMarkerAlt,
-  FaMusic,
-  FaPlane,
   FaStar,
 } from "react-icons/fa";
-import { IoApps, IoFastFood, IoReloadCircleSharp } from "react-icons/io5";
-import { getWeatherService } from "../../services/weather_service";
+import { MdFastfood, MdOutlineFlight } from "react-icons/md";
+import { IoApps, IoReloadCircleSharp } from "react-icons/io5";
+import { useIdleTimer } from "react-idle-timer";
 import WeatherView from "./weather";
+import IdleDetect from "./idle_detec";
+import { setSelectedIcon } from "../../redux/slices/bar_slice";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
-
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
   const kioskId = localStorage.getItem("KIOSK_ID");
@@ -71,7 +56,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
   const [modalGoogleVisible, setModalGoogleVisible] = useState(false);
-  const [selectedIcon, setSelectedIcon] = useState("");
+  const { selectedIcon } = useSelector((state) => state.bar);
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
   const onNavigate = (url: string) => {
@@ -135,6 +120,8 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
       console.log(e);
     }
   };
+
+
   useEffect(() => {
     doCronJob();
     joinRoom();
@@ -146,28 +133,34 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     setIsChangeCurrentKioskModal(false);
   };
   const iconHomeOnClick = () => {
-    setSelectedIcon("HOME");
+    dispatch(setSelectedIcon("HOME"));
     navigate("/home-page");
   };
   const iconAppOnClick = () => {
-    setSelectedIcon("APP");
+    dispatch(setSelectedIcon("APP"));
     navigate("/app-cate");
   };
   const iconMapOnClick = () => {
-    setSelectedIcon("MAP");
+    dispatch(setSelectedIcon("MAP"));
     navigate("/map");
   };
   const iconPOIOnClick = () => {
-    setSelectedIcon("POI");
+    dispatch(setSelectedIcon("POI"));
     navigate("/poi");
   };
   const iconEventOnClick = () => {
-    setSelectedIcon("EVENT");
+    dispatch(setSelectedIcon("EVENT"));
     navigate("/event");
   };
   const iconInforOnClick = () => {
-    setSelectedIcon("INFOR");
+    dispatch(setSelectedIcon("INFOR"));
     navigate("/infor");
+  };
+  const iconMoveOnClick = () => {
+    dispatch(setSelectedIcon("MOVE"));
+  };
+  const iconFoodOnClick = () => {
+    dispatch(setSelectedIcon("FOOD"));
   };
   const dockItems = [
     isBackButton
@@ -208,32 +201,12 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
 
   return (
     <>
+      
       <ModalChangeCurrenKiosk
         isChangeCurrentKioskModal={isChangeCurrentKioskModal}
         handleCancelModal={handleCancelModal}
       />
       <Layout>
-        {/* <Header className="header">
-          <div className="logo" />
-          <div>
-            <Row>
-              <Col span={20}>
-                <h2
-                  style={{ fontWeight: "bold", color: "#fff" }}
-                  onClick={() => {
-                    onNavigate("/signin");
-                  }}
-                >
-                  TIKA
-                </h2>
-              </Col>
-              <Col span={4}>
-               
-              </Col>
-            </Row>
-          </div>
-        </Header> */}
-
         <Layout>
           <Layout>
             <Content className="site-layout-background">
@@ -328,13 +301,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                         background: "#fff",
                         borderRadius: 20,
                         width: "100%",
-                        fontWeight:"bold",
-                        opacity:0.8
+                        fontWeight: "bold",
+                        opacity: 0.8,
                       }}
                     >
                       <Row className="center" style={{ width: "100%" }}>
-                        <Col
-                          span={4}
+                      <Col
+                          span={3}
                           onClick={() => {
                             iconHomeOnClick();
                           }}
@@ -342,35 +315,56 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaHome
                               style={{
-                                fontSize: 40,
-                                margin: 10,
+                                fontSize: 80,
+                                
                                 color:
-                                  selectedIcon === "HOME" ? "#059ef7" : "#000",
+                                  selectedIcon === "HOME"
+                                    ? "#059ef7"
+                                    : "#000",
                               }}
                             />
                           </div>
                           Home
                         </Col>
+                        
                         <Col
-                          span={4}
+                          span={3}
                           onClick={() => {
-                            iconAppOnClick();
+                            iconMoveOnClick();
                           }}
                         >
                           <div style={{ textAlign: "center" }}>
-                            <IoApps
+                            <MdOutlineFlight
                               style={{
                                 fontSize: 40,
                                 margin: 10,
                                 color:
-                                  selectedIcon === "APP" ? "#059ef7" : "#000",
+                                  selectedIcon === "MOVE" ? "#059ef7" : "#000",
                               }}
                             />
                           </div>
-                          App
+                          Move
                         </Col>
-
-                        <Col span={4} onClick={() => iconPOIOnClick()}>
+                        <Col
+                          span={3}
+                          onClick={() => {
+                            iconFoodOnClick();
+                          }}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <MdFastfood
+                              style={{
+                                fontSize: 40,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "FOOD" ? "#059ef7" : "#000",
+                              }}
+                            />
+                          </div>
+                          Food
+                        </Col>
+                        
+                        <Col span={3} onClick={() => iconPOIOnClick()}>
                           <div style={{ textAlign: "center" }}>
                             <FaArchway
                               style={{
@@ -383,7 +377,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           POI
                         </Col>
-                        <Col span={4} onClick={() => iconEventOnClick()}>
+                        <Col span={3} onClick={() => iconEventOnClick()}>
                           <div style={{ textAlign: "center" }}>
                             <FaStar
                               style={{
@@ -396,7 +390,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           Event
                         </Col>
-                        <Col span={4} onClick={() => iconMapOnClick()}>
+                        <Col span={3} onClick={() => iconMapOnClick()}>
                           <div
                             style={{
                               textAlign: "center",
@@ -416,7 +410,25 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           Map
                         </Col>
                         <Col
-                          span={4}
+                          span={3}
+                          onClick={() => {
+                            iconAppOnClick();
+                          }}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <IoApps
+                              style={{
+                                fontSize: 40,
+                                margin: 10,
+                                color:
+                                  selectedIcon === "APP" ? "#059ef7" : "#000",
+                              }}
+                            />
+                          </div>
+                          App
+                        </Col>
+                        <Col
+                          span={3}
                           onClick={() => {
                             iconInforOnClick();
                           }}
@@ -431,7 +443,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          Infor
+                          Info
                         </Col>
 
                         {/* {isBackButton ? (
@@ -456,7 +468,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                     offsetBottom={top}
                     style={{
                       textAlign: "right",
-
                       position: "fixed",
                       left: "80%",
                     }}
@@ -468,11 +479,13 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           margin: 50,
                           backgroundColor: "#fff",
                           borderRadius: 20,
-                          opacity:0.8
+                          opacity: 0.8,
                         }}
                       >
-                        <IoReloadCircleSharp 
-                          onClick={()=>{window.location.reload()}}
+                        <IoReloadCircleSharp
+                          onClick={() => {
+                            window.location.reload();
+                          }}
                           style={{
                             fontSize: 50,
                             color: "#3ac756",
