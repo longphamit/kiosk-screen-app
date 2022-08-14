@@ -143,7 +143,7 @@ const MapPage = () => {
     });
   };
   useEffect(() => {
-    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     setLocationViewPort();
     initialDataNearby();
   }, []);
@@ -153,10 +153,10 @@ const MapPage = () => {
       setLocations(res.data.data);
     } catch (e) {
       console.error(e);
-      setLocations({});
     }
   }
   const filterData = async (name) => {
+    console.log(name)
     setDataLoading(true);
     switch (name) {
       case 'Kiosk':
@@ -196,8 +196,9 @@ const MapPage = () => {
               <Col span={4} >
                 <div className="search-and-view-area">
                   <div class="search-bar">
-                    <input placeholder="Search..." />
-                    <SearchOutlined style={{ padding: 5 }} />
+                    {currentLocation ?
+                      <MyAddress currentLocation={currentLocation} />
+                      : null}
                   </div>
                   {isDataLoading ? <Skeleton /> :
                     locations && locations.data ?
@@ -209,7 +210,6 @@ const MapPage = () => {
                             <SpecificEventLocation event={locations.data[0]} currentLocation={currentLocation} />
                           }
                         </> : null}
-                        {/*  list */}
                       </div>
                       : locations.length !== 0 ?
                         <ListLocationInformation locations={locations} setCurrentItem={setCurrentItemDisplaying} /> :
@@ -258,9 +258,7 @@ const MapPage = () => {
             />
 
             {/* Display my address */}
-            {currentLocation ?
-              <MyAddress currentLocation={currentLocation} />
-              : null}
+
           </ReactMapGL>
         }
         <SubLocationInfomation
