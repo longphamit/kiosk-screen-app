@@ -60,6 +60,7 @@ code {
 }
 ::-webkit-scrollbar {
   width: 5px;
+  height: 1px;
   border-radius: 30px;
 }
  
@@ -70,7 +71,7 @@ code {
  
 ::-webkit-scrollbar-thumb {
   background-color: #26a3c9;
-  outline: 1px solid #fff;
+  outline: 0.5px solid #fff;
   border-radius: 30px;
 }
 .item-image-box{
