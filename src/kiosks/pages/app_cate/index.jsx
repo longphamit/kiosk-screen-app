@@ -4,14 +4,11 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { useNavigate } from "react-router-dom";
 import { KIOSK_ID } from "../../../@app/constants/key";
 import useSelector from "../../../@app/hooks/use_selector";
-import { localStorageGetReduxState } from "../../../@app/services/localstorage_service";
 import { getAllApplicationCategoryService } from "../../services/app_category_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
 import "./styles.css"
-import Slider from "react-slick";
 import { getListApplicationService } from "../../services/application_service";
 import { ArrowUpOutlined } from "@ant-design/icons";
-import { EmptyCard } from "../../../@app/components/card/empty_card";
 const { Meta } = Card;
 
 const AppCatePage = () => {

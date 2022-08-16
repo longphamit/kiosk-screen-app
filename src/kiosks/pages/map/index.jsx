@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import ReactMapGL, {
+import ReactMapGL  , {
+  FlyToInterpolator,
   NavigationControl,
   ScaleControl,
 } from "@goongmaps/goong-map-react";
-import { Col, Empty, Row, Skeleton, Space } from "antd";
+import { Col, Empty, Row, Skeleton, Space, Spin } from "antd";
 import "./styles.css";
 import { getAllPOICategoriesService, getPOINearbyByCategoryIdService, getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
@@ -47,6 +48,8 @@ const MapPage = () => {
     latitude: currentLocation.latitude,
     longitude: currentLocation.longitude,
     zoom: 13,
+    bearing: 0,
+    pitch: 40
   });
   const [locations, setLocations] = useState([])
   const setLocationViewPort = () => {
@@ -186,7 +189,7 @@ const MapPage = () => {
     <>
       <Row className="map-parent">
         {isMarkerLoading ? <Skeleton /> :
-          <ReactMapGL
+          <ReactMapGL 
             {...viewport}
             className="map"
             onViewportChange={setViewport}
@@ -219,14 +222,10 @@ const MapPage = () => {
                 </div>
               </Col>
 
-              <Col span={18}>
-                <Row>
-                  {/* POI Category */}
-                  {isPOICategoryLoading ? <Skeleton /> :
-                    <POICategoryComponent listPoiCategories={listPoiCategories} eventOnClick={filterData} />
-                  }
-                </Row>
-
+              <Col span={15} style={{zIndex:10}} >
+                {isPOICategoryLoading ? <Spin className="center"/> :
+                  <POICategoryComponent listPoiCategories={listPoiCategories} eventOnClick={filterData} />
+                }
               </Col>
               {/* Map navigate bar */}
               <Col span={1} >
@@ -260,7 +259,7 @@ const MapPage = () => {
 
             {/* Display my address */}
 
-          </ReactMapGL>
+          </ReactMapGL  >
         }
         <SubLocationInfomation
           currentItem={currentItem}
