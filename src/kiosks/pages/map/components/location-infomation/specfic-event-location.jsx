@@ -31,7 +31,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                                         event?.listImage.map(e => {
                                             return (
                                                 <div  >
-                                                    <img className="center" style={{ width: "100%", height: 500 }} key={e.id} src={e.link} />
+                                                    <img className="center" style={{  width: "100%", height: 400  }} key={e.id} src={e.link} />
                                                 </div>)
                                         })
                                     }
