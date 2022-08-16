@@ -17,7 +17,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
     return <>
         {event ?
             <div className="specific-location">
-                <ScrollContainer className="drag-list-vertical-container" vertical={true}>
+                <ScrollContainer className="specific-poi-event-scroll" vertical={true}>
                     <div>
                         <Row id="preview-image">
                             <Col span={24} >
