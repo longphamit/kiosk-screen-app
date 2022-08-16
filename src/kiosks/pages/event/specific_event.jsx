@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton, Tag } from "antd";
+import { Col, Row, Skeleton, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CustomMap } from "../../../@app/components/map/map";
@@ -80,7 +80,7 @@ export const SpecificEventPage = ({ }) => {
                                 <Row>
                                     <div className="event-map-box" style={{ width: 1000, height: 600 }}>
                                         {
-                                            direction ? <CustomMap direction={direction} marker={<EventMarker item={event} setItem={() => { }} />} /> : null
+                                            direction ? <CustomMap direction={direction} marker={<EventMarker item={event} setItem={() => { }} />} /> : <Row span={24}><Spin className="center" /></Row>
                                         }
                                     </div>
                                 </Row>

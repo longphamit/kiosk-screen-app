@@ -1,4 +1,4 @@
-import { Col, Divider, Row, Skeleton } from "antd";
+import { Col, Divider, Row, Skeleton, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPOIByIdService } from "../../services/poi_service";
@@ -84,7 +84,7 @@ export const SpecificPOIPage = ({ }) => {
                                     <div className="poi-map-box" style={{ width: 1000, height: 600 }}>
                                         {
                                             direction ?
-                                                <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : null
+                                                <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : <Row span={24}><Spin className="center"/></Row>
                                         }
                                     </div>
                                 </Row>
