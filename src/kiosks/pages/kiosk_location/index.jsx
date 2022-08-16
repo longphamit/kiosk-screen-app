@@ -23,21 +23,11 @@ import { FaAngry, FaFrownOpen, FaGrinAlt, FaGrinBeam, FaGrinHearts, FaGrinStars 
 import {
     PhoneFilled,
     MailFilled,
-    InfoCircleFilled,
-    ArrowRightOutlined,
-    Location,
-    FrownOutlined,
-    MehOutlined,
-    SmileOutlined,
 } from "@ant-design/icons";
 import { getKioskInfoService, getKioskTemplate, getKioskTemplateService } from "../../services/kiosk_service";
-import { Carousel as PrimeFaceCarousel } from "primereact/carousel";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { SpecificEventLocation } from "../map/components/location-infomation/specfic-event-location";
-import { getEventByIdService } from "../../services/event_service";
 import { kioskRatingService } from "../../services/kiosk_rating_service";
 import { KIOSK_ID } from "../../../@app/constants/key";
-import ModalLocationDescription from "./modalLocationDescrtiption";
 import { useDraggable } from "react-use-draggable-scroll";
 const { Meta } = Card;
 const contentStyle = {
@@ -128,7 +118,7 @@ const KioskLocationInfoPage = () => {
         getKioskLocation();
         getKioskTemplate();
     }, []);
-    
+
 
     const customIcons = {
         1: <FaAngry size={60} style={{ marginLeft: 10 }} />,
@@ -139,7 +129,7 @@ const KioskLocationInfoPage = () => {
     };
     return (
         <div ref={ref} {...events}>
-            <div style={{ height: "100vh" }}>
+            <div style={{ height: "100%",marginBottom:300 }}>
 
                 <div style={{ marginLeft: 50, marginRight: 50, }}>
                     <Row>
@@ -160,12 +150,13 @@ const KioskLocationInfoPage = () => {
                                                     {kioskLocation.name}
                                                 </h2>
                                             </div>
-                                            <div style={{
-                                                width:"100%", 
-                                                fontSize: 15, 
-                                                height:520,
-                                                overflow:"scroll",
-                                                padding:20, }} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
+                                            <ScrollContainer className="drag-list-vertical-container-info" vertical={true}>
+                                                <div style={{
+                                                    width: "100%",
+                                                    fontSize: 15,
+                                                    padding: 20,
+                                                }} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
+                                            </ScrollContainer>
                                         </div>
                                 }
 

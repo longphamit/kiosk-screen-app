@@ -11,6 +11,7 @@ import "./styles.css"
 import { getDirectionGoongMapService } from "../../services/goong_map_service";
 import { PoiBannerCard } from "../../../@app/components/card/banner_poi";
 import Slider from "react-slick";
+import ScrollContainer from "react-indiana-drag-scroll";
 const sliderSettings = {
     dots: true,
     infinite: true,
@@ -49,42 +50,50 @@ export const SpecificPOIPage = ({ }) => {
     }, [])
     return <>
         {poi ?
-            <div style={{ height: "100%", marginBottom: 200 }}>
-                <PoiBannerCard poi={poi} />
-                <Row style={{ marginTop: 5 }}>
-                    <Col span={10} >
-                        <div className="poi-image-box">
-                            {
-                                <Slider
-                                    {...sliderSettings}
-                                    style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                                    autoplay
-                                    autoplaySpeed={2000}
-                                >
+            <div>
+                <ScrollContainer className="specific-poi-event-scroll" vertical={true}>
+                    <div>
+                        <PoiBannerCard poi={poi} />
+                    </div>
+                    <div>
+                        <Row style={{ marginTop: 5 }}>
+                            <Col span={10} >
+                                <div className="poi-image-box">
                                     {
-                                        poi?.listImage.map(e => {
-                                            return (
-                                                <div  >
-                                                    <img className="center" style={{ width: "100%", height: 500 }} key={e.id} src={e.link} />
-                                                </div>)
-                                        })
+                                        <Slider
+                                            {...sliderSettings}
+                                            style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                            autoplay
+                                            autoplaySpeed={2000}
+                                        >
+                                            {
+                                                poi?.listImage.map(e => {
+                                                    return (
+                                                        <div  >
+                                                            <img className="center" style={{ width: "100%", height: 500 }} key={e.id} src={e.link} />
+                                                        </div>)
+                                                })
+                                            }
+                                        </Slider>
                                     }
-                                </Slider>
-                            }
-                        </div>
-                    </Col>
-                    <Col span={14}>
-                        
-                        <Row justify="center" align="middle" style={{ marginTop: 30 }}>
-                            <div className="poi-map-box" style={{ width: 1000, height: 600 }}>
-                                {
-                                    direction ?
-                                        <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : null
-                                }
-                            </div>
+                                </div>
+                            </Col>
+                            <Col span={14}>
+
+                                <Row justify="center" align="middle" style={{ marginTop: 30 }}>
+                                    <div className="poi-map-box" style={{ width: 1000, height: 600 }}>
+                                        {
+                                            direction ?
+                                                <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : null
+                                        }
+                                    </div>
+                                </Row>
+                            </Col>
                         </Row>
-                    </Col>
-                </Row>
+                    </div>
+                </ScrollContainer>
+
+
 
             </div>
             : <Skeleton />}

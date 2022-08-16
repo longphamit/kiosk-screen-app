@@ -293,6 +293,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                       textAlign: "center",
                       width: "60%",
                       position: "fixed",
+                      bottom:-30,
                       left: "20%",
                     }}
                   >
@@ -469,6 +470,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                     style={{
                       textAlign: "right",
                       position: "fixed",
+                      bottom:-30,
                       left: "80%",
                     }}
                   >

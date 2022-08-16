@@ -136,44 +136,48 @@ const AppCatePage = () => {
                     </div>
                 </Col>
                 <Col span={16} style={{ backgroundColor: "#ffff", marginBottom: 20, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
-                    <Row>
-                        {
-                            listApp?.map(items => {
-                                return (
-                                    <Col xl={8} xs={5}>
-                                        <div
-                                            className="app-box"
-                                            onClick={() => {
-                                                navigator({
-                                                    pathname:
-                                                        "/./iframe-interface?link=" +
-                                                        items.link +
-                                                        "&id=" +
-                                                        items.id,
-                                                });
-                                            }}
-                                        >
-                                            <img
-                                                style={{ height: 200 }}
-                                                className="app-image"
-                                                alt="example"
-                                                src={items.logo}
-                                            />
-                                            <Meta
-                                                style={{ marginTop: 10, marginBottom: 10 }}
-                                                title={items.name}
-                                            />
-                                        </div>
-                                    </Col>
-                                )
-                            })
-                        }
-                        {
-                            listApp?.length == 0 ? <Empty className="center" /> : null
-                        }
+                    <ScrollContainer className="specific-poi-event-scroll" vertical={true}>
+                        <div>
+                            <Row>
+                                {
+                                    listApp?.map(items => {
+                                        return (
+                                            <Col xl={8} xs={5}>
+                                                <div
+                                                    className="app-box"
+                                                    onClick={() => {
+                                                        navigator({
+                                                            pathname:
+                                                                "/./iframe-interface?link=" +
+                                                                items.link +
+                                                                "&id=" +
+                                                                items.id,
+                                                        });
+                                                    }}
+                                                >
+                                                    <img
+                                                        style={{ height: 200 }}
+                                                        className="app-image"
+                                                        alt="example"
+                                                        src={items.logo}
+                                                    />
+                                                    <Meta
+                                                        style={{ marginTop: 10, marginBottom: 10 }}
+                                                        title={items.name}
+                                                    />
+                                                </div>
+                                            </Col>
+                                        )
+                                    })
+                                }
+                                {
+                                    listApp?.length == 0 ? <Empty className="center" /> : null
+                                }
 
 
-                    </Row>
+                            </Row>
+                        </div>
+                    </ScrollContainer>
                 </Col>
                 <Col span={1} />
             </Row>

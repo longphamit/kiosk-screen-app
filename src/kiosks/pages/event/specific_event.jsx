@@ -1,4 +1,4 @@
-import { Col,Row, Skeleton, Tag } from "antd";
+import { Col, Row, Skeleton, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CustomMap } from "../../../@app/components/map/map";
@@ -8,6 +8,7 @@ import Slider from "react-slick";
 import "./styles.css"
 import { getDirectionGoongMapService } from "../../services/goong_map_service";
 import { EventBannerCard } from "../../../@app/components/card/banner_event";
+import ScrollContainer from "react-indiana-drag-scroll";
 const sliderSettings = {
     dots: true,
     infinite: true,
@@ -47,40 +48,48 @@ export const SpecificEventPage = ({ }) => {
 
     return <>
         {event ?
-            <div style={{ height: "100%", marginBottom: 200 }}>
-                <EventBannerCard event={event} />
-                <Row style={{ marginTop: 5 }}>
-                    <Col span={10} >
-                        <div className="event-image-box">
-                            {
-                                <Slider
-                                    {...sliderSettings}
-                                    style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                                    autoplay
-                                    autoplaySpeed={2000}
-                                >
+            <div >
+                <ScrollContainer className="specific-poi-event-scroll" vertical={true}>
+                    <div>
+                        <EventBannerCard event={event} />
+                    </div>
+                    <div>
+                        <Row style={{ marginTop: 5 }}>
+                            <Col span={10} >
+                                <div className="event-image-box">
                                     {
-                                        event?.listImage.map(e => {
-                                            return (
-                                                <div >
-                                                    <img className="center" style={{ width: "100%", height: 500 }} key={e.id} src={e.link} />
-                                                </div>)
-                                        })
+                                        <Slider
+                                            {...sliderSettings}
+                                            style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                            autoplay
+                                            autoplaySpeed={2000}
+                                        >
+                                            {
+                                                event?.listImage.map(e => {
+                                                    return (
+                                                        <div >
+                                                            <img className="center" style={{ width: "100%", height: 500 }} key={e.id} src={e.link} />
+                                                        </div>)
+                                                })
+                                            }
+                                        </Slider>
                                     }
-                                </Slider>
-                            }
-                        </div>
-                    </Col>
-                    <Col span={14}>
-                        <Row>
-                            <div className="event-map-box" style={{ width: 1000, height: 600 }}>
-                                {
-                                    direction ? <CustomMap direction={direction} marker={<EventMarker item={event} setItem={() => { }} />} /> : null
-                                }
-                            </div>
+                                </div>
+                            </Col>
+                            <Col span={14}>
+                                <Row>
+                                    <div className="event-map-box" style={{ width: 1000, height: 600 }}>
+                                        {
+                                            direction ? <CustomMap direction={direction} marker={<EventMarker item={event} setItem={() => { }} />} /> : null
+                                        }
+                                    </div>
+                                </Row>
+                            </Col>
                         </Row>
-                    </Col>
-                </Row>
+                    </div>
+                </ScrollContainer>
+
+
 
             </div>
             : <Skeleton />}
