@@ -58,7 +58,7 @@ const AppCatePage = () => {
         getApp("")
     }, []);
     return <div>
-        <div style={{ height: "100vh" }}>
+        <div style={{ height: "100%" }}>
             {/* {listAppCatePosition?.map((row) => {
                 return (
                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
@@ -139,7 +139,7 @@ const AppCatePage = () => {
                         }
                     </div>
                 </Col>
-                <Col span={16} style={{ backgroundColor: "#ffff", marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
+                <Col span={16} style={{ backgroundColor: "#ffff",marginBottom:20, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
                     <Row>
                         {
                             listApp?.map(items => {

@@ -8,9 +8,9 @@ import { convertTime } from "../../../@app/utils/date_util";
 import { BannerCard } from "../../../@app/components/card/banner_card";
 import { CarouselCard } from "../../../@app/components/card/carousel_card";
 import "./styles.css"
-import Slider from "react-slick";
 import { getDirectionGoongMapService } from "../../services/goong_map_service";
 import { PoiBannerCard } from "../../../@app/components/card/banner_poi";
+import Slider from "react-slick";
 const sliderSettings = {
     dots: true,
     infinite: true,

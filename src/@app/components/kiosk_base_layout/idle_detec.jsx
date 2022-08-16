@@ -8,6 +8,7 @@ import useDispatch from "../../hooks/use_dispatch";
 import { setSelectedIcon } from "../../redux/slices/bar_slice";
 import { ProgressBar } from 'primereact/progressbar';
 const TIME_OUT_DETECT_IDLE_TIME = 1*1000*5*60;
+const TIME_LIMIT_DETECT = 1*1000*30;
 const { Countdown } = Statistic;
 const IdleDetect = () => {
     const [isShowModalConfirm, setShowModalConfirm] = useState(false)
@@ -29,7 +30,7 @@ const IdleDetect = () => {
                 navigate("/home-page")
                 dispatch(setSelectedIcon("HOME"))
                 window.location.reload()
-            }, TIME_OUT_DETECT_IDLE_TIME))
+            }, TIME_LIMIT_DETECT))
         }
     };
 
@@ -106,7 +107,7 @@ const IdleDetect = () => {
                     </div>
                     <div>
                         <div style={{ fontWeight: "bold", fontSize: 20, color: "#3eafcf" }}>The screen will navigate to Home after...</div>
-                        <Countdown key={keyModal} on style={{ fontSize: 30 }} title="" value={Date.now() + TIME_OUT_DETECT_IDLE_TIME} onChange={val => {
+                        <Countdown key={keyModal} on style={{ fontSize: 30 }} title="" value={Date.now() + TIME_LIMIT_DETECT} onChange={val => {
                         }} />
                     </div>
                     <div style={{ marginTop: 30 }}>

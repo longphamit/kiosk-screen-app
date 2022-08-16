@@ -13,8 +13,8 @@ export const SubLocationInfomation = ({ currentItem, currentLocation, modalVisib
             currentItem.timeStart || currentItem.openTime ?
                 <>
                     <Modal
-                        width={800}
-                       
+                        width={1000}
+                        
                         mask={false}
                         visible={modalVisible}
                         footer={null}

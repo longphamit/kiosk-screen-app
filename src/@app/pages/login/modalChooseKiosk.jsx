@@ -62,13 +62,13 @@ const ModalChooseKiosk = ({
   return (
     <>
       <Modal
-        title="Choose your kiosk"
+       
         visible={isModalChooseKioskVisible}
         onCancel={handleCancelPoiInModal}
         footer={null}
       >
         <Form
-          {...formItemLayout}
+          style={{margin:30}}
           form={form}
           name="chooseKiosk"
           onFinish={onFinishChooseKiosk}

@@ -6,7 +6,14 @@ import { convertTime } from '../../../../../@app/utils/date_util';
 import { getDirectUrl } from '../../../../../@app/utils/direct_url_util';
 import "./../../styles.css";
 import { itemTemplate, prepareGallery, responsiveOptions, thumbnailTemplate } from './utils';
-
+import Slider from "react-slick";
+const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+};
 export const SpecificPOILocation = ({ poi, currentLocation }) => {
     const [openTime, setOpenTime] = useState();
     const [closeTime, setCloseTime] = useState();
@@ -32,8 +39,27 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
             <div className="specific-location">
                 {/* thumbnail & images */}
                 <Row id="preview-image">
-                    <Galleria value={prepareGallery(poi)} responsiveOptions={responsiveOptions} numVisible={5} circular style={{ width: '100%' }}
-                        showItemNavigators showItemNavigatorsOnHover item={itemTemplate} thumbnail={thumbnailTemplate} />
+                    <Col span={24} >
+                        <div >
+                            {
+                                <Slider
+                                    {...sliderSettings}
+                                    style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                    autoplay
+                                    autoplaySpeed={2000}
+                                >
+                                    {
+                                        poi?.listImage.map(e => {
+                                            return (
+                                                <div  >
+                                                    <img className="center" style={{ width: "100%", height: 500 }} key={e.id} src={e.link} />
+                                                </div>)
+                                        })
+                                    }
+                                </Slider>
+                            }
+                        </div>
+                    </Col>
                 </Row>
                 <Row id='basic-info-row'>
                     <Col span={16}>
@@ -86,11 +112,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                 </Row>
                 {poi.description ?
                     <Row className="element-description-poi" >
-                        {poi.description.charAt(0) === '<' ?
-
-                            <div id="embbeded-description" dangerouslySetInnerHTML={{ __html: poi.description }} className="embeddedHTML" />
-                            : <div><p>{poi.description}</p></div>
-                        }
+                        <div id="embbeded-description" dangerouslySetInnerHTML={{ __html: poi.description }} className="embeddedHTML" />
                     </Row>
                     : null}
             </div> : <Skeleton />

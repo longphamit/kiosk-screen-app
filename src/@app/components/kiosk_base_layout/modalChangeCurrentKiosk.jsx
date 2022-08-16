@@ -100,13 +100,13 @@ const ModalChangeCurrenKiosk = ({
     <>
       {isCorrectPassword ? (
         <Modal
-          title="Choose your kiosk"
           visible={isChangeCurrentKioskModal}
           onCancel={handleCancelPoiInModal}
           footer={null}
         >
           <Form
-            {...formItemLayout}
+            style={{ margin: 30 }}
+
             form={form}
             name="chooseKiosk"
             onFinish={onFinishChooseKiosk}
@@ -155,13 +155,12 @@ const ModalChangeCurrenKiosk = ({
         </Modal>
       ) : (
         <Modal
-          title="Confirm password"
           visible={isChangeCurrentKioskModal}
           onCancel={handleCancelPoiInModal}
           footer={null}
         >
           <Form
-            {...formItemLayout}
+            style={{ margin: 30 }}
             form={form}
             name="confirmPassword"
             onFinish={onFinishConfirmPassword}
@@ -180,7 +179,6 @@ const ModalChangeCurrenKiosk = ({
             >
               <Input.Password />
             </Form.Item>
-
             <Form.Item {...tailFormItemLayout}>
               {isLoading ? (
                 <Spin />

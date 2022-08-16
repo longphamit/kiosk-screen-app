@@ -43,44 +43,45 @@ export const AllEventsPage = ({ }) => {
                                         >
                                             {row.map((e) => {
                                                 return (
-                                                    <div
-                                                        className="event-box"
-                                                        onClick={() => {
-                                                            navigate(`/event/${e.EventId}`)
-                                                        }}
+                                                    e.EventStatus !== "deleted" ?
+                                                        <div
+                                                            className="event-box"
+                                                            onClick={() => {
+                                                                navigate(`/event/${e.EventId}`)
+                                                            }}
 
-                                                    >
-                                                        {
-                                                            e.EventStatus === "end" ?
-                                                                <div className="status-event-tag">
-                                                                    END
+                                                        >
+                                                            {
+                                                                e.EventStatus === "end" ?
+                                                                    <div className="status-event-tag">
+                                                                        END
+                                                                    </div> : null
+                                                            }
+                                                            {
+                                                                index == 0 ? <div className="hight-priority-event-tag">
+                                                                    <FaStar />
                                                                 </div> : null
-                                                        }
-                                                        {
-                                                            index == 0 ? <div className="hight-priority-event-tag">
-                                                                <FaStar/>
-                                                            </div> : null
-                                                        }
-                                                        <div>
-                                                            <div className="event-image" style={{
-                                                                backgroundImage: `url(${e.EventThumbnail.Link})`,
-                                                                backgroundPosition: 'center',
-                                                                backgroundSize: 'cover',
-                                                                backgroundRepeat: 'no-repeat',
-                                                                height: 270,
-                                                                width: 400,
-                                                                opacity: e.EventStatus === "end" ? 0.4 : 0.9,
-                                                            }}>
+                                                            }
+                                                            <div>
+                                                                <div className="event-image" style={{
+                                                                    backgroundImage: `url(${e.EventThumbnail.Link})`,
+                                                                    backgroundPosition: 'center',
+                                                                    backgroundSize: 'cover',
+                                                                    backgroundRepeat: 'no-repeat',
+                                                                    height: 270,
+                                                                    width: 400,
+                                                                    opacity: e.EventStatus === "end" ? 0.4 : 0.9,
+                                                                }}>
 
+
+                                                                </div>
 
                                                             </div>
 
-                                                        </div>
-
-                                                        <div>
-                                                            <p style={{ marginTop: 20 }}>{e.EventName}</p>
-                                                        </div>
-                                                    </div>
+                                                            <div>
+                                                                <p style={{ marginTop: 20 }}>{e.EventName}</p>
+                                                            </div>
+                                                        </div> : null
                                                 );
                                             })}
                                         </ScrollContainer>

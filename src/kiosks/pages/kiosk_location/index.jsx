@@ -128,21 +128,7 @@ const KioskLocationInfoPage = () => {
         getKioskLocation();
         getKioskTemplate();
     }, []);
-    const onOpenEventDetailsModal = async (position) => {
-        let eventId = position.EventId;
-        try {
-            let res = await getEventByIdService(eventId);
-            setSelectedEvent(res.data);
-            setEventDetailsVisible(true);
-        } catch (e) {
-            setSelectedEvent({});
-            console.error(e);
-            toast.error("Cannot get the event infomation!");
-        }
-    };
-    const onCancelModalLocation = () => {
-        setLocationDescriptionModalVisible(false);
-    };
+    
 
     const customIcons = {
         1: <FaAngry size={60} style={{ marginLeft: 10 }} />,
@@ -162,7 +148,7 @@ const KioskLocationInfoPage = () => {
                                 {
                                     !kioskLocation ?
                                         <Skeleton /> :
-                                        <div >
+                                        <div>
                                             <div style={{ textAlign: "center" }}>
                                                 <h2
                                                     style={{
@@ -174,7 +160,12 @@ const KioskLocationInfoPage = () => {
                                                     {kioskLocation.name}
                                                 </h2>
                                             </div>
-                                            <div style={{ fontSize: 15, }} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
+                                            <div style={{
+                                                width:"100%", 
+                                                fontSize: 15, 
+                                                height:520,
+                                                overflow:"scroll",
+                                                padding:20, }} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
                                         </div>
                                 }
 

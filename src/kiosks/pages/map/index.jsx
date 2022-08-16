@@ -153,6 +153,7 @@ const MapPage = () => {
       setLocations(res.data.data);
     } catch (e) {
       console.error(e);
+      setLocations([])
     }
   }
   const filterData = async (name) => {
@@ -193,7 +194,7 @@ const MapPage = () => {
           >
             <Row>
               {/* Search bar */}
-              <Col span={4} >
+              <Col span={5} >
                 <div className="search-and-view-area">
                   <div class="search-bar">
                     {currentLocation ?

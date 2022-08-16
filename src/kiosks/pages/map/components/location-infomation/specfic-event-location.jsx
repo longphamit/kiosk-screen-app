@@ -3,17 +3,42 @@ import QRCode from 'react-qr-code';
 import { getDirectUrl } from '../../../../../@app/utils/direct_url_util';
 import "./../../styles.css";
 import moment from "moment";
-import { Galleria } from 'primereact/galleria';
 import { STATUS_COMING_SOON, STATUS_ON_GOING } from '../../../../../@app/constants/event_constants';
-import { itemTemplate, prepareGallery, responsiveOptions, thumbnailTemplate } from './utils';
+import Slider from "react-slick";
+const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+};
 export const SpecificEventLocation = ({ event, currentLocation }) => {
     return <>
         {event ?
             <div className="specific-location">
                 {/* thumbnail & images */}
                 <Row id="preview-image">
-                    <Galleria value={prepareGallery(event)} responsiveOptions={responsiveOptions} numVisible={5} circular style={{ width: '100%' }}
-                        showItemNavigators showItemNavigatorsOnHover item={itemTemplate} thumbnail={thumbnailTemplate} />
+                <Col span={24} >
+                        <div >
+                            {
+                                <Slider
+                                    {...sliderSettings}
+                                    style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                    autoplay
+                                    autoplaySpeed={2000}
+                                >
+                                    {
+                                        event?.listImage.map(e => {
+                                            return (
+                                                <div  >
+                                                    <img className="center" style={{ width: "100%", height: 500 }} key={e.id} src={e.link} />
+                                                </div>)
+                                        })
+                                    }
+                                </Slider>
+                            }
+                        </div>
+                    </Col>
                 </Row>
                 <Row>
                     <Col span={16}>
