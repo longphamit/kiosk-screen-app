@@ -105,7 +105,6 @@ const AppCatePage = () => {
                         {
                             listAppCate ? <ScrollContainer
                                 className="drag-list-vertical-container"
-
                             >
                                 {
                                     listAppCatePosition ? listAppCatePosition[0]?.map(e => {
@@ -136,7 +135,7 @@ const AppCatePage = () => {
                         }
                     </div>
                 </Col>
-                <Col span={16} style={{ backgroundColor: "#ffff",marginBottom:20, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
+                <Col span={16} style={{ backgroundColor: "#ffff", marginBottom: 20, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
                     <Row>
                         {
                             listApp?.map(items => {

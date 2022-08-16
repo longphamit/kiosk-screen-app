@@ -5,6 +5,7 @@ import "./../../styles.css";
 import moment from "moment";
 import { STATUS_COMING_SOON, STATUS_ON_GOING } from '../../../../../@app/constants/event_constants';
 import Slider from "react-slick";
+import ScrollContainer from 'react-indiana-drag-scroll';
 const sliderSettings = {
     dots: true,
     infinite: true,
@@ -16,108 +17,117 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
     return <>
         {event ?
             <div className="specific-location">
-                {/* thumbnail & images */}
-                <Row id="preview-image">
-                <Col span={24} >
-                        <div >
-                            {
-                                <Slider
-                                    {...sliderSettings}
-                                    style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                                    autoplay
-                                    autoplaySpeed={2000}
-                                >
+                <ScrollContainer className="drag-list-vertical-container" vertical={true}>
+                    <div>
+                        <Row id="preview-image">
+                            <Col span={24} >
+                                <div >
                                     {
-                                        event?.listImage.map(e => {
-                                            return (
-                                                <div  >
-                                                    <img className="center" style={{  width: "100%", height: 400  }} key={e.id} src={e.link} />
-                                                </div>)
-                                        })
+                                        <Slider
+                                            {...sliderSettings}
+                                            style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                            autoplay
+                                            autoplaySpeed={2000}
+                                        >
+                                            {
+                                                event?.listImage.map(e => {
+                                                    return (
+                                                        <div  >
+                                                            <img className="center" style={{ width: "100%", height: 400 }} key={e.id} src={e.link} />
+                                                        </div>)
+                                                })
+                                            }
+                                        </Slider>
                                     }
-                                </Slider>
-                            }
-                        </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={16}>
-                        <Row className="element-title">
-                            <div>{event.name}</div>
+                                </div>
+                            </Col>
                         </Row>
-                        <Row className="element-other-info event-status" >
-                            {event.status === STATUS_COMING_SOON ? (
-                                <Tag color={"yellow"} >
-                                    <div style={{ padding: 5, fontWeight: 'bold' }}>
-                                        Up coming
-                                    </div>
-                                </Tag>
-                            ) : event.status === STATUS_ON_GOING ?
-                                (
-                                    <Tag color={"green"}>
-                                        <div style={{ padding: 5, fontWeight: 'bold' }}>
-                                            On going
-                                        </div>
-                                    </Tag>
-                                ) :
-                                (
-                                    <Tag color={"grey"}>
-                                        <div style={{ padding: 5, fontWeight: 'bold' }}>
-                                            End
-                                        </div>
-                                    </Tag>
-                                )
-                            }
-                        </Row>
-                    </Col>
-                    {currentLocation ?
-                        <Col span={8}>
-                            <div style={{ width: '100%' }}>
-                                <Row className="element-direction" justify="center" style={{ float: 'right' }}>
-                                    <Row style={{ width: '100%', marginTop: 10 }}>
-                                        <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, event.latitude, event.longtitude)} />
-                                    </Row>
-                                    <Row>
-                                        <p>Direction</p>
-                                    </Row>
+                    </div>
+                    <div>
+                        <Row>
+                            <Col span={16}>
+                                <Row className="element-title">
+                                    <div>{event.name}</div>
                                 </Row>
-                            </div>
-                        </Col>
-                        : null
-                    }
-                </Row>
-
-                <Row className="element-other-info" >
-                    <Col span={4}>
-                        <img src={require('../../../../../assets/images/pin-blue.png')} />
-                    </Col>
-                    <Col span={20}>
-                        {event.address + ' - ' + event.ward + ' ' + event.city}
-                    </Col>
-                </Row>
-                <Row className="element-other-info" >
-                    <Col span={4}>
-                        <img src={require('../../../../../assets/images/clock-blue.png')} />
-                    </Col>
-                    <Col span={20}>
-                        <Row>
-                            <Col span={4}> From:</Col>
-                            <Col span={20}> {moment(event.timeStart).format('HH:mm DD/MM/YYYY ')}</Col>
+                                <Row className="element-other-info event-status" >
+                                    {event.status === STATUS_COMING_SOON ? (
+                                        <Tag color={"yellow"} >
+                                            <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                                Up coming
+                                            </div>
+                                        </Tag>
+                                    ) : event.status === STATUS_ON_GOING ?
+                                        (
+                                            <Tag color={"green"}>
+                                                <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                                    On going
+                                                </div>
+                                            </Tag>
+                                        ) :
+                                        (
+                                            <Tag color={"grey"}>
+                                                <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                                    End
+                                                </div>
+                                            </Tag>
+                                        )
+                                    }
+                                </Row>
+                            </Col>
+                            {currentLocation ?
+                                <Col span={8}>
+                                    <div style={{ width: '100%' }}>
+                                        <Row className="element-direction" justify="center" style={{ float: 'right' }}>
+                                            <Row style={{ width: '100%', marginTop: 10 }}>
+                                                <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, event.latitude, event.longtitude)} />
+                                            </Row>
+                                            <Row>
+                                                <p>Direction</p>
+                                            </Row>
+                                        </Row>
+                                    </div>
+                                </Col>
+                                : null
+                            }
                         </Row>
-                        <Row>
-                            <Col span={4}>  To:</Col>
-                            <Col span={20}> {moment(event.timeEnd).format('HH:mm DD/MM/YYYY ')}</Col>
+                    </div>
+                    <div>
+                        <Row className="element-other-info" >
+                            <Col span={4}>
+                                <img src={require('../../../../../assets/images/pin-blue.png')} />
+                            </Col>
+                            <Col span={20}>
+                                {event.address + ' - ' + event.ward + ' ' + event.city}
+                            </Col>
                         </Row>
-                    </Col>
-                </Row>
-                {event.description ?
-                    <Row className="element-description-event" >
-                        {event.description.charAt(0) === '<' ?
-                            <div dangerouslySetInnerHTML={{ __html: event.description }} className="embeddedHTML" />
-                            : <div><p>{event.description}</p></div>
-                        }
-                    </Row>
-                    : null}
+                    </div>
+                    <div>
+                        <Row className="element-other-info" >
+                            <Col span={4}>
+                                <img src={require('../../../../../assets/images/clock-blue.png')} />
+                            </Col>
+                            <Col span={20}>
+                                <Row>
+                                    <Col span={4}> From:</Col>
+                                    <Col span={20}> {moment(event.timeStart).format('HH:mm DD/MM/YYYY ')}</Col>
+                                </Row>
+                                <Row>
+                                    <Col span={4}>  To:</Col>
+                                    <Col span={20}> {moment(event.timeEnd).format('HH:mm DD/MM/YYYY ')}</Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </div>
+                    <div> {event.description ?
+                        <Row className="element-description-event" >
+                            {event.description.charAt(0) === '<' ?
+                                <div dangerouslySetInnerHTML={{ __html: event.description }} className="embeddedHTML" />
+                                : <div><p>{event.description}</p></div>
+                            }
+                        </Row>
+                        : null}</div>
+                </ScrollContainer>
+                {/* thumbnail & images */}
             </div > : <Skeleton />
         }
     </>

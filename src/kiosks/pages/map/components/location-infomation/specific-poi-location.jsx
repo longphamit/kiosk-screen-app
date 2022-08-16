@@ -7,6 +7,7 @@ import { getDirectUrl } from '../../../../../@app/utils/direct_url_util';
 import "./../../styles.css";
 import { itemTemplate, prepareGallery, responsiveOptions, thumbnailTemplate } from './utils';
 import Slider from "react-slick";
+import ScrollContainer from 'react-indiana-drag-scroll';
 const sliderSettings = {
     dots: true,
     infinite: true,
@@ -38,83 +39,98 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
         {poi ?
             <div className="specific-location">
                 {/* thumbnail & images */}
-                <Row id="preview-image">
-                    <Col span={24} >
-                        <div >
-                            {
-                                <Slider
-                                    {...sliderSettings}
-                                    style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                                    autoplay
-                                    autoplaySpeed={2000}
-                                >
+                <ScrollContainer className="drag-list-vertical-container" vertical={true}>
+                    <div>
+                        <Row id="preview-image">
+                            <Col span={24} >
+                                <div >
                                     {
-                                        poi?.listImage.map(e => {
-                                            return (
-                                                <div  >
-                                                    <img className="center" style={{ width: "100%", height: 400 }} key={e.id} src={e.link} />
-                                                </div>)
-                                        })
+                                        <Slider
+                                            {...sliderSettings}
+                                            style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                            autoplay
+                                            autoplaySpeed={2000}
+                                        >
+                                            {
+                                                poi?.listImage.map(e => {
+                                                    return (
+                                                        <div  >
+                                                            <img className="center" style={{ width: "100%", height: 400 }} key={e.id} src={e.link} />
+                                                        </div>)
+                                                })
+                                            }
+                                        </Slider>
                                     }
-                                </Slider>
-                            }
-                        </div>
-                    </Col>
-                </Row>
-                <Row id='basic-info-row'>
-                    <Col span={16}>
-                        <Row className="element-title">
-                            <div>{poi.name}</div>
-                            <div id='poi-category'>{poi.poicategoryName}</div>
+                                </div>
+                            </Col>
                         </Row>
-                    </Col>
-                    <Col span={8}>
-                        <div style={{ width: '100%' }}>
-                            <Row className="element-direction" justify="center" style={{ float: 'right' }}>
-                                <Row style={{ width: '100%', marginTop: 10 }}>
-                                    <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, poi.latitude, poi.longtitude)} />
+                    </div>
+                    <div>
+                        <Row id='basic-info-row'>
+                            <Col span={16}>
+                                <Row className="element-title">
+                                    <div>{poi.name}</div>
+                                    <div id='poi-category'>{poi.poicategoryName}</div>
                                 </Row>
-                                <Row>
-                                    <p>Direction</p>
-                                </Row>
+                            </Col>
+                            <Col span={8}>
+                                <div style={{ width: '100%' }}>
+                                    <Row className="element-direction" justify="center" style={{ float: 'right' }}>
+                                        <Row style={{ width: '100%', marginTop: 10 }}>
+                                            <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, poi.latitude, poi.longtitude)} />
+                                        </Row>
+                                        <Row>
+                                            <p>Direction</p>
+                                        </Row>
 
+                                    </Row>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                    <div>
+                        <Row className="element-other-info" >
+                            <Col span={4}>
+                                <img src={require('../../../../../assets/images/pin-blue.png')} />
+                            </Col>
+                            <Col span={20}>
+                                {poi.address + ' - ' + poi.ward + ' ' + poi.city}
+                            </Col>
+                        </Row>
+                    </div>
+
+                    <div>
+                        <Row className="element-other-info" >
+                            <Col span={4}>
+                                <img src={require('../../../../../assets/images/clock-blue.png')} />
+                            </Col>
+                            <Col span={20}>
+                                {dayOfWeeks ? dayOfWeeks.map(day => (
+                                    <>
+                                        <Row>
+                                            <Col span={12}>
+                                                {day}
+                                            </Col>
+                                            <Col span={12}>
+                                                {openTime + ' - ' + closeTime}
+                                            </Col>
+                                        </Row>
+
+                                    </>
+                                )) : null}
+                            </Col>
+                        </Row>
+                    </div>
+                    <div>
+                        {poi.description ?
+                            <Row className="element-description-poi" >
+                                <div id="embbeded-description" dangerouslySetInnerHTML={{ __html: poi.description }} className="embeddedHTML" />
                             </Row>
-                        </div>
-                    </Col>
-                </Row>
-                <Row className="element-other-info" >
-                    <Col span={4}>
-                        <img src={require('../../../../../assets/images/pin-blue.png')} />
-                    </Col>
-                    <Col span={20}>
-                        {poi.address + ' - ' + poi.ward + ' ' + poi.city}
-                    </Col>
-                </Row>
-                <Row className="element-other-info" >
-                    <Col span={4}>
-                        <img src={require('../../../../../assets/images/clock-blue.png')} />
-                    </Col>
-                    <Col span={20}>
-                        {dayOfWeeks ? dayOfWeeks.map(day => (
-                            <>
-                                <Row>
-                                    <Col span={12}>
-                                        {day}
-                                    </Col>
-                                    <Col span={12}>
-                                        {openTime + ' - ' + closeTime}
-                                    </Col>
-                                </Row>
+                            : null}
+                    </div>
 
-                            </>
-                        )) : null}
-                    </Col>
-                </Row>
-                {poi.description ?
-                    <Row className="element-description-poi" >
-                        <div id="embbeded-description" dangerouslySetInnerHTML={{ __html: poi.description }} className="embeddedHTML" />
-                    </Row>
-                    : null}
+                </ScrollContainer>
+
             </div> : <Skeleton />
         }
     </>

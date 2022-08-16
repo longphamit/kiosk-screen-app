@@ -195,7 +195,6 @@ background: radial-gradient(circle, rgba(211,251,254,1) 0%, rgba(217,233,255,1) 
 
 .search-and-view-area {
   background-color: white;
-  overflow: scroll;
 }
 
 .reload-map {
