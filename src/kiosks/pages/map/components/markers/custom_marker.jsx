@@ -7,8 +7,8 @@ export const CustomMarker = ({ item, imgSrc }) => {
             color="black"
             latitude={parseFloat(item.latitude)}
             longitude={parseFloat(item.longtitude)}
-            offsetLeft={-20}
-            offsetTop={-10}
+            offsetLeft={-40}
+            offsetTop={-80}
         >
             <Col>
                 <div>
@@ -16,8 +16,12 @@ export const CustomMarker = ({ item, imgSrc }) => {
                         id="marker"
                         alt="example"
                         src={imgSrc}
+                        style={{width:100}}
                     />
-                    <p>
+                    <p style={{
+                        fontWeight:"bold",
+                        fontSize:15
+                    }}>
                         {item.name}
                     </p>
                 </div>

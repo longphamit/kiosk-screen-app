@@ -10,11 +10,12 @@ import { ToastContainer } from "react-toastify";
 
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { HOST_SIGNALR } from "./@app/constants/host";
+import { useIdleTimer } from "react-idle-timer";
+import { useNavigate } from "react-router-dom";
+import IdleDetect from "./@app/components/kiosk_base_layout/idle_detec";
 
 function App() {
-  useEffect(() => {
-    
-  });
+  
   return (
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>

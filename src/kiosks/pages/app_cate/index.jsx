@@ -4,14 +4,11 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { useNavigate } from "react-router-dom";
 import { KIOSK_ID } from "../../../@app/constants/key";
 import useSelector from "../../../@app/hooks/use_selector";
-import { localStorageGetReduxState } from "../../../@app/services/localstorage_service";
 import { getAllApplicationCategoryService } from "../../services/app_category_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
 import "./styles.css"
-import Slider from "react-slick";
 import { getListApplicationService } from "../../services/application_service";
 import { ArrowUpOutlined } from "@ant-design/icons";
-import { EmptyCard } from "../../../@app/components/card/empty_card";
 const { Meta } = Card;
 
 const AppCatePage = () => {
@@ -23,7 +20,6 @@ const AppCatePage = () => {
     const navigator = useNavigate()
     const getKioskTemplate = async () => {
         setTimeout((() => {
-            console.log("abc")
             getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res => {
                 console.log(res.data)
             })
@@ -31,7 +27,7 @@ const AppCatePage = () => {
 
     }
     const getApp = async (id) => {
-        try{
+        try {
             const res = await getListApplicationService(
                 "",
                 "",
@@ -43,7 +39,7 @@ const AppCatePage = () => {
                 1
             );
             setListApp(res.data.data)
-        }catch(e){
+        } catch (e) {
             setListApp([])
         }
     }
@@ -59,7 +55,7 @@ const AppCatePage = () => {
         getApp("")
     }, []);
     return <div>
-        <div style={{ height: "100vh" }}>
+        <div style={{ height: "100%" }}>
             {/* {listAppCatePosition?.map((row) => {
                 return (
                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
@@ -104,81 +100,84 @@ const AppCatePage = () => {
                             <div style={{ color: "#fff", fontWeight: "bold", fontSize: 20 }}>ALL</div>
                         </div>
                         <Row>
-                        <ArrowUpOutlined className="center"/>
+                            <ArrowUpOutlined className="center" />
                         </Row>
                         {
-                            listAppCate?<ScrollContainer
-                            className="drag-list-vertical-container"
-                            
-                        >
-                            {
-                                listAppCate?.map(e => {
-                                    return (
-                                        <div
-                                            className="app-cate-box"
-                                            onClick={() => {
-                                                getApp(e.id)
-                                            }}
-                                        >
-                                            <img
-                                                className="app-cate-image"
-                                                alt="example"
-                                                src={e.logo}
-                                            />
-                                            <Meta
-                                                style={{ marginTop: 10, marginBottom: 10 }}
-                                                title={e.name}
-                                            />
-                                            <Divider/>
-                                        </div>
+                            listAppCate ? <ScrollContainer
+                                className="drag-list-vertical-container"
+                            >
+                                {
+                                    listAppCatePosition ? listAppCatePosition[0]?.map(e => {
+                                        return (
+                                            <div
+                                                className="app-cate-box"
+                                                onClick={() => {
+                                                    getApp(e.AppCategoryId)
+                                                }}
+                                            >
+                                                <img
+                                                    className="app-cate-image"
+                                                    alt="example"
+                                                    src={e.AppCategoryLogo}
+                                                />
+                                                <Meta
+                                                    style={{ marginTop: 10, marginBottom: 10 }}
+                                                    title={e.AppCategoryName}
+                                                />
+                                                <Divider />
+                                            </div>
 
 
-                                    )
-                                }) 
-                            }
-                        </ScrollContainer>:<Empty/>
+                                        )
+                                    }) : null
+                                }
+                            </ScrollContainer> : <Empty />
                         }
                     </div>
                 </Col>
-                <Col span={16} style={{ backgroundColor: "#ffff", marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
-                    <Row>
-                        {
-                            listApp?.map(items => {
-                                return (
-                                    <Col xl={8} xs={5}>
-                                        <div
-                                            className="app-box"
-                                            onClick={() => {
-                                                navigator({
-                                                    pathname:
-                                                        "/./iframe-interface?link=" +
-                                                        items.link +
-                                                        "&id=" +
-                                                        items.id,
-                                                });
-                                            }}
-                                        >
-                                            <img
-                                                style={{ height: 200 }}
-                                                className="app-image"
-                                                alt="example"
-                                                src={items.logo}
-                                            />
-                                            <Meta
-                                                style={{ marginTop: 10, marginBottom: 10 }}
-                                                title={items.name}
-                                            />
-                                        </div>
-                                    </Col>
-                                )
-                            })
-                        }
-                        {
-                            listApp?.length==0?<Empty className="center"/>:null
-                        }
-                        
-                        
-                    </Row>
+                <Col span={16} style={{ backgroundColor: "#ffff", marginBottom: 20, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
+                    <ScrollContainer hideScrollbars={true} className="specific-poi-event-scroll" vertical={true}>
+                        <div>
+                            <Row>
+                                {
+                                    listApp?.map(items => {
+                                        return (
+                                            <Col xl={8} xs={5}>
+                                                <div
+                                                    className="app-box"
+                                                    onClick={() => {
+                                                        navigator({
+                                                            pathname:
+                                                                "/./iframe-interface?link=" +
+                                                                items.link +
+                                                                "&id=" +
+                                                                items.id,
+                                                        });
+                                                    }}
+                                                >
+                                                    <img
+                                                        style={{ height: 200 }}
+                                                        className="app-image"
+                                                        alt="example"
+                                                        src={items.logo}
+                                                    />
+                                                    <Meta
+                                                        style={{ marginTop: 10, marginBottom: 10 }}
+                                                        title={items.name}
+                                                    />
+                                                </div>
+                                            </Col>
+                                        )
+                                    })
+                                }
+                                {
+                                    listApp?.length == 0 ? <Empty className="center" /> : null
+                                }
+
+
+                            </Row>
+                        </div>
+                    </ScrollContainer>
                 </Col>
                 <Col span={1} />
             </Row>

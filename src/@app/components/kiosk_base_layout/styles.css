@@ -24,3 +24,7 @@
     border-radius: 20px;
     background-color: #26a3c9;
   }
+  .ant-modal-content {
+    border-radius: 20px;
+    /* background: red; */
+  }

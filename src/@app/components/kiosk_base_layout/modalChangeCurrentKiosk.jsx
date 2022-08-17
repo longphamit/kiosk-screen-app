@@ -83,8 +83,8 @@ const ModalChangeCurrenKiosk = ({
     setIsLoading(true);
     try {
       const currenKiosk = localStorage.getItem(KIOSK_ID);
-      if(currenKiosk){
-        await changeStatusKioskService(currenKiosk,false);
+      if (currenKiosk) {
+        await changeStatusKioskService(currenKiosk, false);
       }
       localStorageClearService();
       logoutRedux();
@@ -96,18 +96,17 @@ const ModalChangeCurrenKiosk = ({
       window.location.reload();
     }
   };
-
   return (
     <>
       {isCorrectPassword ? (
         <Modal
-          title="Choose your kiosk"
           visible={isChangeCurrentKioskModal}
           onCancel={handleCancelPoiInModal}
           footer={null}
         >
           <Form
-            {...formItemLayout}
+            style={{ margin: 30 }}
+
             form={form}
             name="chooseKiosk"
             onFinish={onFinishChooseKiosk}
@@ -126,10 +125,10 @@ const ModalChangeCurrenKiosk = ({
               <Select name="selectProvince">
                 {listKiosk
                   ? listKiosk.map((item) => (
-                      <Option key={item.id} value={item.id}>
-                        {item.name}
-                      </Option>
-                    ))
+                    <Option key={item.id} value={item.id}>
+                      {item.name}
+                    </Option>
+                  ))
                   : null}
               </Select>
             </Form.Item>
@@ -156,13 +155,12 @@ const ModalChangeCurrenKiosk = ({
         </Modal>
       ) : (
         <Modal
-          title="Confirm password"
           visible={isChangeCurrentKioskModal}
           onCancel={handleCancelPoiInModal}
           footer={null}
         >
           <Form
-            {...formItemLayout}
+            style={{ margin: 30 }}
             form={form}
             name="confirmPassword"
             onFinish={onFinishConfirmPassword}
@@ -181,7 +179,6 @@ const ModalChangeCurrenKiosk = ({
             >
               <Input.Password />
             </Form.Item>
-
             <Form.Item {...tailFormItemLayout}>
               {isLoading ? (
                 <Spin />

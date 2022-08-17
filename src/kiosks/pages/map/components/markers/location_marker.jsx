@@ -1,3 +1,4 @@
+import { KIOSK_ID } from "../../../../../@app/constants/key";
 import EventMarker from "./event_marker"
 import { HereMarker } from "./here_marker";
 import KioskMarker from "./kiosk_marker";
@@ -16,7 +17,7 @@ export const LocationMarker = ({ events, kioks, locations, setItem, currentLocat
         }
         {
             kioks.map((i) => (
-                <KioskMarker item={i} currentLocation={currentLocation} />
+                i.id.toLowerCase() !== localStorage.getItem(KIOSK_ID).toLowerCase() ? <KioskMarker item={i} currentLocation={currentLocation} /> : null
             ))
         }
         <> <HereMarker currentLocation={currentLocation} /></>

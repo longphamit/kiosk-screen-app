@@ -7,8 +7,9 @@ import { Card, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, KIOSK_ID } from "../../../@app/constants/key";
+import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, KIOSK_ID, USER_ID } from "../../../@app/constants/key";
 import { getHomeBannerService } from "../../services/home_service";
+import { getKioskTemplateService } from "../../services/kiosk_service";
 const { Meta } = Card;
 const contentStyle = {
   height: "300px",
@@ -25,10 +26,14 @@ const sliderSettings = {
   slidesToShow: 1,
   slidesToScroll: 1
 };
+
 const HomePage = () => {
   const [banners, setBanners] = useState()
   const getHomeBanner = async () => {
-    const res = await getHomeBannerService();
+    const partyId=localStorage.getItem(USER_ID)
+    const kioskId=localStorage.getItem(KIOSK_ID)
+    const res = await getHomeBannerService(partyId,kioskId);
+    console.log(res.data)
     setBanners(res.data)
   }
   const navigate=useNavigate()
@@ -39,10 +44,15 @@ const HomePage = () => {
       console.log(position)
     });
   }
- 
+  const getKioskTemplate=async()=>{
+    getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res=>{
+      console.log(res.data)
+    })
+  }
   useEffect(() => {
     window.scrollTo({ top: 50, left: 0, behavior: 'smooth' });
     getHomeBanner();
+    getKioskTemplate();
     getCurrentLocation();
   }, []);
   const onClickBanner = (banner) => {
@@ -65,7 +75,7 @@ const HomePage = () => {
       <div style={{marginLeft: 50, marginRight: 50, height: "100vh" }}>
         <Row>
           <Col span={24}>
-            <Slider
+            {banners?<Slider
             {...sliderSettings}
               style={{ margin: 10, textAlign: "center", alignItems: "center" }}
               autoplay
@@ -73,15 +83,23 @@ const HomePage = () => {
             >
               {banners?.map((image) => {
                 return (
-                  <div>
-                    <Row>
-                    <img className="center home-image-banner" src={image.link} style={{width:"100%",maxHeight:800}}/>
+                  <div >
+                    <Row >
+                      <div style={{
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        borderRadius:30,
+                        backgroundImage:`url(${image.link})`,width:"100%",height:800}}>
+                      
+                      </div>
+                      {/* <img className="center home-image-banner" src={image.link} style={{width:"100%",maxHeight:800}}/> */}
                     </Row>
                   </div>
                 );
               }
               )}
-            </Slider>
+            </Slider>:null}
           </Col>
         </Row>
 

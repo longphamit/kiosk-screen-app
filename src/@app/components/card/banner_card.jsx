@@ -1,6 +1,7 @@
 import { Col, Row } from "antd"
 
 export const BannerCard = ({ item }) => {
+    console.log(item)
     return <>
         <Row>
             <Col span={24} style={{
@@ -14,9 +15,14 @@ export const BannerCard = ({ item }) => {
 
             </Col>
             <div style={{ zIndex: 1, position: 'relative', width: '40%', color: 'white', marginTop: -200, marginLeft: 30, fontWeight: 'bold', fontSize: 16 }}>
-                <div style={{backgroundColor:"#fff",padding:20,borderRadius:20,opacity:0.8}}>
-                <div  dangerouslySetInnerHTML={{ __html: item?.description }} />
+                <div style={{color:"#000",backgroundColor:"#fff",padding:20,borderRadius:20,opacity:0.8}}>
+                <div  dangerouslySetInnerHTML={{ __html: item.description }} />
                 </div>
+                <Row>
+                    <Col>
+                        
+                    </Col>
+                </Row>
             </div>
         </Row>
     </>
