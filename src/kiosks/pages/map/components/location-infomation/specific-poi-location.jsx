@@ -39,11 +39,11 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
         {poi ?
             <div className="specific-location">
                 {/* thumbnail & images */}
-                <ScrollContainer className="specific-poi-event-scroll" vertical={true}>
+                <ScrollContainer ignoreElements={".prevent-drag-scroll"} className="specific-poi-event-scroll" vertical={true}>
                     <div>
                         <Row id="preview-image">
                             <Col span={24} >
-                                <div >
+                                <div className='prevent-drag-scroll'>
                                     {
                                         <Slider
                                             {...sliderSettings}

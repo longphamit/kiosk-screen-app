@@ -51,14 +51,14 @@ export const SpecificPOIPage = ({ }) => {
     return <>
         {poi ?
             <div>
-                <ScrollContainer className="specific-poi-event-scroll" vertical={true}>
+                <ScrollContainer ignoreElements={".prevent-drag-scroll"} className="specific-poi-event-scroll" vertical={true}>
                     <div>
                         <PoiBannerCard poi={poi} />
                     </div>
                     <div>
                         <Row style={{ marginTop: 5 }}>
                             <Col span={10} >
-                                <div className="poi-image-box">
+                                <div className="poi-image-box prevent-drag-scroll" style={{zIndex:10}}>
                                     {
                                         <Slider
                                             {...sliderSettings}
@@ -81,7 +81,7 @@ export const SpecificPOIPage = ({ }) => {
                             <Col span={14}>
 
                                 <Row justify="center" align="middle" style={{ marginTop: 30 }}>
-                                    <div className="poi-map-box" style={{ width: 1000, height: 600 }}>
+                                    <div className="poi-map-box prevent-drag-scroll" style={{ width: 1000, height: 600 }}>
                                         {
                                             direction ?
                                                 <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : <Row span={24}><Spin className="center"/></Row>

@@ -49,14 +49,14 @@ export const SpecificEventPage = ({ }) => {
     return <>
         {event ?
             <div >
-                <ScrollContainer className="specific-poi-event-scroll" vertical={true}>
+                <ScrollContainer ignoreElements={".prevent-drag-scroll"} className="specific-poi-event-scroll" vertical={true}>
                     <div>
                         <EventBannerCard event={event} />
                     </div>
                     <div>
                         <Row style={{ marginTop: 5 }}>
                             <Col span={10} >
-                                <div className="event-image-box">
+                                <div className="event-image-box prevent-drag-scroll">
                                     {
                                         <Slider
                                             {...sliderSettings}
@@ -78,7 +78,7 @@ export const SpecificEventPage = ({ }) => {
                             </Col>
                             <Col span={14}>
                                 <Row>
-                                    <div className="event-map-box" style={{ width: 1000, height: 600 }}>
+                                    <div className="event-map-box prevent-drag-scroll" style={{ width: 1000, height: 600 }}>
                                         {
                                             direction ? <CustomMap direction={direction} marker={<EventMarker item={event} setItem={() => { }} />} /> : <Row span={24}><Spin className="center" /></Row>
                                         }

@@ -136,7 +136,7 @@ const AppCatePage = () => {
                     </div>
                 </Col>
                 <Col span={16} style={{ backgroundColor: "#ffff", marginBottom: 20, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
-                    <ScrollContainer className="specific-poi-event-scroll" vertical={true}>
+                    <ScrollContainer hideScrollbars={true} className="specific-poi-event-scroll" vertical={true}>
                         <div>
                             <Row>
                                 {
