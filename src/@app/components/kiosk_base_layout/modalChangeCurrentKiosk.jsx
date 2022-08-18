@@ -90,7 +90,9 @@ const ModalChangeCurrenKiosk = ({
       logoutRedux();
       navigate("/signin");
     } catch (error) {
-      alert(error)
+      localStorageClearService();
+      logoutRedux();
+      navigate("/signin");
       console.log(error);
     } finally {
       setIsLoading(false);
