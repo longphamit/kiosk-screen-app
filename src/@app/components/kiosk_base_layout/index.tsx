@@ -344,7 +344,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          Move
+                          Transport
                         </Col>
                         <Col
                           span={3}
