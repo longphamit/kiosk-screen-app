@@ -319,8 +319,8 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div style={{ textAlign: "center" }}>
                             <FaHome
                               style={{
-                                fontSize: 80,
-                                
+                                fontSize: 40,
+                                margin: 10,
                                 color:
                                   selectedIcon === "HOME"
                                     ? "#059ef7"
