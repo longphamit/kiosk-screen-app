@@ -7,3 +7,9 @@ export const getListApplicationService = async (Name:any,PartyName:any,PartyEmai
   );
   return response.data;
 };
+export const getListApplicationServiceByTemplateId = async (templateId:any) => {
+  const response = await request.get(
+    `${HOST}/v1/my-app/template?templateId=${templateId}`
+  );
+  return response.data;
+};

@@ -7,21 +7,33 @@ import useSelector from "../../../@app/hooks/use_selector";
 import { getAllApplicationCategoryService } from "../../services/app_category_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
 import "./styles.css"
-import { getListApplicationService } from "../../services/application_service";
+import { getListApplicationService, getListApplicationServiceByTemplateId } from "../../services/application_service";
 import { ArrowUpOutlined } from "@ant-design/icons";
+import { localStorageGetReduxState } from "../../../@app/services/localstorage_service";
 const { Meta } = Card;
 
 const AppCatePage = () => {
-    const { listEventPosition, listAppCatePosition } = useSelector(
+    const { listEventPosition, listAppCatePosition, templateId } = useSelector(
         (state) => state.home_view
     );
+
     const [listAppCate, setListAppCate] = useState()
     const [listApp, setListApp] = useState()
     const navigator = useNavigate()
     const getKioskTemplate = async () => {
+        if (templateId) {
+            getListApplicationServiceByTemplateId(templateId).then(
+                res => setListApp(res.data)
+            )
+        }
         setTimeout((() => {
             getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res => {
-                console.log(res.data)
+                console.log(res)
+                if (!templateId) {
+                    getListApplicationServiceByTemplateId(res.data.templateId).then(
+                        res => setListApp(res.data)
+                    )
+                }
             })
         }), 3000)
 
@@ -52,7 +64,7 @@ const AppCatePage = () => {
         getAppCate()
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         getKioskTemplate()
-        getApp("")
+
     }, []);
     return <div>
         <div style={{ height: "100%" }}>
