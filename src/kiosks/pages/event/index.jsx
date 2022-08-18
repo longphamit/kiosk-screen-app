@@ -28,18 +28,19 @@ export const AllEventsPage = ({ }) => {
         getKioskTemplate()
     }, []);
     return <>
-        <div style={{ height: '100vh' }}>
-            <Row>
-                <div style={{ marginLeft: 50, marginRight: 50 }}>
+        <div style={{ height: '100%',marginBottom:200 }}>
+            <Row span={24}>
+                <Col style={{ marginLeft: 50, marginRight: 50}}>
                     {listEventPosition?.map((row, index) => {
-                        console.log(index)
                         return (
                             <div>
-                                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                                    <Col span={24}>
+                                <Row span={24}>
+                                    <Col span={21}>
                                         <ScrollContainer
+                                            key={index}
                                             className="drag-list-container"
                                             horizontal={true}
+
                                         >
                                             {row.map((e) => {
                                                 return (
@@ -90,7 +91,7 @@ export const AllEventsPage = ({ }) => {
                             </div>
                         );
                     })}
-                </div>
+                </Col>
             </Row>
         </div>
 
