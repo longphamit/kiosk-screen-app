@@ -2,12 +2,12 @@ import { Card, Col, Divider, Empty, Row } from "antd";
 import { useEffect, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { useNavigate } from "react-router-dom";
-import { KIOSK_ID } from "../../../@app/constants/key";
+import { KIOSK_ID, USER_ID } from "../../../@app/constants/key";
 import useSelector from "../../../@app/hooks/use_selector";
 import { getAllApplicationCategoryService } from "../../services/app_category_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
 import "./styles.css"
-import { getListApplicationService, getListApplicationServiceByTemplateId } from "../../services/application_service";
+import { getListApplicationServiceByTemplateIdService, getListMyApplicationService } from "../../services/application_service";
 import { ArrowUpOutlined } from "@ant-design/icons";
 import { localStorageGetReduxState } from "../../../@app/services/localstorage_service";
 const { Meta } = Card;
@@ -20,37 +20,33 @@ const AppCatePage = () => {
     const [listAppCate, setListAppCate] = useState()
     const [listApp, setListApp] = useState()
     const navigator = useNavigate()
+    const getListAppByTemplateId = async () => {
+        const res = await getListApplicationServiceByTemplateIdService(templateId);
+        setListApp(res.data)
+    }
     const getKioskTemplate = async () => {
         if (templateId) {
-            getListApplicationServiceByTemplateId(templateId).then(
-                res => setListApp(res.data)
-            )
+            getListAppByTemplateId();
         }
         setTimeout((() => {
             getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res => {
                 console.log(res)
                 if (!templateId) {
-                    getListApplicationServiceByTemplateId(res.data.templateId).then(
-                        res => setListApp(res.data)
-                    )
+                    getListAppByTemplateId()
                 }
             })
         }), 3000)
 
     }
-    const getApp = async (id) => {
+    const getApp = async (appCateId) => {
         try {
-            const res = await getListApplicationService(
-                "",
-                "",
-                "",
-                id,
-                "",
-                "",
-                -1,
-                1
+            console.log(appCateId)
+            const res = await getListMyApplicationService(
+                appCateId,
+                localStorage.getItem(USER_ID)
+
             );
-            setListApp(res.data.data)
+            setListApp(res.data)
         } catch (e) {
             setListApp([])
         }
@@ -106,7 +102,7 @@ const AppCatePage = () => {
                             className="app-cate-box"
                             style={{ backgroundColor: "#26a3c9", paddingBottom: 20, marginBottom: 10 }}
                             onClick={() => {
-                                getApp("")
+                                getListAppByTemplateId()
                             }}
                         >
                             <div style={{ color: "#fff", fontWeight: "bold", fontSize: 20 }}>ALL</div>
