@@ -106,10 +106,17 @@ const LoginPage: React.FC = () => {
       <Row
         justify="center"
         align="middle"
-        style={{ minHeight: "100vh", backgroundColor: PRIMARY_COLOR }}
+        style={{ minHeight: "100vh", backgroundColor: "#fff" }}
       >
-        <Col span={8} />
-        <Col span={8} className="login-form">
+        <Col span={12}>
+          <div>
+            <img
+              width="100%"
+              src={require("../../../assets/images/user_kiosk_3.png")}
+            />
+          </div>
+        </Col>
+        <Col span={8} className="login-form" >
           <h2 style={{ textAlign: "center", fontWeight: "bold", padding: 15 }}>
             {t("signin")}
           </h2>
