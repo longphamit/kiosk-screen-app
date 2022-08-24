@@ -3,14 +3,14 @@ import ReactMapGL, {
   NavigationControl,
   ScaleControl,
 } from "@goongmaps/goong-map-react";
-import { Button, Col, Drawer, Empty, Row, Skeleton, Space, Spin } from "antd";
+import { Col, Drawer, Empty, Row, Skeleton, Space, Spin } from "antd";
 import "./styles.css";
 import { getAllPOICategoriesService, getPOINearbyByCategoryIdService, getPOINearbyService } from "../../services/poi_service";
 import { toast } from "react-toastify";
 import { getEventNearbyService } from "../../services/event_service";
 import { GOONG_ACCESS_MAP_KEY, USER_ID } from "../../../@app/constants/key";
 import { getKioskNearbyService } from "../../services/kiosk_service";
-import { AimOutlined, SearchOutlined } from "@ant-design/icons";
+import { AimOutlined } from "@ant-design/icons";
 import { ListLocationInformation } from "./components/location-infomation/list-location-infomation";
 import { SpecificEventLocation } from "./components/location-infomation/specfic-event-location";
 import { SpecificPOILocation } from "./components/location-infomation/specific-poi-location";
@@ -18,6 +18,7 @@ import LocationMarker from "./components/markers/location_marker";
 import MyAddress from "./components/my-address-info";
 import POICategoryComponent from "./components/poi_category";
 import { SubLocationInfomation } from "./components/location-infomation/sub-location-infomation";
+import { LoadingMapComponent } from "./components/loading/loading_map_card";
 const scaleControlStyle = {
   left: '25%',
   bottom: 8,
@@ -38,7 +39,6 @@ const MapPage = () => {
   const [isPOICategoryLoading, setPOICategoryLoading] = useState(false);
   const [currentItem, setCurrentItem] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  const [visibleInfo, setVisibleInfo] = useState(false)
   const [viewport, setViewport] = useState({
     width: "100%",
     height: '93vh',
@@ -184,121 +184,119 @@ const MapPage = () => {
   return (
     <>
       {
-        currentLocation ? 
-        <div>
-          {locations ? <Drawer
-            width={720}
-            onClose={() => { setLocations(null) }}
-            visible={locations ? true : false}
-            placement={"left"}
-            getContainer={false}
-            closable={false}
-            bodyStyle={{ paddingBottom: 80 }}
-          >
-            <div className="search-and-view-area">
-              <div>
-                {currentLocation ?
-                  <Row>
-                    <Col span={18}><MyAddress currentLocation={currentLocation} /></Col>
-                    <Col span={5}> <div onClick={() => { setLocations(null) }} style={{
-                      padding: 10,
-                      backgroundColor: "#eb9c96",
-                      borderRadius: 20,
-                      fontWeight: "bold",
-                      fontSize: 20,
-                      color: "#fff",
-                      textAlign: "center",
-                      marginLeft: 10,
-                      marginRight: 10
-                    }}>
-                      Cancel
-                    </div></Col>
-                  </Row>
-                  : null}
-              </div>
-              {isDataLoading ? <Skeleton /> :
-                locations && locations.data ?
-                  <div class="location-information">
-                    {locations.data.length === 1 ? <>
-                      {/* Specific location */}
-                      {locations.type === 'poi' ?
-                        <SpecificPOILocation poi={locations.data[0]} currentLocation={currentLocation} /> :
-                        <SpecificEventLocation event={locations.data[0]} currentLocation={currentLocation} />
-                      }
-                    </> : null}
-                  </div>
-                  : locations.length !== 0 ?
-                    <ListLocationInformation locations={locations} setCurrentItem={setCurrentItemDisplaying} /> :
-                    <><Empty style={{ marginTop: "45%" }} /></>
-              }
-            </div>
-          </Drawer> : null}
-
-          <Row span={24} className="map-parent">
-            {isMarkerLoading ? <Skeleton /> :
-              <Col span={24}>
+        currentLocation ?
+          <div>
+            {locations ? <Drawer
+              width={720}
+              onClose={() => { setLocations(null) }}
+              visible={locations ? true : false}
+              placement={"left"}
+              getContainer={false}
+              closable={false}
+              bodyStyle={{ paddingBottom: 80 }}
+            >
+              <div className="search-and-view-area">
                 <div>
-                  <ReactMapGL
-                    {...viewport}
-                    onViewportChange={setViewport}
-                    goongApiAccessToken={GOONG_ACCESS_MAP_KEY}
-                  >
+                  {currentLocation ?
                     <Row>
-                      <Col span={5} />
-                      {/* Search bar */}
-                      <Col span={15}>
-                        {isPOICategoryLoading ? <Spin className="center" /> :
-                          <POICategoryComponent listPoiCategories={listPoiCategories} eventOnClick={filterData} />
-                        }
-                      </Col>
-                      {/* Map navigate bar */}
-                      <Col span={1} >
-                        <Space align="baseline" direction="vertical">
-                          <NavigationControl style={navControlStyle} />
-                          {/* Reload Map */}
-                          <div className="reload-map">
-                            <button class="reload-map-tooltip" type="button" onClick={() => { reloadMap() }} >
-                              <AimOutlined />
-                              <span class="reload-map-tooltiptext">My location</span>
-                            </button>
-                          </div>
-                        </Space>
-                      </Col>
+                      <Col span={18}><MyAddress currentLocation={currentLocation} /></Col>
+                      <Col span={5}> <div onClick={() => { setLocations(null) }} style={{
+                        padding: 10,
+                        backgroundColor: "#eb9c96",
+                        borderRadius: 20,
+                        fontWeight: "bold",
+                        fontSize: 20,
+                        color: "#fff",
+                        textAlign: "center",
+                        marginLeft: 10,
+                        marginRight: 10
+                      }}>
+                        Cancel
+                      </div></Col>
                     </Row>
-                    {/* Measure distance */}
-                    <ScaleControl
-                      maxWidth={70}
-                      unit="metric"
-                      style={scaleControlStyle}
-                    />
-
-                    {/* Markers declare */}
-                    <LocationMarker
-                      currentLocation={currentLocation}
-                      events={listEventNearby}
-                      kioks={listKioskNearby}
-                      locations={listPois}
-                      setItem={setLocations}
-                    />
-
-                    {/* Display my address */}
-
-                  </ReactMapGL  >
+                    : null}
                 </div>
-              </Col>
+                {isDataLoading ? <Skeleton /> :
+                  locations && locations.data ?
+                    <div class="location-information">
+                      {locations.data.length === 1 ? <>
+                        {/* Specific location */}
+                        {locations.type === 'poi' ?
+                          <SpecificPOILocation poi={locations.data[0]} currentLocation={currentLocation} /> :
+                          <SpecificEventLocation event={locations.data[0]} currentLocation={currentLocation} />
+                        }
+                      </> : null}
+                    </div>
+                    : locations.length !== 0 ?
+                      <ListLocationInformation locations={locations} setCurrentItem={setCurrentItemDisplaying} /> :
+                      <><Empty style={{ marginTop: "45%" }} /></>
+                }
+              </div>
+            </Drawer> : null}
 
-            }
-            <SubLocationInfomation
-              currentItem={currentItem}
-              currentLocation={currentLocation}
-              modalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-            />
-          </Row >
-        </div> : 
-        <Row span={24}>
-          <Spin className="center"/>
-        </Row>
+            <Row span={24} className="map-parent">
+              {isMarkerLoading ? <Skeleton /> :
+                <Col span={24}>
+                  <div>
+                    <ReactMapGL
+                      {...viewport}
+                      onViewportChange={setViewport}
+                      goongApiAccessToken={GOONG_ACCESS_MAP_KEY}
+                    >
+                      <Row>
+                        <Col span={5} />
+                        {/* Search bar */}
+                        <Col span={15}>
+                          {isPOICategoryLoading ? <Spin className="center" /> :
+                            <POICategoryComponent listPoiCategories={listPoiCategories} eventOnClick={filterData} />
+                          }
+                        </Col>
+                        {/* Map navigate bar */}
+                        <Col span={1} >
+                          <Space align="baseline" direction="vertical">
+                            <NavigationControl style={navControlStyle} />
+                            {/* Reload Map */}
+                            <div className="reload-map">
+                              <button class="reload-map-tooltip" type="button" onClick={() => { reloadMap() }} >
+                                <AimOutlined />
+                                <span class="reload-map-tooltiptext">My location</span>
+                              </button>
+                            </div>
+                          </Space>
+                        </Col>
+                      </Row>
+                      {/* Measure distance */}
+                      <ScaleControl
+                        maxWidth={70}
+                        unit="metric"
+                        style={scaleControlStyle}
+                      />
+
+                      {/* Markers declare */}
+                      <LocationMarker
+                        currentLocation={currentLocation}
+                        events={listEventNearby}
+                        kioks={listKioskNearby}
+                        locations={listPois}
+                        setItem={setLocations}
+                      />
+
+                      {/* Display my address */}
+
+                    </ReactMapGL  >
+                  </div>
+                </Col>
+
+              }
+              <SubLocationInfomation
+                currentItem={currentItem}
+                currentLocation={currentLocation}
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+              />
+            </Row >
+          </div> :
+          <LoadingMapComponent />
       }
     </>
   );
