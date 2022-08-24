@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import AppCatePage from "../../kiosks/pages/app_cate";
 import AppListPage from "../../kiosks/pages/app_list";
 import IframeInterface from "../../kiosks/pages/app_list/iframeInterface";
-import iframeInterface from "../../kiosks/pages/app_list/iframeInterface";
 import { AllEventsPage } from "../../kiosks/pages/event";
 import { SpecificEventPage } from "../../kiosks/pages/event/specific_event";
 import HomePage from "../../kiosks/pages/home";
@@ -10,18 +9,8 @@ import KioskLocationInfoPage from "../../kiosks/pages/kiosk_location";
 import MapPage from "../../kiosks/pages/map";
 import { AllPOIsPage } from "../../kiosks/pages/POI";
 import { SpecificPOIPage } from "../../kiosks/pages/POI/specific_poi";
-
-import AuthenLayout from "../components/authen_layout";
-import ClientLayout from "../components/client_layout";
 import KioskBaseLayout from "../components/kiosk_base_layout";
-import { ROLE_ADMIN, ROLE_LOCATION_OWNER } from "../constants/role";
-import ConfirmAccountPage from "../pages/confirm_account/confirm_account";
-
-
-import ForgotPassPage from "../pages/forgot_pass/forgot_pass";
 import LoginPage from "../pages/login/login_page";
-import RegistPage from "../pages/regist/regist_page";
-import ResetPassPage from "../pages/reset_pass/reset_pass";
 import UnAuthPage from "../pages/un_auth";
 
 

@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Select, Spin } from "antd";
+import { Button, Form, Modal, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -62,13 +62,13 @@ const ModalChooseKiosk = ({
   return (
     <>
       <Modal
-       
+
         visible={isModalChooseKioskVisible}
         onCancel={handleCancelPoiInModal}
         footer={null}
       >
         <Form
-          style={{margin:30}}
+          style={{ margin: 30 }}
           form={form}
           name="chooseKiosk"
           onFinish={onFinishChooseKiosk}
@@ -94,16 +94,18 @@ const ModalChooseKiosk = ({
                 : null}
             </Select>
           </Form.Item>
+          <Row align="center" justify="middle" >
+            <Form.Item >
+              {isLoading ? (
+                <Spin />
+              ) : (
+                <Button type="primary" htmlType="submit">
+                  Launch
+                </Button>
+              )}
+            </Form.Item>
+          </Row>
 
-          <Form.Item {...tailFormItemLayout}>
-            {isLoading ? (
-              <Spin />
-            ) : (
-              <Button type="primary" htmlType="submit">
-                OK
-              </Button>
-            )}
-          </Form.Item>
         </Form>
       </Modal>
     </>

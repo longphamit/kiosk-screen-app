@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 
 import "./App.css";
 import { Provider } from "react-redux";
@@ -8,11 +7,6 @@ import { I18nextProvider } from "react-i18next";
 import AppRouter from "./@app/routers/app-routers";
 import { ToastContainer } from "react-toastify";
 
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { HOST_SIGNALR } from "./@app/constants/host";
-import { useIdleTimer } from "react-idle-timer";
-import { useNavigate } from "react-router-dom";
-import IdleDetect from "./@app/components/kiosk_base_layout/idle_detec";
 
 function App() {
   

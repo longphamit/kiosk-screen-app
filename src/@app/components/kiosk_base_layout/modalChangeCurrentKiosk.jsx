@@ -108,8 +108,7 @@ const ModalChangeCurrenKiosk = ({
           footer={null}
         >
           <Form
-            style={{ margin: 30 }}
-
+            style={{ margin: '50px 30px 0px 30px' }}
             form={form}
             name="chooseKiosk"
             onFinish={onFinishChooseKiosk}
@@ -140,7 +139,7 @@ const ModalChangeCurrenKiosk = ({
               {isLoading ? (
                 <Spin />
               ) : (
-                <Row>
+                <Row  style={{ marginTop: 10 }}>
                   <Col span={6}>
                     <Button type="primary" htmlType="submit">
                       OK
@@ -163,7 +162,7 @@ const ModalChangeCurrenKiosk = ({
           footer={null}
         >
           <Form
-            style={{ margin: 30 }}
+            style={{ margin: '50px 30px 0px 30px' }}
             form={form}
             name="confirmPassword"
             onFinish={onFinishConfirmPassword}
@@ -182,15 +181,17 @@ const ModalChangeCurrenKiosk = ({
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
-              {isLoading ? (
-                <Spin />
-              ) : (
-                <Button type="primary" htmlType="submit">
-                  OK
-                </Button>
-              )}
-            </Form.Item>
+            <Row align="middle" justify="center">
+              <Form.Item>
+                {isLoading ? (
+                  <Spin />
+                ) : (
+                  <Button type="primary" htmlType="submit" style={{ marginTop: 10 }}>
+                    OK
+                  </Button>
+                )}
+              </Form.Item>
+            </Row>
           </Form>
         </Modal>
       )}
