@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton, Tag } from 'antd'
+import { Col, Divider, Row, Skeleton, Tag } from 'antd'
 import QRCode from 'react-qr-code';
 import { getDirectUrl } from '../../../../../@app/utils/direct_url_util';
 import "./../../styles.css";
@@ -6,6 +6,7 @@ import moment from "moment";
 import { STATUS_COMING_SOON, STATUS_ON_GOING } from '../../../../../@app/constants/event_constants';
 import Slider from "react-slick";
 import ScrollContainer from 'react-indiana-drag-scroll';
+import { TagStyle } from './utils';
 const sliderSettings = {
     dots: true,
     infinite: true,
@@ -52,21 +53,21 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                                 <Row className="element-other-info event-status" >
                                     {event.status === STATUS_COMING_SOON ? (
                                         <Tag color={"yellow"} >
-                                            <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                            <div style={TagStyle}>
                                                 Up coming
                                             </div>
                                         </Tag>
                                     ) : event.status === STATUS_ON_GOING ?
                                         (
                                             <Tag color={"green"}>
-                                                <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                                <div style={TagStyle}>
                                                     On going
                                                 </div>
                                             </Tag>
                                         ) :
                                         (
                                             <Tag color={"grey"}>
-                                                <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                                <div style={TagStyle}>
                                                     End
                                                 </div>
                                             </Tag>
@@ -108,24 +109,44 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                             </Col>
                             <Col span={20}>
                                 <Row>
-                                    <Col span={4}> From:</Col>
-                                    <Col span={20}> {moment(event.timeStart).format('HH:mm DD/MM/YYYY ')}</Col>
+                                    <Col span={4} style={{ fontWeight: 'bold' }}> From:</Col>
+                                    <Col span={20}>
+                                        <Tag style={{ fontSize: 20 }}>
+                                            {moment(event.timeStart).format('DD/MM/YYYY')}
+                                        </Tag>
+                                        <Tag color={'blue'} style={TagStyle}>
+                                            {moment(event.timeEnd).format('HH:mm')}
+                                        </Tag>
+                                    </Col>
                                 </Row>
                                 <Row>
-                                    <Col span={4}>  To:</Col>
-                                    <Col span={20}> {moment(event.timeEnd).format('HH:mm DD/MM/YYYY ')}</Col>
+                                    <Col span={4} style={{ fontWeight: 'bold' }}>  To:</Col>
+                                    <Col span={20}>
+                                        <Tag style={{fontSize: 20 }}>
+                                            {moment(event.timeEnd).format('DD/MM/YYYY')}
+                                        </Tag>
+                                        <Tag color={'red'} style={TagStyle}>
+                                            {moment(event.timeEnd).format('HH:mm')}
+                                        </Tag>
+                                    </Col>
                                 </Row>
                             </Col>
                         </Row>
                     </div>
-                    <div> {event.description ?
-                        <Row className="element-description-event" >
-                            {event.description.charAt(0) === '<' ?
-                                <div dangerouslySetInnerHTML={{ __html: event.description }} className="embeddedHTML" />
-                                : <div><p>{event.description}</p></div>
-                            }
-                        </Row>
-                        : null}</div>
+                    <div>
+                        {
+                            event.description ?
+                                <>
+                                    <Divider orientation="left">Description</Divider>
+                                    <Row className="element-description-event" >
+                                        {event.description.charAt(0) === '<' ?
+                                            <div dangerouslySetInnerHTML={{ __html: event.description }} className="embeddedHTML" />
+                                            : <div><p>{event.description}</p></div>
+                                        }
+                                    </Row>
+                                </>
+                                : null
+                        }</div>
                 </ScrollContainer>
                 {/* thumbnail & images */}
             </div > : <Skeleton />

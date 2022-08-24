@@ -1,13 +1,12 @@
-import { Col, Row, Skeleton } from 'antd'
-import { Galleria } from 'primereact/galleria';
+import { Col, Collapse, Divider, Row, Skeleton, Tag } from 'antd'
 import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { convertTime } from '../../../../../@app/utils/date_util';
 import { getDirectUrl } from '../../../../../@app/utils/direct_url_util';
 import "./../../styles.css";
-import { itemTemplate, prepareGallery, responsiveOptions, thumbnailTemplate } from './utils';
 import Slider from "react-slick";
 import ScrollContainer from 'react-indiana-drag-scroll';
+import { TagStyle } from './utils';
 const sliderSettings = {
     dots: true,
     infinite: true,
@@ -16,6 +15,7 @@ const sliderSettings = {
     slidesToScroll: 1
 };
 export const SpecificPOILocation = ({ poi, currentLocation }) => {
+    const { Panel } = Collapse;
     const [openTime, setOpenTime] = useState();
     const [closeTime, setCloseTime] = useState();
     const [dayOfWeeks, setDayOfWeeks] = useState();
@@ -34,7 +34,14 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
 
         setDayOfWeeks(poi.dayOfWeek.split('-'))
     }, []);
+    const getDayOfWeeks = () => {
+        if (dayOfWeeks.length === 7) {
+            return 'Full week'
+        }
+        if (dayOfWeeks.length === 6) {
 
+        }
+    }
     return <>
         {poi ?
             <div className="specific-location">
@@ -70,7 +77,11 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                             <Col span={16}>
                                 <Row className="element-title">
                                     <div>{poi.name}</div>
-                                    <div id='poi-category'>{poi.poicategoryName}</div>
+                                    <div id='poi-category'>
+                                        <Tag color={'blue'} style={TagStyle}>
+                                            {poi.poicategoryName}
+                                        </Tag>
+                                    </div>
                                 </Row>
                             </Col>
                             <Col span={8}>
@@ -104,28 +115,28 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                             <Col span={4}>
                                 <img src={require('../../../../../assets/images/clock-blue.png')} />
                             </Col>
-                            <Col span={20}>
-                                {dayOfWeeks ? dayOfWeeks.map(day => (
-                                    <>
-                                        <Row>
-                                            <Col span={12}>
-                                                {day}
-                                            </Col>
-                                            <Col span={12}>
-                                                {openTime + ' - ' + closeTime}
-                                            </Col>
-                                        </Row>
-
-                                    </>
-                                )) : null}
+                            <Col span={12} style={{ padding: 0, marginLeft: -15, marginTop: -5 }}>
+                                <Collapse defaultActiveKey={[]} ghost expandIconPosition="right" style={{ marginRight: 170 }}>
+                                    <Panel header={openTime + ' - ' + closeTime} key="1" style={{ fontSize: 18 }}>
+                                        {dayOfWeeks ?
+                                            dayOfWeeks.map((e => {
+                                                return <Row style={{ marginRight: -170 }}>
+                                                    <Col span={12}>{e}</Col>
+                                                    <Col span={12}>{openTime + ' - ' + closeTime}</Col>
+                                                </Row>
+                                            }))
+                                            : null}
+                                    </Panel>
+                                </Collapse>
                             </Col>
                         </Row>
                     </div>
                     <div>
-                        {poi.description ?
-                            <Row className="element-description-poi" >
+                        {poi.description ? <>
+                            <Divider orientation="left">Description</Divider>
+                            <Row className="element-description-poi">
                                 <div id="embbeded-description" dangerouslySetInnerHTML={{ __html: poi.description }} className="embeddedHTML" />
-                            </Row>
+                            </Row></>
                             : null}
                     </div>
 

@@ -16,11 +16,11 @@ export const CustomMarker = ({ item, imgSrc }) => {
                         id="marker"
                         alt="example"
                         src={imgSrc}
-                        style={{width:100}}
+                        style={{ width: 100 }}
                     />
                     <p style={{
-                        fontWeight:"bold",
-                        fontSize:15
+                        fontWeight: "bold",
+                        fontSize: 15
                     }}>
                         {item.name}
                     </p>
@@ -36,8 +36,8 @@ export const CustomKioskMarker = ({ item, imgSrc }) => {
             color="black"
             latitude={parseFloat(item.latitude)}
             longitude={parseFloat(item.longtitude)}
-            offsetLeft={-20}
-            offsetTop={-10}
+            offsetLeft={-40}
+            offsetTop={-80}
         >
             <Col>
                 <div>
@@ -46,9 +46,7 @@ export const CustomKioskMarker = ({ item, imgSrc }) => {
                         alt="example"
                         src={imgSrc}
                     />
-                    <p>
-                        Kiosk
-                    </p>
+                    <label style={{ fontSize: 18, fontWeight: 'bold ' }}>Kiosk</label>
                 </div>
             </Col>
         </Marker>

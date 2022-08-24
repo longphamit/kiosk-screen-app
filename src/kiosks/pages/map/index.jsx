@@ -19,6 +19,8 @@ import MyAddress from "./components/my-address-info";
 import POICategoryComponent from "./components/poi_category";
 import { SubLocationInfomation } from "./components/location-infomation/sub-location-infomation";
 import { LoadingMapComponent } from "./components/loading/loading_map_card";
+import { ImageEmptyCard } from "../../../@app/components/card/img_empty_card";
+import { ImageStartSearchingCard } from "../../../@app/components/card/img_start_searching_card";
 const scaleControlStyle = {
   left: '25%',
   bottom: 8,
@@ -47,6 +49,7 @@ const MapPage = () => {
     zoom: 14,
   });
   const [locations, setLocations] = useState([])
+  const [isFirstLoading, setIsFirstLoading] = useState(true)
   const setLocationViewPort = () => {
     console.log("set view port")
     navigator.geolocation.getCurrentPosition((position) => {
@@ -126,6 +129,7 @@ const MapPage = () => {
   };
 
   const reloadMap = () => {
+    setCurrentLocation(null);
     navigator.geolocation.getCurrentPosition((position) => {
       setCurrentLocation({
         ...currentLocation,
@@ -153,6 +157,7 @@ const MapPage = () => {
     } catch (e) {
       console.error(e);
       setLocations([])
+      setIsFirstLoading(false)
     }
   }
   const filterData = async (name) => {
@@ -175,6 +180,7 @@ const MapPage = () => {
         break;
     }
     setDataLoading(false);
+    setIsFirstLoading(false)
   }
   const setCurrentItemDisplaying = (e) => {
     setCurrentItem(e);
@@ -199,40 +205,54 @@ const MapPage = () => {
                 <div>
                   {currentLocation ?
                     <Row>
-                      <Col span={18}><MyAddress currentLocation={currentLocation} /></Col>
-                      <Col span={5}> <div onClick={() => { setLocations(null) }} style={{
-                        padding: 10,
-                        backgroundColor: "#eb9c96",
-                        borderRadius: 20,
-                        fontWeight: "bold",
-                        fontSize: 20,
-                        color: "#fff",
-                        textAlign: "center",
-                        marginLeft: 10,
-                        marginRight: 10
-                      }}>
-                        Cancel
-                      </div></Col>
+                      <Col span={20}>
+                        <MyAddress currentLocation={currentLocation} />
+                      </Col>
+                      <Col span={1} offset={2}>
+                        <button
+                          onClick={() => { setLocations(null) }}
+                          style={{
+                            padding: 10,
+                            backgroundColor: "#EEEEEE",
+                            borderRadius: 20,
+                            fontWeight: "bold",
+                            fontSize: 20,
+                            color: "black",
+                            textAlign: "center",
+                            border: '1px solid white',
+                            width: 50
+                          }}
+                        >  X
+                        </button>
+                      </Col>
                     </Row>
                     : null}
                 </div>
-                {isDataLoading ? <Skeleton /> :
-                  locations && locations.data ?
-                    <div class="location-information">
-                      {locations.data.length === 1 ? <>
-                        {/* Specific location */}
-                        {locations.type === 'poi' ?
-                          <SpecificPOILocation poi={locations.data[0]} currentLocation={currentLocation} /> :
-                          <SpecificEventLocation event={locations.data[0]} currentLocation={currentLocation} />
-                        }
-                      </> : null}
-                    </div>
-                    : locations.length !== 0 ?
-                      <ListLocationInformation locations={locations} setCurrentItem={setCurrentItemDisplaying} /> :
-                      <><Empty style={{ marginTop: "45%" }} /></>
+                {isFirstLoading ?
+                  <>
+                    <ImageStartSearchingCard marginTop={50} />
+                  </> :
+                  isDataLoading ?
+                    <Skeleton /> :
+                    locations && locations.data ?
+                      <div class="location-information">
+                        {locations.data.length === 1 ? <>
+                          {/* Specific location */}
+                          {locations.type === 'poi' ?
+                            <SpecificPOILocation poi={locations.data[0]} currentLocation={currentLocation} /> :
+                            <SpecificEventLocation event={locations.data[0]} currentLocation={currentLocation} />
+                          }
+                        </> : null}
+                      </div>
+                      : locations.length !== 0 ?
+                        <ListLocationInformation locations={locations} setCurrentItem={setCurrentItemDisplaying} /> :
+                        <>
+                          <ImageEmptyCard marginTop={50} />
+                        </>
                 }
               </div>
-            </Drawer> : null}
+            </Drawer> : null
+            }
 
             <Row span={24} className="map-parent">
               {isMarkerLoading ? <Skeleton /> :
@@ -252,7 +272,7 @@ const MapPage = () => {
                           }
                         </Col>
                         {/* Map navigate bar */}
-                        <Col span={1} >
+                        <Col span={1} offset={1}>
                           <Space align="baseline" direction="vertical">
                             <NavigationControl style={navControlStyle} />
                             {/* Reload Map */}

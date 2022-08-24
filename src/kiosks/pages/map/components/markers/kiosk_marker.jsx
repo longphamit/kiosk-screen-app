@@ -26,13 +26,19 @@ const KioskMarker = ({ item, currentLocation }) => {
             }
         }
     }
-    return <div>
-        <div onClick={() => { onOpenModal() }}>
+    return <>
+        <div >
             <CustomKioskMarker imgSrc={require("../../../../../assets/images/kiosk_marker.png")} item={item} />
         </div>
         {isLoading ?
             <Spin /> :
-            <Modal key={item.id} width={1000} onCancel={onCancelDetailModal} visible={isDetailModalVisible} footer={[]} >
+            <Modal
+                key={item.id}
+                width={1000}
+                onCancel={onCancelDetailModal}
+                visible={isDetailModalVisible}
+                footer={null}
+            >
                 <Descriptions title="Kiosk info" column={2} bordered>
 
                     {address ?
@@ -47,6 +53,6 @@ const KioskMarker = ({ item, currentLocation }) => {
                 </Descriptions>
             </Modal>
         }
-    </div >
+    </>
 }
 export default KioskMarker;

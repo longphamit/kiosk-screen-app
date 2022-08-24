@@ -92,7 +92,7 @@
   width: 90%
 }
 
-.card-location-information{
+.card-location-information {
   box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.1);
   background: "#fff";
   text-align: left;
@@ -100,8 +100,8 @@
   padding: 5px;
   font-size: 17px;
   border-radius: 20px;
-  background: rgb(211,251,254);
-background: radial-gradient(circle, rgba(211,251,254,1) 0%, rgba(217,233,255,1) 100%);
+  background: rgb(211, 251, 254);
+  background: radial-gradient(circle, rgba(211, 251, 254, 1) 0%, rgba(217, 233, 255, 1) 100%);
 }
 
 .list-location-infomation {
@@ -117,21 +117,21 @@ background: radial-gradient(circle, rgba(211,251,254,1) 0%, rgba(217,233,255,1) 
 .specific-location #preview-image {
   margin-top: 15px;
 }
+
 .element-title {
+  font-size: 22px;
   margin-top: 15px;
   display: inline-block;
 }
 
 .element-title #poi-category {
   font-weight: normal;
-  font-size: 12px;
   margin-left: 15px;
   color: rgb(128, 126, 126);
 }
 
 .element-title div {
   font-weight: bold;
-  font-size: 20px;
   margin-left: 15px;
 }
 
@@ -139,14 +139,12 @@ background: radial-gradient(circle, rgba(211,251,254,1) 0%, rgba(217,233,255,1) 
 .element-description-poi,
 .element-direction {
   margin-top: 10px;
+  font-size: 20px;
   font-size: 16px;
 }
 
 .element-description-event,
 .element-description-poi {
-  margin-top: 20px;
-  border-top: 0.5px solid rgb(184, 184, 184);
-  margin-bottom: 80px;
 }
 
 #basic-info-row {
@@ -165,6 +163,7 @@ background: radial-gradient(circle, rgba(211,251,254,1) 0%, rgba(217,233,255,1) 
 }
 
 .element-other-info {
+  font-size: 18px;
   margin-top: 10px;
   margin-left: 10px;
 }
@@ -184,7 +183,7 @@ background: radial-gradient(circle, rgba(211,251,254,1) 0%, rgba(217,233,255,1) 
 
 .sub-info-scroll-bar {
   height: 100%;
-  
+
 }
 
 .map-parent {
@@ -212,7 +211,7 @@ background: radial-gradient(circle, rgba(211,251,254,1) 0%, rgba(217,233,255,1) 
 }
 
 .embeddedHTML img {
-  width: 95%;
+  font-size: 18px;
 }
 
 .list-info-tag {
