@@ -2,7 +2,8 @@ import {
     ClockCircleOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { PRIMARY_COLOR } from "../../constants/colors";
+import moment from "moment";
+
 const TimeView = () => {
     const [time, setTime] = useState(new Date().toLocaleString());
     useEffect(() => {
@@ -17,7 +18,7 @@ const TimeView = () => {
             }}
         >
             <ClockCircleOutlined style={{ marginRight: 10 }} />
-            {time}
+            {moment(time).format('DD/MM/YYYY HH:mm')}
         </div>
     )
 }
