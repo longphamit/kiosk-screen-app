@@ -194,12 +194,12 @@ const MapPage = () => {
           <div>
             {locations ? <Drawer
               width={720}
-              onClose={() => { setLocations(null) }}
+              onClose={() => { setLocations(null); setIsFirstLoading(false) }}
               visible={locations ? true : false}
               placement={"left"}
               getContainer={false}
               closable={false}
-              bodyStyle={{ paddingBottom: 80 }}
+              bodyStyle={{ paddingBottom: 50 }}
             >
               <div className="search-and-view-area">
                 <div>
