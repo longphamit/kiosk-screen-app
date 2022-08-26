@@ -9,9 +9,6 @@ import {
 } from "antd";
 import "./styles.css";
 import Slider from "react-slick";
-import { Card } from "antd";
-import { useNavigate } from "react-router-dom";
-import useSelector from "../../../@app/hooks/use_selector";
 import { PRIMARY_COLOR } from "../../../@app/constants/colors";
 import { useEffect, useRef, useState } from "react";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
@@ -26,7 +23,6 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { kioskRatingService } from "../../services/kiosk_rating_service";
 import { KIOSK_ID } from "../../../@app/constants/key";
 import { useDraggable } from "react-use-draggable-scroll";
-const { Meta } = Card;
 const contentStyle = {
     height: "300px",
     color: "#fff",
@@ -118,8 +114,7 @@ const KioskLocationInfoPage = () => {
     };
     return (
         <div ref={ref} {...events}>
-            <div style={{ height: "100%", marginBottom: 300 }}>
-
+            <div style={{ height: "94vh"}}>
                 <div style={{ marginLeft: 50, marginRight: 50, }}>
                     <Row>
                         <Col span={15} style={{ margin: 10 }}>
