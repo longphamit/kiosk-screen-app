@@ -5,7 +5,6 @@ import {
   LeftCircleOutlined,
 } from "@ant-design/icons";
 import { ScrollTop } from "primereact/scrolltop";
-import { Dock } from "primereact/dock";
 import { ReactNode, useEffect, useState } from "react";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
@@ -14,19 +13,16 @@ import { toast } from "react-toastify";
 import { localStorageClearService } from "../../services/localstorage_service";
 import TimeView from "./time";
 import useDispatch from "../../hooks/use_dispatch";
-import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
+import { getTokenCustom } from "../../../kiosks/configs/firebase";
 import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
 import { getKioskTemplateService } from "../../../kiosks/services/kiosk_service";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import ModalChangeCurrenKiosk from "./modalChangeCurrentKiosk";
-import { getLocationByIdService } from "../../services/kiosk_location_service";
 import { PRIMARY_COLOR } from "../../constants/colors";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { HOST_SIGNALR } from "../../constants/host";
 import Iframe from "react-iframe";
 import { logoutRedux } from "../../redux/stores";
-import { changeStatusKioskService } from "../../services/kiosk_service";
-import { KIOSK_ID } from "../../constants/key";
 import useSelector from "../../hooks/use_selector";
 import {
   FaArchway,
@@ -37,9 +33,7 @@ import {
 } from "react-icons/fa";
 import { MdFastfood, MdOutlineFlight } from "react-icons/md";
 import { IoApps, IoReloadCircleSharp } from "react-icons/io5";
-import { useIdleTimer } from "react-idle-timer";
 import WeatherView from "./weather";
-import IdleDetect from "./idle_detec";
 import { setSelectedIcon } from "../../redux/slices/bar_slice";
 var CronJob = require("cron").CronJob;
 const { Header, Content, Sider } = Layout;
@@ -165,16 +159,16 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const dockItems = [
     isBackButton
       ? {
-          label: "Back",
-          icon: () => (
-            <LeftCircleOutlined
-              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
-            />
-          ),
-          command: () => {
-            navigate(backToPageUrl);
-          },
-        }
+        label: "Back",
+        icon: () => (
+          <LeftCircleOutlined
+            style={{ color: PRIMARY_COLOR, fontSize: 60 }}
+          />
+        ),
+        command: () => {
+          navigate(backToPageUrl);
+        },
+      }
       : {},
     {
       label: "Home",
@@ -201,7 +195,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
 
   return (
     <>
-      
+
       <ModalChangeCurrenKiosk
         isChangeCurrentKioskModal={isChangeCurrentKioskModal}
         handleCancelModal={handleCancelModal}
@@ -265,7 +259,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                 ></path>
               </svg>
 
-              <Row style={{ marginTop: 10 }}>
+              <Row align="middle" justify="center">
                 <Col span={14}></Col>
                 <Col span={5}>
                   <TimeView />
@@ -282,7 +276,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   />
                 </Col>
               </Row>
-              <div style={{ marginBottom: 100 }}>{children}</div>
+              <div style={{ marginBottom: 0 }}>{children}</div>
 
               <>
                 <div>
@@ -293,7 +287,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                       textAlign: "center",
                       width: "60%",
                       position: "fixed",
-                      bottom:-30,
+                      bottom: -30,
                       left: "20%",
                     }}
                   >
@@ -307,7 +301,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                       }}
                     >
                       <Row className="center" style={{ width: "100%" }}>
-                      <Col
+                        <Col
                           span={3}
                           onClick={() => {
                             iconHomeOnClick();
@@ -327,7 +321,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           Home
                         </Col>
-                        
+
                         <Col
                           span={3}
                           onClick={() => {
@@ -364,7 +358,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           Food
                         </Col>
-                        
+
                         <Col span={3} onClick={() => iconPOIOnClick()}>
                           <div style={{ textAlign: "center" }}>
                             <FaArchway
@@ -470,7 +464,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                     style={{
                       textAlign: "right",
                       position: "fixed",
-                      bottom:-30,
+                      bottom: -30,
                       left: "80%",
                     }}
                   >
