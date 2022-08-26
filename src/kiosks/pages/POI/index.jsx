@@ -22,7 +22,7 @@ export const AllPOIsPage = ({ }) => {
         getPOIsFunction();
     }, []);
     return <>
-        <div style={{ height: POIs?.length>2?"100%":"100vh" }}>
+        <div style={{ height: "94vh" }}>
             <Row>
                 {POIs ?
                     POIs.length !== 0 ?

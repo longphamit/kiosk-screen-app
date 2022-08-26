@@ -114,7 +114,7 @@ const KioskLocationInfoPage = () => {
     };
     return (
         <div ref={ref} {...events}>
-            <div style={{ height: "94vh"}}>
+            <div style={{ height: "94vh" }}>
                 <div style={{ marginLeft: 50, marginRight: 50, }}>
                     <Row>
                         <Col span={15} style={{ margin: 10 }}>

@@ -18,7 +18,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
     return <>
         {event ?
             <div className="specific-location">
-                <ScrollContainer ignoreElements={".prevent-drag-scroll"} className="specific-poi-event-scroll" vertical={true}>
+                <ScrollContainer ignoreElements={".prevent-drag-scroll"} vertical={false} horizontal={false}>
                     <div>
                         <Row id="preview-image">
                             <Col span={24} >
@@ -44,7 +44,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                             </Col>
                         </Row>
                     </div>
-                    <div>
+                    <div className='prevent-drag-scroll'>
                         <Row>
                             <Col span={16}>
                                 <Row className="element-title">
@@ -92,7 +92,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                             }
                         </Row>
                     </div>
-                    <div>
+                    <div className='prevent-drag-scroll'>
                         <Row className="element-other-info" >
                             <Col span={4}>
                                 <img src={require('../../../../../assets/images/pin-blue.png')} />
@@ -102,7 +102,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                             </Col>
                         </Row>
                     </div>
-                    <div>
+                    <div className='prevent-drag-scroll'>
                         <Row className="element-other-info" >
                             <Col span={4}>
                                 <img src={require('../../../../../assets/images/clock-blue.png')} />
@@ -122,7 +122,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                                 <Row>
                                     <Col span={4} style={{ fontWeight: 'bold' }}>  To:</Col>
                                     <Col span={20}>
-                                        <Tag style={{fontSize: 20 }}>
+                                        <Tag style={{ fontSize: 20 }}>
                                             {moment(event.timeEnd).format('DD/MM/YYYY')}
                                         </Tag>
                                         <Tag color={'red'} style={TagStyle}>
@@ -133,7 +133,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                             </Col>
                         </Row>
                     </div>
-                    <div>
+                    <div className='prevent-drag-scroll'>
                         {
                             event.description ?
                                 <>

@@ -46,7 +46,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
         {poi ?
             <div className="specific-location">
                 {/* thumbnail & images */}
-                <ScrollContainer ignoreElements={".prevent-drag-scroll"} className="specific-poi-event-scroll" vertical={true}>
+                <ScrollContainer ignoreElements={".prevent-drag-scroll"} className="specific-poi-event-scroll" vertical={true} horizontal={false}>
                     <div>
                         <Row id="preview-image">
                             <Col span={24} >
@@ -72,7 +72,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                             </Col>
                         </Row>
                     </div>
-                    <div>
+                    <div className=" prevent-drag-scroll">
                         <Row id='basic-info-row'>
                             <Col span={16}>
                                 <Row className="element-title">
@@ -99,7 +99,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                             </Col>
                         </Row>
                     </div>
-                    <div>
+                    <div className=" prevent-drag-scroll">
                         <Row className="element-other-info" >
                             <Col span={4}>
                                 <img src={require('../../../../../assets/images/pin-blue.png')} />
@@ -110,7 +110,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                         </Row>
                     </div>
 
-                    <div>
+                    <div className=" prevent-drag-scroll">
                         <Row className="element-other-info" >
                             <Col span={4}>
                                 <img src={require('../../../../../assets/images/clock-blue.png')} />
@@ -131,7 +131,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                             </Col>
                         </Row>
                     </div>
-                    <div>
+                    <div className=" prevent-drag-scroll">
                         {poi.description ? <>
                             <Divider orientation="left">Description</Divider>
                             <Row className="element-description-poi">
