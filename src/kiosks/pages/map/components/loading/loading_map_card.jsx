@@ -10,7 +10,7 @@ export const LoadingMapComponent = ({ }) => {
             width={'100%'}
         >
             <Row align="middle" justify="center">
-                <img src={loadingMap} alt="loading...." /><br />
+                <img src={loadingMap} alt="loading ..." /><br />
             </Row>
             <Row align="middle" justify="center">
                 <p style={{ fontSize: 30, fontWeight: 'bold' }}>

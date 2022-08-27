@@ -389,8 +389,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div
                             style={{
                               textAlign: "center",
-                              color:
-                                selectedIcon === "APP" ? "#059ef7" : "#000",
                             }}
                           >
                             <FaMapMarkerAlt
