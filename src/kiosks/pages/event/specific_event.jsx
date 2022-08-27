@@ -88,9 +88,6 @@ export const SpecificEventPage = ({ }) => {
                         </Row>
                     </div>
                 </ScrollContainer>
-
-
-
             </div>
             : <Skeleton />}
     </>

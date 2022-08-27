@@ -4,23 +4,27 @@
   display: block;
   width: 200px;
 }
+
 .apps-container {
   margin-left: auto;
   margin-right: auto;
 }
+
 .app-box {
   box-shadow: 0px 10px 22px -3px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   background-color: #fff;
   padding-left: 80px;
   padding-right: 80px;
-  padding-top: 30px;
-  margin-top: 30px;
+  padding-top: 20px;
+  margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   text-align: center;
+  padding-bottom: 20px;
 }
+
 .app-cate-box {
 
   border-radius: 10px;
@@ -32,12 +36,14 @@
   margin-bottom: 30px;
   text-align: center;
 }
+
 .app-cate-image {
   margin-left: auto;
   margin-right: auto;
   display: block;
   width: 100px;
 }
+
 .drag-list-vertical-container {
   height: 550px;
 }

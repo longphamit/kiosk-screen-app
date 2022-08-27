@@ -7,11 +7,12 @@ import useSelector from "../../../@app/hooks/use_selector";
 import { getAllApplicationCategoryService } from "../../services/app_category_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
 import "./styles.css"
-import { getListApplicationServiceByTemplateIdService, getListMyApplicationService } from "../../services/application_service";
+import { getListApplicationServiceByTemplateIdService, getListMyApplicationService, getMyInstalledApplicationsService } from "../../services/application_service";
 import { ArrowUpOutlined } from "@ant-design/icons";
 import { AppCategoryCard } from "../../../@app/components/card/app_category_card";
 import loadingCategoryGif from './../../../assets/gif/loading_category.gif';
 import loadingPageGif from './../../../assets/gif/loading_page.gif';
+import { ApplicationCard } from "../../../@app/components/card/application_card";
 const { Meta } = Card;
 
 const AppCatePage = () => {
@@ -64,7 +65,22 @@ const AppCatePage = () => {
     const getAllAppCate = async () => {
         const res = await getAllApplicationCategoryService()
         setListAppCate(res.data.data)
+        await getAllInstalledApplication()
     }
+
+    const getAllInstalledApplication = async () => {
+        let res = await getMyInstalledApplicationsService()
+        let data = res.data.data.map((e) => {
+            return {
+                link: e.serviceApplicationLink,
+                id: e.serviceApplicationId,
+                logo: e.serviceApplicationLogo,
+                name: e.serviceApplicationName
+            }
+        })
+        setListApp(data);
+    }
+
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         getKioskTemplate()
@@ -146,40 +162,15 @@ const AppCatePage = () => {
                                 <div>
                                     <Row>
                                         {
-                                            listApp?.map(items => {
+                                            listApp?.map(item => {
                                                 return (
-                                                    <Col xl={8} xs={5}>
-                                                        <div
-                                                            className="app-box"
-                                                            onClick={() => {
-                                                                navigator({
-                                                                    pathname:
-                                                                        "/./iframe-interface?link=" +
-                                                                        items.link +
-                                                                        "&id=" +
-                                                                        items.id,
-                                                                });
-                                                            }}
-                                                        >
-                                                            <img
-                                                                style={{ height: 200 }}
-                                                                className="app-image"
-                                                                alt="example"
-                                                                src={items.logo}
-                                                            />
-                                                            <Meta
-                                                                style={{ marginTop: 10, marginBottom: 10 }}
-                                                                title={items.name}
-                                                            />
-                                                        </div>
-                                                    </Col>
+                                                    <ApplicationCard app={item} />
                                                 )
                                             })
                                         }
                                         {
                                             listApp?.length == 0 ? <Empty className="center" /> : null
                                         }
-
 
                                     </Row>
                                 </div>

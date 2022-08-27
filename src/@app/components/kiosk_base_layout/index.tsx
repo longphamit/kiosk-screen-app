@@ -152,9 +152,11 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   };
   const iconMoveOnClick = () => {
     dispatch(setSelectedIcon("MOVE"));
+    navigate("/app-list/b6c4e439-f980-474e-afcf-bf02b1124898")
   };
   const iconFoodOnClick = () => {
     dispatch(setSelectedIcon("FOOD"));
+    navigate("/app-list/ab39609e-1857-4f06-a33e-3583ecadf154")
   };
   const dockItems = [
     isBackButton

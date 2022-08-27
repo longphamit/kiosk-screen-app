@@ -2,6 +2,7 @@ import { Row, Skeleton } from "antd"
 import { useEffect, useState } from "react"
 import { CustomCard } from "../../../@app/components/card/custom_card";
 import { EmptyCard } from "../../../@app/components/card/empty_card";
+import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
 import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE } from "../../../@app/constants/key";
 import { getPOINearbyService } from "../../services/poi_service";
 
@@ -35,9 +36,8 @@ export const AllPOIsPage = ({ }) => {
                                 <EmptyCard marginTop={250} />
                             </div>
                         </> :
-                    <Skeleton />
+                    <LoadingPageCard />
                 }
-
             </Row>
         </div>
 

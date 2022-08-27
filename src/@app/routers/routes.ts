@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { AppByCategoryPage } from "../../kiosks/pages/app";
 import AppCatePage from "../../kiosks/pages/app_cate";
 import AppListPage from "../../kiosks/pages/app_list";
 import IframeInterface from "../../kiosks/pages/app_list/iframeInterface";
@@ -124,6 +125,15 @@ const routes: Route[] = [
   {
     component: SpecificEventPage,
     path: "/event/:id",
+    isLayout: true,
+    layout:KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles:[""]
+  },
+  {
+    component: AppByCategoryPage,
+    path: "/app-list/:id",
     isLayout: true,
     layout:KioskBaseLayout,
     authen: false,
