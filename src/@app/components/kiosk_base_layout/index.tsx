@@ -440,23 +440,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           Info
                         </Col>
-
-                        {/* {isBackButton ? (
-                          <div>
-                            <LeftCircleOutlined
-                              className="center"
-                              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
-                            />
-                            Back
-                          </div>
-                        ) : null} */}
                       </Row>
-
-                      {/* <img
-                          style={{ width: 80 }}
-                          alt="example"
-                          src={require("../../../assets/images/map.png")}
-                        /> */}
                     </div>
                   </Affix>
                   <Affix
