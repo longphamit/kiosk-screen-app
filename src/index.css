@@ -1,19 +1,21 @@
 @import 'antd/dist/antd.css';
 @import 'react-toastify/dist/ReactToastify.css';
 
-@import "primereact/resources/themes/lara-light-indigo/theme.css";  
-@import "primereact/resources/primereact.min.css";                 
+@import "primereact/resources/themes/lara-light-indigo/theme.css";
+@import "primereact/resources/primereact.min.css";
 @import "primeicons/primeicons.css";
 
 
-@import "~slick-carousel/slick/slick.css"; 
+@import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
-@import "slick-carousel/slick/slick.css"; 
+@import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
+
 :root {
   --primary-color: #26a3c9
 }
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -27,27 +29,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.success-button{
+
+.success-button {
   background-color: #32a832;
   color: #ffff;
   font-weight: bold;
 }
-.warn-button{
+
+.warn-button {
   background-color: #eb8f34;
   color: #ffff;
   font-weight: bold;
 }
-.danger-button{
+
+.danger-button {
   background-color: #f25c5c;
   color: #fff;
   font-weight: bold;
 }
-.infor-button{
+
+.infor-button {
   background-color: #61bfed;
   color: #fff;
   font-weight: bold;
 }
-.infor-temp-1-button{
+
+.infor-temp-1-button {
   background-color: #3464a3;
   color: #fff;
   font-weight: bold;
@@ -58,28 +65,29 @@ code {
   width: 50%;
   padding: 10px;
 }
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 1px;
   border-radius: 30px;
 }
- 
+
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px #fff;
   border-radius: 30px;
 }
- 
+
 ::-webkit-scrollbar-thumb {
   background-color: #26a3c9;
   outline: 0.5px solid #fff;
   border-radius: 30px;
 }
-.item-image-box{
+
+.item-image-box {
   background: #fff;
   border-radius: 30px;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
-.specific-poi-event-scroll{
-  height: 1000px;
-  padding-bottom: 300px;
+
+.specific-poi-event-scroll {
 }

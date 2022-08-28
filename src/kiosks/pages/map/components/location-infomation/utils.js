@@ -49,3 +49,8 @@ export const prepareGallery = (obj) => {
     }
     return tempImgs;
 }
+export const TagStyle = {
+    padding: 5,
+    fontWeight: 'bold',
+    fontSize: 18
+}

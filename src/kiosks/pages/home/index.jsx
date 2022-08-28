@@ -3,22 +3,14 @@ import {
   Row,
 } from "antd";
 import "./styles.css";
-import { Card, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, KIOSK_ID, USER_ID } from "../../../@app/constants/key";
 import { getHomeBannerService } from "../../services/home_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
-const { Meta } = Card;
-const contentStyle = {
-  height: "300px",
-  color: "#fff",
-  lineHeight: "160px",
-  textAlign: "center",
-  contentAlign: "center",
-  background: "#364d79",
-};
+import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
+
 const sliderSettings = {
   dots: true,
   infinite: true,
@@ -30,13 +22,13 @@ const sliderSettings = {
 const HomePage = () => {
   const [banners, setBanners] = useState()
   const getHomeBanner = async () => {
-    const partyId=localStorage.getItem(USER_ID)
-    const kioskId=localStorage.getItem(KIOSK_ID)
-    const res = await getHomeBannerService(partyId,kioskId);
+    const partyId = localStorage.getItem(USER_ID)
+    const kioskId = localStorage.getItem(KIOSK_ID)
+    const res = await getHomeBannerService(partyId, kioskId);
     console.log(res.data)
     setBanners(res.data)
   }
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       localStorage.setItem(CURRENT_LOCATION_LATITUDE, position.coords.latitude)
@@ -44,8 +36,8 @@ const HomePage = () => {
       console.log(position)
     });
   }
-  const getKioskTemplate=async()=>{
-    getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res=>{
+  const getKioskTemplate = async () => {
+    getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res => {
       console.log(res.data)
     })
   }
@@ -57,49 +49,50 @@ const HomePage = () => {
   }, []);
   const onClickBanner = (banner) => {
     console.log(banner)
-    let url=""
+    let url = ""
     if (banner.keyType === "app_image") {
-      url=`/iframe-interface?id=${banner.keyId}`
+      url = `/iframe-interface?id=${banner.keyId}`
     }
     if (banner.keyType === "event_image") {
-      url=`/event/${banner.keyId}`
+      url = `/event/${banner.keyId}`
     }
     if (banner.keyType === "poi_image") {
-      url=`/poi/${banner.keyId}`
+      url = `/poi/${banner.keyId}`
     }
     navigate(url)
   }
 
   return (
     <>
-      <div style={{marginLeft: 50, marginRight: 50, height: "100vh" }}>
+      <div style={{ marginLeft: 50, marginRight: 50, height: "94vh" }}>
         <Row>
           <Col span={24}>
-            {banners?<Slider
-            {...sliderSettings}
-              style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-              autoplay
-              autoplaySpeed={2000}
-            >
-              {banners?.map((image) => {
-                return (
-                  <div >
-                    <Row >
-                      <div style={{
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
-                        backgroundRepeat: 'no-repeat',
-                        borderRadius:30,
-                        backgroundImage:`url(${image.link})`,width:"100%",height:800}}>
-                      
-                      </div>
-                      {/* <img className="center home-image-banner" src={image.link} style={{width:"100%",maxHeight:800}}/> */}
-                    </Row>
-                  </div>
-                );
-              }
-              )}
-            </Slider>:null}
+            {banners ?
+              <Slider
+                {...sliderSettings}
+                style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                autoplay
+                autoplaySpeed={2000}
+              >
+                {banners?.map((image) => {
+                  return (
+                    <div onClick={() => onClickBanner(image)}>
+                      <Row >
+                        <div style={{
+                          backgroundPosition: 'center',
+                          backgroundSize: 'cover',
+                          backgroundRepeat: 'no-repeat',
+                          borderRadius: 30,
+                          backgroundImage: `url(${image.link})`, width: "100%", height: 600
+                        }}>
+                        </div>
+                      </Row>
+                    </div>
+                  );
+                }
+                )}
+              </Slider> :
+              <LoadingPageCard />}
           </Col>
         </Row>
 

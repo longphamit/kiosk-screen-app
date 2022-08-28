@@ -1,12 +1,9 @@
-import { Col, Divider, Row, Skeleton, Spin } from "antd";
+import { Col, Row, Skeleton, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPOIByIdService } from "../../services/poi_service";
 import POIMarker from "../map/components/markers/poi_marker";
 import { CustomMap } from "../../../@app/components/map/map";
-import { convertTime } from "../../../@app/utils/date_util";
-import { BannerCard } from "../../../@app/components/card/banner_card";
-import { CarouselCard } from "../../../@app/components/card/carousel_card";
 import "./styles.css"
 import { getDirectionGoongMapService } from "../../services/goong_map_service";
 import { PoiBannerCard } from "../../../@app/components/card/banner_poi";
@@ -58,7 +55,7 @@ export const SpecificPOIPage = ({ }) => {
                     <div>
                         <Row style={{ marginTop: 5 }}>
                             <Col span={10} >
-                                <div className="poi-image-box prevent-drag-scroll" style={{zIndex:10}}>
+                                <div className="poi-image-box prevent-drag-scroll" style={{ zIndex: 10 }}>
                                     {
                                         <Slider
                                             {...sliderSettings}
@@ -79,12 +76,11 @@ export const SpecificPOIPage = ({ }) => {
                                 </div>
                             </Col>
                             <Col span={14}>
-
                                 <Row justify="center" align="middle" style={{ marginTop: 30 }}>
                                     <div className="poi-map-box prevent-drag-scroll" style={{ width: 1000, height: 600 }}>
                                         {
                                             direction ?
-                                                <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : <Row span={24}><Spin className="center"/></Row>
+                                                <CustomMap direction={direction} marker={<POIMarker item={poi} setItem={() => { }} />} /> : <Row span={24}><Spin className="center" /></Row>
                                         }
                                     </div>
                                 </Row>

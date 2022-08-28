@@ -15,10 +15,16 @@ export const HereMarker = ({ currentLocation }) => {
                     <img
                         id="marker"
                         alt="example"
-                        style={{width:100}}
+                        style={{ width: 50 }}
                         src={require("../../../../../assets/images/marker-3.png")}
                     />
-                    
+                    <p style={{
+                        fontWeight: "bold",
+                        fontSize: 15,
+                        marginLeft: 10
+                    }}>
+                        We're Here
+                    </p>
                 </div>
             </Col>
         </Marker>

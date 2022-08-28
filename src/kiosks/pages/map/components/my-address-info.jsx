@@ -1,13 +1,11 @@
-import { Button, Spin } from 'antd';
+import { Spin } from 'antd';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getAddressService } from '../../../services/map_service';
 import './../styles.css'
 
 const MyAddress = ({ currentLocation }) => {
     const [isMyAddressLoading, setMyAddressLoading] = useState(false);
     const [myAddress, setMyAddress] = useState();
-    let navigate = useNavigate();
 
     const getMyAddress = async () => {
         try {
@@ -32,7 +30,7 @@ const MyAddress = ({ currentLocation }) => {
                         alt="example"
                         src={require("../../../../assets/images/marker-1.png")}
                     />
-                    {myAddress}
+                    {'Here: ' + myAddress}
                 </> : <></>
             }
         </div>

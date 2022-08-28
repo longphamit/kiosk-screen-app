@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton, Spin, Tag } from "antd";
+import { Col, Row, Skeleton, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CustomMap } from "../../../@app/components/map/map";
@@ -88,9 +88,6 @@ export const SpecificEventPage = ({ }) => {
                         </Row>
                     </div>
                 </ScrollContainer>
-
-
-
             </div>
             : <Skeleton />}
     </>

@@ -6,7 +6,7 @@ const NotFoundPage: React.FC = () => {
   let navigate = useNavigate();
 
   return (
-    <div>
+    <div style={{ marginTop: 100 }}>
       <Result
         status="404"
         title="404"
@@ -30,19 +30,11 @@ const NotFoundPage: React.FC = () => {
                 >
                   Sign in
                 </Button>
-                <Button
-                  style={{ margin: 10 }}
-                  danger
-                  onClick={() => navigate("/signup")}
-                >
-                  Sign up
-                </Button>
               </>
             )}
           </>
         }
       />
-      ,
     </div>
   );
 };
