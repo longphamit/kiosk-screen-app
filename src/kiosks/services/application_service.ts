@@ -25,3 +25,10 @@ export const getMyInstalledApplicationsService = async () => {
   );
   return response.data;
 }
+export const getApplicationByIdService = async (id: any) => {
+  const response = await request.get(
+    `${HOST}/v1/my-app?ServiceApplicationId=${id}&Status=installed&page=1`
+  );
+  return response.data;
+
+}

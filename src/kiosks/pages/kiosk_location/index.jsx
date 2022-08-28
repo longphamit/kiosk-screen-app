@@ -4,7 +4,6 @@ import {
     Modal,
     Rate,
     Row,
-    Spin,
 } from "antd";
 import "./styles.css";
 import Slider from "react-slick";
@@ -114,7 +113,6 @@ const KioskLocationInfoPage = () => {
     };
     return (
         <>
-
             <div ref={ref} {...events}>
                 <div style={{ height: "94vh" }}>
                     {kioskLocation ?

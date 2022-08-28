@@ -4,7 +4,6 @@ import { getWeatherService } from "../../services/weather_service";
 import {
     TbCloudRain,
     TbSun,
-    TbSunrise,
     TbTemperatureCelsius
 } from "react-icons/tb";
 const WeatherView = () => {

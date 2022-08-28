@@ -1,7 +1,7 @@
 import { Marker } from "@goongmaps/goong-map-react"
 import { Col } from "antd"
 
-export const CustomMarker = ({ item, imgSrc }) => {
+export const CustomMarker = ({ item, imgSrc, type }) => {
     return (
         <Marker
             color="black"
@@ -16,7 +16,7 @@ export const CustomMarker = ({ item, imgSrc }) => {
                         id="marker"
                         alt="example"
                         src={imgSrc}
-                        style={{ width: 100 }}
+                        style={{ width: type === 'event' ? 45 : 60 }}
                     />
                     <p style={{
                         fontWeight: "bold",
@@ -45,6 +45,7 @@ export const CustomKioskMarker = ({ item, imgSrc }) => {
                         id="marker"
                         alt="example"
                         src={imgSrc}
+                        style={{ width: 50 }}
                     />
                     <label style={{ fontSize: 18, fontWeight: 'bold ' }}>Kiosk</label>
                 </div>

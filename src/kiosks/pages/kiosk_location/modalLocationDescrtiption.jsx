@@ -1,4 +1,4 @@
-import { Col, Modal, Row, Skeleton, Spin } from "antd";
+import { Col, Modal, Row, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";

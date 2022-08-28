@@ -3,7 +3,6 @@ import {
   Row,
 } from "antd";
 import "./styles.css";
-import { Card, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
@@ -11,15 +10,7 @@ import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, KIOSK_ID, USER_I
 import { getHomeBannerService } from "../../services/home_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
 import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
-const { Meta } = Card;
-const contentStyle = {
-  height: "300px",
-  color: "#fff",
-  lineHeight: "160px",
-  textAlign: "center",
-  contentAlign: "center",
-  background: "#364d79",
-};
+
 const sliderSettings = {
   dots: true,
   infinite: true,
@@ -73,7 +64,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div style={{ marginLeft: 50, marginRight: 50, height: "100vh" }}>
+      <div style={{ marginLeft: 50, marginRight: 50, height: "94vh" }}>
         <Row>
           <Col span={24}>
             {banners ?
@@ -85,16 +76,15 @@ const HomePage = () => {
               >
                 {banners?.map((image) => {
                   return (
-                    <div >
+                    <div onClick={() => onClickBanner(image)}>
                       <Row >
                         <div style={{
                           backgroundPosition: 'center',
                           backgroundSize: 'cover',
                           backgroundRepeat: 'no-repeat',
                           borderRadius: 30,
-                          backgroundImage: `url(${image.link})`, width: "100%", height: 800
+                          backgroundImage: `url(${image.link})`, width: "100%", height: 600
                         }}>
-
                         </div>
                       </Row>
                     </div>

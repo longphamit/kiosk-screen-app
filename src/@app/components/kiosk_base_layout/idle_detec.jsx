@@ -1,4 +1,4 @@
-import { Col, Modal, Row, Statistic } from "antd";
+import { Modal, Statistic } from "antd";
 import { useEffect, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { BsCheckCircleFill } from "react-icons/bs"
@@ -7,13 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 import useDispatch from "../../hooks/use_dispatch";
 import { setSelectedIcon } from "../../redux/slices/bar_slice";
 import { ProgressBar } from 'primereact/progressbar';
-const TIME_OUT_DETECT_IDLE_TIME = 1*1000*5*60;
-const TIME_LIMIT_DETECT = 1*1000*30;
+const TIME_OUT_DETECT_IDLE_TIME = 1 * 1000 * 5 * 60;
+const TIME_LIMIT_DETECT = 1 * 1000 * 30;
 const { Countdown } = Statistic;
 const IdleDetect = () => {
     const [isShowModalConfirm, setShowModalConfirm] = useState(false)
     const [valProgress, setValProgress] = useState(0)
-    const [isUserHere, setUserHerer] = useState(false)
     const navigate = useNavigate()
     const [keyModal, setKeyModal] = useState()
     const [confirmTimeout, setConfirmTimeout] = useState()

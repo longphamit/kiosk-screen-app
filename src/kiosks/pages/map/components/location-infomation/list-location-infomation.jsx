@@ -12,9 +12,9 @@ export const ListLocationInformation = ({ locations, setCurrentItem }) => {
                     return <>
                         <div className="card-location-information" onClick={() => { setCurrentItem(e) }}>
                             <Row style={{ margin: '20px 20px' }}>
-                                <Col span={16} style={{ marginRight: 15 }}>
+                                <Col span={18} style={{ marginRight: 15 }}>
                                     <div style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                        {e.name.length > 23 ? e.name.slice(0, 20) + '...' : e.name}
+                                        {e.name.length > 30 ? e.name.slice(0, 27) + '...' : e.name}
                                     </div>
 
                                     {e.timeStart ?
@@ -51,7 +51,7 @@ export const ListLocationInformation = ({ locations, setCurrentItem }) => {
                                     }
 
                                 </Col>
-                                <Col span={6}>
+                                <Col span={4}>
                                     <img
                                         src={e.thumbnail ? e.thumbnail.link : defaultImg}
                                         style={{ width: 70, height: 70, borderRadius: 10 }}

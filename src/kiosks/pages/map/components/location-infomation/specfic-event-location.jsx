@@ -109,25 +109,15 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                             </Col>
                             <Col span={20}>
                                 <Row>
-                                    <Col span={4} style={{ fontWeight: 'bold' }}> From:</Col>
+                                    <Col span={3} style={{ fontWeight: 'bold' }}> From:</Col>
                                     <Col span={20}>
-                                        <Tag style={{ fontSize: 20 }}>
-                                            {moment(event.timeStart).format('DD/MM/YYYY')}
-                                        </Tag>
-                                        <Tag color={'blue'} style={TagStyle}>
-                                            {moment(event.timeEnd).format('HH:mm')}
-                                        </Tag>
+                                        {moment(event.timeStart).format('HH:mm - DD/MM/YYYY')}
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col span={4} style={{ fontWeight: 'bold' }}>  To:</Col>
+                                    <Col span={3} style={{ fontWeight: 'bold' }}>  To:</Col>
                                     <Col span={20}>
-                                        <Tag style={{ fontSize: 20 }}>
-                                            {moment(event.timeEnd).format('DD/MM/YYYY')}
-                                        </Tag>
-                                        <Tag color={'red'} style={TagStyle}>
-                                            {moment(event.timeEnd).format('HH:mm')}
-                                        </Tag>
+                                        {moment(event.timeEnd).format('HH:mm - DD/MM/YYYY')}
                                     </Col>
                                 </Row>
                             </Col>

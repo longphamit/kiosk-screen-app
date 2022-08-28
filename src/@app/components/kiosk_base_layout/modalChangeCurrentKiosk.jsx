@@ -2,7 +2,6 @@ import { Button, Col, Form, Input, Modal, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  formItemLayout,
   tailFormItemLayout,
 } from "../../../kiosks/layouts/form_layout";
 import {

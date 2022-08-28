@@ -1,12 +1,19 @@
 import { Col, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import './styles.css'
-export const ApplicationCard = ({ app }) => {
+export const ApplicationCard = ({ app, colSpan = 7 }) => {
     let navigator = useNavigate();
-    return <Col xl={6} xs={4} offset={1}>
-
+    return <Col span={colSpan} offset={1}>
         <div
-            className="app-box"
+            style={{
+                marginBottom: 10,
+                marginTop: 15,
+                marginRight: 30,
+                border: '.5px solid #d8d9d7',
+                background: 'white',
+                borderRadius: 20,
+                padding: 20
+            }}
             onClick={() => {
                 navigator({
                     pathname:
@@ -17,18 +24,20 @@ export const ApplicationCard = ({ app }) => {
                 });
             }}
         >
-            <Row align="middle" justify="center" style={{ marginBottom: 10 }}>
+            <Row align="middle" justify="center" style={{ marginBottom: 10, padding: '10px 50px 20px 50px' }}>
                 <img
-                    style={{ height: 200 }}
-                    className="app-image"
+                    height={colSpan === 10 ? '160px' : '160px'}
+                    width={colSpan === 10 ? '160px' : '160px'}
                     alt="example"
                     src={app.logo}
                 />
             </Row>
+            <Row align="middle" justify="center" >
+                <label style={{ fontSize: 22, fontWeight: 'bold' }}>
+                    {app.name}
+                </label>
+            </Row>
 
-            <label style={{ fontSize: 22, fontWeight: 'bold' }}>
-                {app.name}
-            </label>
         </div>
     </Col>
 }

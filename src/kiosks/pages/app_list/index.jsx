@@ -1,4 +1,4 @@
-import { Col, Form, Row, Spin, Typography } from "antd";
+import { Col, Form, Row, Typography } from "antd";
 import "./styles.css";
 import { Card } from "antd";
 import { toast } from "react-toastify";
@@ -28,7 +28,7 @@ const AppListPage = () => {
       return;
     }
     try {
-      
+
       const resAppCategory = await getAppCategoryByIdService(id);
       const res = await getListApplicationService(
         "",
@@ -55,7 +55,7 @@ const AppListPage = () => {
   }, []);
   return (
     <>
-      <div style={{ margin: 100, height:"100vh" }}>
+      <div style={{ margin: 100, height: "100vh" }}>
         <Col span={24}>
           <Row span={24}>
             <Col span={24}><Title style={{ textAlign: "center", color: "#fff" }} className="center" level={2}>{appCategory?.name}</Title></Col>

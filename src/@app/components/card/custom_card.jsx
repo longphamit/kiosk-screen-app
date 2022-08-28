@@ -21,9 +21,9 @@ export const CustomCard = ({ colSpan, imgSrc, title, link }) => {
                 </div>
             </Row>
             <Row align="middle" justify="center" >
-                <p style={{ fontWeight: 'bold', fontSize: 18, marginTop: 15 }}>
+                <label style={{ fontWeight: 'bold', fontSize: 18, marginTop: 15 }}>
                     {title}
-                </p>
+                </label>
             </Row>
 
         </Col>

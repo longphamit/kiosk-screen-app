@@ -45,7 +45,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     (state) => state.back_button
   );
   const [weather, setWeather] = useState();
-  const [top, setTop] = useState(10);
+  const [top, setTop] = useState(0);
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
@@ -242,7 +242,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
               <div style={{ marginBottom: 0 }}>{children}</div>
 
               <>
-                <div>
+                <div style={{ zIndex: 1 }}>
                   <Affix
                     offsetBottom={top}
                     className="center"
@@ -250,7 +250,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                       textAlign: "center",
                       width: "60%",
                       position: "fixed",
-                      bottom: -30,
+                      bottom: 0,
                       left: "20%",
                     }}
                   >

@@ -1,4 +1,4 @@
-import { Row, Skeleton } from "antd"
+import { Row} from "antd"
 import { useEffect, useState } from "react"
 import { CustomCard } from "../../../@app/components/card/custom_card";
 import { EmptyCard } from "../../../@app/components/card/empty_card";

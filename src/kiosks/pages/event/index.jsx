@@ -48,55 +48,51 @@ export const AllEventsPage = ({ }) => {
     }, []);
 
     return <>
-        <div style={{ height: '94vh' }}>
+        <div style={{ height: '93vh' }}>
             {data ?
                 <div style={{ width: '95%' }}>
-                    <Col>
-                        {listEventPosition.length !== 0 ?
-                            listEventPosition?.map((row, index) => {
-                                return (
-                                    <div>
-                                        <Row >
-                                            <Col span={23} offset={1}>
-                                                <ScrollContainer
-                                                    key={index}
-                                                    className="drag-list-container"
-                                                    horizontal={true}
-                                                >
-                                                    {row.map((e) => {
-                                                        return (
-                                                            <EventCard item={convertEventObj(e)} rowIdx={index} isPriority={true} />
-                                                        );
-                                                    })}
-                                                </ScrollContainer>
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                );
-                            }) :
-                            data.map((row, index) => {
-                                return (
-                                    <div>
-                                        <Row>
-                                            <Col span={23} offset={1}>
-                                                <ScrollContainer
-                                                    key={index}
-                                                    className="drag-list-container"
-                                                    horizontal={true}
-                                                >
-                                                    {row.map((e) => {
-                                                        return (
-                                                            <EventCard item={e} rowIdx={index} />
-                                                        );
-                                                    })}
-                                                </ScrollContainer>
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                );
-                            })
-                        }
-                    </Col>
+                    {listEventPosition.length !== 0 ?
+                        listEventPosition?.map((row, index) => {
+                            return (
+                                <div >
+                                    <Col span={23} offset={1}>
+                                        <ScrollContainer
+                                            key={index}
+                                            className="drag-list-container"
+                                            horizontal={true}
+                                        >
+                                            {row.map((e) => {
+                                                return (
+                                                    <EventCard item={convertEventObj(e)} rowIdx={index} isPriority={true} />
+                                                );
+                                            })}
+                                        </ScrollContainer>
+                                    </Col>
+                                </div>
+                            );
+                        }) :
+                        data.map((row, index) => {
+                            return (
+                                <div>
+                                    <Row>
+                                        <Col span={23} offset={1}>
+                                            <ScrollContainer
+                                                key={index}
+                                                className="drag-list-container"
+                                                horizontal={true}
+                                            >
+                                                {row.map((e) => {
+                                                    return (
+                                                        <EventCard item={e} rowIdx={index} />
+                                                    );
+                                                })}
+                                            </ScrollContainer>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            );
+                        })
+                    }
                 </div>
                 : <LoadingPageCard />}
         </div>
@@ -106,7 +102,9 @@ const convertEventObj = (event) => {
     return {
         id: event.EventId,
         status: event.EventStatus,
-        thumbnal: event.EventThumbnail,
+        thumbnail: {
+            link: event.EventThumbnail.Link
+        },
         name: event.EventName
     }
 }

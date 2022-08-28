@@ -1,4 +1,4 @@
-import { Col, Empty, Row } from "antd";
+import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { ApplicationCard } from "../../../@app/components/card/application_card";

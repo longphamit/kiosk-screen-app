@@ -1,7 +1,6 @@
 import { Card, Col, Empty, Row } from "antd";
 import { useEffect, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { useNavigate } from "react-router-dom";
 import { KIOSK_ID, USER_ID } from "../../../@app/constants/key";
 import useSelector from "../../../@app/hooks/use_selector";
 import { getAllApplicationCategoryService } from "../../services/app_category_service";
@@ -11,20 +10,17 @@ import { getListApplicationServiceByTemplateIdService, getListMyApplicationServi
 import { ArrowUpOutlined } from "@ant-design/icons";
 import { AppCategoryCard } from "../../../@app/components/card/app_category_card";
 import loadingCategoryGif from './../../../assets/gif/loading_category.gif';
-import loadingPageGif from './../../../assets/gif/loading_page.gif';
 import { ApplicationCard } from "../../../@app/components/card/application_card";
 import { splitDataIntoRow } from "../../../@app/utils/layout_utils";
 import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
-const { Meta } = Card;
 
 const AppCatePage = () => {
-    const { listEventPosition, listAppCatePosition, templateId } = useSelector(
+    const { listAppCatePosition, templateId } = useSelector(
         (state) => state.home_view
     );
     const [isLoading, setLoading] = useState(true);
     const [listAppCate, setListAppCate] = useState()
     const [listApp, setListApp] = useState()
-    const navigator = useNavigate()
     const getListAppByTemplateId = async () => {
         if (templateId.length === 0) {
             getAllAppCate()
@@ -44,8 +40,10 @@ const AppCatePage = () => {
         }
         setTimeout((() => {
             getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res => {
-                if (!templateId) {
+                if (!templateId || templateId.length === 0) {
                     getListAppByTemplateId()
+                } else {
+                    setListAppCate(res.data.appCategories)
                 }
             })
         }), 3000)
@@ -91,7 +89,7 @@ const AppCatePage = () => {
     }, []);
     return <div>
 
-        <div style={{ height: "100%" }}>
+        <div style={{ height: "94vh" }}>
             {
                 isLoading || !listApp ?
                     <>
@@ -159,8 +157,8 @@ const AppCatePage = () => {
                                 </ScrollContainer>
                             </div>
                         </Col>
-                        <Col span={16} style={{ backgroundColor: "#ffff", marginBottom: 20, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
-                            <div style={{ width: '95%' }}>
+                        <Col span={16} style={{ backgroundColor: "#ffff", marginBottom: 10, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
+                            <div style={{ width: '95%', height: 650 }}>
                                 {
                                     listApp?.length === 0 ?
                                         <Empty className="center" /> :
@@ -176,7 +174,7 @@ const AppCatePage = () => {
                                                             >
                                                                 {row.map((e) => {
                                                                     return (
-                                                                        <ApplicationCard app={e} />
+                                                                        <ApplicationCard app={e} colSpan={10} />
                                                                     );
                                                                 })}
                                                             </ScrollContainer>
