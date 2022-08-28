@@ -1,35 +1,27 @@
 import {
-    Carousel,
     Col,
-    Descriptions,
     Image,
     Modal,
     Rate,
     Row,
-    Skeleton,
-    Spin,
-    Typography,
 } from "antd";
 import "./styles.css";
 import Slider from "react-slick";
-import { Card, Avatar } from "antd";
-import { useNavigate } from "react-router-dom";
-import useSelector from "../../../@app/hooks/use_selector";
 import { PRIMARY_COLOR } from "../../../@app/constants/colors";
 import { useEffect, useRef, useState } from "react";
 import { getLocationByIdService } from "../../../@app/services/kiosk_location_service";
 import { toast } from "react-toastify";
-import { FaAngry, FaFrownOpen, FaGrinAlt, FaGrinBeam, FaGrinHearts, FaGrinStars } from 'react-icons/fa';
+import { FaAngry, FaFrownOpen, FaGrinAlt, FaGrinHearts, FaGrinStars } from 'react-icons/fa';
 import {
     PhoneFilled,
     MailFilled,
 } from "@ant-design/icons";
-import { getKioskInfoService, getKioskTemplate, getKioskTemplateService } from "../../services/kiosk_service";
+import { getKioskInfoService, getKioskTemplateService } from "../../services/kiosk_service";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { kioskRatingService } from "../../services/kiosk_rating_service";
 import { KIOSK_ID } from "../../../@app/constants/key";
 import { useDraggable } from "react-use-draggable-scroll";
-const { Meta } = Card;
+import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
 const contentStyle = {
     height: "300px",
     color: "#fff",
@@ -48,21 +40,11 @@ const sliderSettings = {
 const KioskLocationInfoPage = () => {
     const ref = useRef();
     const { events } = useDraggable(ref);
-    const navigator = useNavigate();
     const [kioskLocation, setKioskLocation] = useState();
-    const [
-        isLocationDescriptionModalVisible,
-        setLocationDescriptionModalVisible,
-    ] = useState(false);
-    const [eventDetailsVisibile, setEventDetailsVisible] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState();
     const [isLoadingRating, setIsLoadingRating] = useState(false);
     const [value, setValue] = useState(0);
     const [kioskId, setKioskId] = useState("");
-    const { listEventPosition, listAppCatePosition } = useSelector(
-        (state) => state.home_view
-    );
-    const desc = ["terrible", "bad", "normal", "good", "wonderful"];
+    const desc = ["Terrible", "Bad", "Normal", "Good", "Wonderful"];
     const getKioskLocation = async () => {
         const res = localStorage.getItem("KIOSK_ID");
         setKioskId(res);
@@ -119,31 +101,32 @@ const KioskLocationInfoPage = () => {
         getKioskTemplate();
     }, []);
 
-
+    const formatPhoneNumber = (phone) => {
+        return (phone.substring(0, 4) + " " + phone.substring(4, 7) + ' ' + phone.substring(7, 10));
+    }
     const customIcons = {
-        1: <FaAngry size={60} style={{ marginLeft: 10 }} />,
-        2: <FaFrownOpen size={60} style={{ marginLeft: 10 }} />,
-        3: <FaGrinAlt size={60} style={{ marginLeft: 10 }} />,
-        4: <FaGrinStars size={60} style={{ marginLeft: 10 }} />,
-        5: <FaGrinHearts size={60} style={{ marginLeft: 10 }} />,
+        1: <FaAngry size={50} style={{ padding: 0 }} />,
+        2: <FaFrownOpen size={50} style={{ padding: 0 }} />,
+        3: <FaGrinAlt size={50} style={{ padding: 0 }} />,
+        4: <FaGrinStars size={50} style={{ padding: 0 }} />,
+        5: <FaGrinHearts size={50} style={{ padding: 0 }} />,
     };
     return (
-        <div ref={ref} {...events}>
-            <div style={{ height: "100%",marginBottom:300 }}>
-
-                <div style={{ marginLeft: 50, marginRight: 50, }}>
-                    <Row>
-                        <Col span={15} style={{ margin: 10 }}>
-                            <div className="location-info">
-                                {
-                                    !kioskLocation ?
-                                        <Skeleton /> :
+        <>
+            <div ref={ref} {...events}>
+                <div style={{ height: "94vh" }}>
+                    {kioskLocation ?
+                        <div style={{ marginLeft: 50, marginRight: 50, }}>
+                            <Row>
+                                <Col span={15} style={{ margin: 10 }}>
+                                    <div className="location-info">
                                         <div>
                                             <div style={{ textAlign: "center" }}>
                                                 <h2
                                                     style={{
                                                         fontWeight: "bold",
-                                                        fontSize: 50,
+                                                        fontSize: '3.2em',
+                                                        fontFamily: '"Fern", serif',
                                                         color: PRIMARY_COLOR,
                                                     }}
                                                 >
@@ -153,52 +136,45 @@ const KioskLocationInfoPage = () => {
                                             <ScrollContainer className="drag-list-vertical-container-info" vertical={true}>
                                                 <div style={{
                                                     width: "100%",
-                                                    fontSize: 15,
+                                                    fontSize: 18,
                                                     padding: 20,
                                                 }} className="div-description center" dangerouslySetInnerHTML={{ __html: kioskLocation?.description }} />
                                             </ScrollContainer>
                                         </div>
-                                }
-
-                            </div>
-                        </Col>
-                        <Col span={8} style={{ margin: 10 }}>
-                            <div className="location-info">
-                                {kioskLocation ? (
-                                    <>
+                                    </div>
+                                </Col>
+                                <Col span={8} style={{ margin: 10 }}>
+                                    <div className="location-info">
                                         <div style={{ width: "100%" }}>
                                             <div >
                                                 <Row span={24}>
                                                     <Col span={24}>
-                                                        {
-                                                            kioskLocation ? <Slider
-                                                                {...sliderSettings}
-                                                                autoplay
-                                                                autoplaySpeed={2000}
-                                                                style={{ margin: 10, textAlign: "center", alignItems: "center" }}
-                                                            >
-                                                                {
-                                                                    kioskLocation.listImage?.map((image) => {
-                                                                        return (
-                                                                            <div style={contentStyle}>
-                                                                                <Image
-                                                                                    style={{ textAlign: "center" }}
-                                                                                    key={image.id}
-                                                                                    src={image.link}
-                                                                                />
-                                                                            </div>
-                                                                        );
-                                                                    })
-                                                                }
-                                                            </Slider> : null
-                                                        }
-
+                                                        <Slider
+                                                            {...sliderSettings}
+                                                            autoplay
+                                                            autoplaySpeed={2000}
+                                                            style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                                                        >
+                                                            {
+                                                                kioskLocation.listImage?.map((image) => {
+                                                                    return (
+                                                                        <div style={contentStyle}>
+                                                                            <Image
+                                                                                style={{ textAlign: "center" }}
+                                                                                key={image.id}
+                                                                                src={image.link}
+                                                                            />
+                                                                        </div>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Slider>
                                                     </Col>
                                                     <Col span={24}></Col>
                                                     <Col span={24}>
                                                         <div
                                                             style={{
-                                                                background: "#afeb9d",
+                                                                background: "#FFC300",
                                                                 marginBottom: 10,
                                                                 padding: 15,
                                                                 borderRadius: 10,
@@ -208,41 +184,27 @@ const KioskLocationInfoPage = () => {
                                                             }}
                                                         >
                                                             <Row>
-                                                                <Col span={2}>
+                                                                <Col span={4}>
                                                                     <PhoneFilled />
-                                                                </Col>
-                                                                <Col span={22} style={{ textAlign: "center" }}>
-                                                                    {kioskLocation.hotLine}
-                                                                </Col>
-                                                            </Row>
-                                                        </div>
-                                                    </Col>
-                                                    <Col span={24}>
-                                                        <div
-                                                            style={{
-                                                                background: "#ff8442",
-                                                                marginBottom: 10,
-                                                                padding: 15,
-                                                                borderRadius: 10,
-                                                                color: "#fff",
-                                                                fontWeight: "bold",
-                                                                fontSize: 30,
-                                                            }}
-                                                        >
-                                                            <Row>
-                                                                <Col span={2}>
                                                                     <MailFilled />
                                                                 </Col>
-                                                                <Col span={22} style={{ textAlign: "center" }}>
+                                                                <Col span={20} >
+                                                                    {formatPhoneNumber(kioskLocation.hotLine)}<br />
                                                                     {kioskLocation.ownerEmail}
                                                                 </Col>
                                                             </Row>
+                                                            <Row>
+                                                                <Col span={2}>
+                                                                </Col>
+                                                                <Col span={22} >
+                                                                </Col>
+                                                            </Row>
                                                         </div>
                                                     </Col>
                                                     <Col span={24}>
                                                         <div
                                                             style={{
-                                                                background: "#f7a197",
+                                                                background: "#3AB4F2",
                                                                 marginBottom: 20,
                                                                 borderRadius: 10,
                                                                 color: "#fff",
@@ -251,17 +213,15 @@ const KioskLocationInfoPage = () => {
                                                             }}
                                                         >
                                                             <Row style={{ textAlign: "center" }}>
-                                                                <Col span={24} style={{ fontSize: 20, marginBottom: 10 }}>
+                                                                <Col span={24} style={{ fontSize: 20, marginBottom: 10, fontSize: 30 }}>
                                                                     Rating
                                                                 </Col>
                                                             </Row>
                                                             <Row style={{ textAlign: "center" }}>
                                                                 <Col span={24}>
                                                                     <span>
-
                                                                         <Rate
-
-                                                                            style={{ fontSize: 30 }}
+                                                                            style={{ fontSize: 30, color: '#FFC300' }}
                                                                             tooltips={desc}
                                                                             onChange={onChangeRating}
                                                                             value={value}
@@ -285,19 +245,16 @@ const KioskLocationInfoPage = () => {
                                             </div>
 
                                         </div>
-                                    </>
-                                ) : (
-                                    <Row>
-                                        <Spin className="center" />
-                                    </Row>
-                                )}
-                            </div>
-                        </Col>
-                    </Row>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </div>
+                        :
+                        <LoadingPageCard />
+                    }
                 </div>
-
             </div>
-        </div>
+        </>
     );
 };
 export default KioskLocationInfoPage;

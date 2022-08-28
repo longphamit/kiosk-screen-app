@@ -14,10 +14,10 @@ export const SubLocationInfomation = ({ currentItem, currentLocation, modalVisib
                 <>
                     <Modal
                         width={1000}
-                        
                         mask={false}
                         visible={modalVisible}
                         footer={null}
+                        style={{ marginTop: -80 }}
                         onCancel={() => setModalVisible(false)}
                     >
                         <div className="sub-info-scroll-bar">

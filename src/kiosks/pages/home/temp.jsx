@@ -61,7 +61,7 @@ import {
     const { listEventPosition, listAppCatePosition } = useSelector(
       (state) => state.home_view
     );
-    const desc = ["terrible", "bad", "normal", "good", "wonderful"];
+    const desc = ["Terrible", "Bad", "Normal", "Good", "Wonderful"];
     const getKioskLocation = async () => {
       const res = localStorage.getItem("KIOSK_ID");
       setKioskId(res);

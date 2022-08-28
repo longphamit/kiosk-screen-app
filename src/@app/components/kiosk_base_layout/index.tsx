@@ -5,7 +5,6 @@ import {
   LeftCircleOutlined,
 } from "@ant-design/icons";
 import { ScrollTop } from "primereact/scrolltop";
-import { Dock } from "primereact/dock";
 import { ReactNode, useEffect, useState } from "react";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
@@ -14,19 +13,16 @@ import { toast } from "react-toastify";
 import { localStorageClearService } from "../../services/localstorage_service";
 import TimeView from "./time";
 import useDispatch from "../../hooks/use_dispatch";
-import messaging, { getTokenCustom } from "../../../kiosks/configs/firebase";
+import { getTokenCustom } from "../../../kiosks/configs/firebase";
 import { setReceiveNotifyChangeTemplate } from "../../redux/slices/home_view";
 import { getKioskTemplateService } from "../../../kiosks/services/kiosk_service";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import ModalChangeCurrenKiosk from "./modalChangeCurrentKiosk";
-import { getLocationByIdService } from "../../services/kiosk_location_service";
 import { PRIMARY_COLOR } from "../../constants/colors";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { HOST_SIGNALR } from "../../constants/host";
 import Iframe from "react-iframe";
 import { logoutRedux } from "../../redux/stores";
-import { changeStatusKioskService } from "../../services/kiosk_service";
-import { KIOSK_ID } from "../../constants/key";
 import useSelector from "../../hooks/use_selector";
 import {
   FaArchway,
@@ -37,12 +33,10 @@ import {
 } from "react-icons/fa";
 import { MdFastfood, MdOutlineFlight } from "react-icons/md";
 import { IoApps, IoReloadCircleSharp } from "react-icons/io5";
-import { useIdleTimer } from "react-idle-timer";
 import WeatherView from "./weather";
-import IdleDetect from "./idle_detec";
 import { setSelectedIcon } from "../../redux/slices/bar_slice";
 var CronJob = require("cron").CronJob;
-const { Header, Content, Sider } = Layout;
+const { Content } = Layout;
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
   const kioskId = localStorage.getItem("KIOSK_ID");
@@ -51,7 +45,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
     (state) => state.back_button
   );
   const [weather, setWeather] = useState();
-  const [top, setTop] = useState(10);
+  const [top, setTop] = useState(0);
   const [size, setSize] = useState<SizeType>("large");
   const [isTokenFound, setTokenFound] = useState(false);
   const [value, setValue] = useState("30 5 * * 1,6");
@@ -59,9 +53,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { selectedIcon } = useSelector((state) => state.bar);
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
-  const onNavigate = (url: string) => {
-    navigate(url);
-  };
   const doCronJob = () => {
     new CronJob(
       "0 * * * *",
@@ -158,50 +149,16 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   };
   const iconMoveOnClick = () => {
     dispatch(setSelectedIcon("MOVE"));
+    navigate("/transport")
   };
   const iconFoodOnClick = () => {
     dispatch(setSelectedIcon("FOOD"));
+    navigate("/food")
   };
-  const dockItems = [
-    isBackButton
-      ? {
-          label: "Back",
-          icon: () => (
-            <LeftCircleOutlined
-              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
-            />
-          ),
-          command: () => {
-            navigate(backToPageUrl);
-          },
-        }
-      : {},
-    {
-      label: "Home",
-      icon: () => <HomeFilled style={{ color: PRIMARY_COLOR, fontSize: 70 }} />,
-      command: () => {
-        navigate("/home-page");
-      },
-    },
-    {
-      label: "Map",
-      icon: () => (
-        <img
-          style={{ width: 70 }}
-          alt="example"
-          src={require("../../../assets/images/map.png")}
-        />
-      ),
-      command: () => {
-        navigate("/map");
-      },
-    },
-    {},
-  ];
 
   return (
     <>
-      
+
       <ModalChangeCurrenKiosk
         isChangeCurrentKioskModal={isChangeCurrentKioskModal}
         handleCancelModal={handleCancelModal}
@@ -265,7 +222,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                 ></path>
               </svg>
 
-              <Row style={{ marginTop: 10 }}>
+              <Row align="middle" justify="center">
                 <Col span={14}></Col>
                 <Col span={5}>
                   <TimeView />
@@ -282,10 +239,10 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                   />
                 </Col>
               </Row>
-              <div style={{ marginBottom: 100 }}>{children}</div>
+              <div style={{ marginBottom: 0 }}>{children}</div>
 
               <>
-                <div>
+                <div style={{ zIndex: 1 }}>
                   <Affix
                     offsetBottom={top}
                     className="center"
@@ -293,7 +250,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                       textAlign: "center",
                       width: "60%",
                       position: "fixed",
-                      bottom:-30,
+                      bottom: 0,
                       left: "20%",
                     }}
                   >
@@ -307,7 +264,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                       }}
                     >
                       <Row className="center" style={{ width: "100%" }}>
-                      <Col
+                        <Col
                           span={3}
                           onClick={() => {
                             iconHomeOnClick();
@@ -327,7 +284,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           Home
                         </Col>
-                        
+
                         <Col
                           span={3}
                           onClick={() => {
@@ -364,7 +321,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           Food
                         </Col>
-                        
+
                         <Col span={3} onClick={() => iconPOIOnClick()}>
                           <div style={{ textAlign: "center" }}>
                             <FaArchway
@@ -395,8 +352,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           <div
                             style={{
                               textAlign: "center",
-                              color:
-                                selectedIcon === "APP" ? "#059ef7" : "#000",
                             }}
                           >
                             <FaMapMarkerAlt
@@ -446,23 +401,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                           </div>
                           Info
                         </Col>
-
-                        {/* {isBackButton ? (
-                          <div>
-                            <LeftCircleOutlined
-                              className="center"
-                              style={{ color: PRIMARY_COLOR, fontSize: 60 }}
-                            />
-                            Back
-                          </div>
-                        ) : null} */}
                       </Row>
-
-                      {/* <img
-                          style={{ width: 80 }}
-                          alt="example"
-                          src={require("../../../assets/images/map.png")}
-                        /> */}
                     </div>
                   </Affix>
                   <Affix
@@ -470,7 +409,7 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                     style={{
                       textAlign: "right",
                       position: "fixed",
-                      bottom:-30,
+                      bottom: 0,
                       left: "80%",
                     }}
                   >
