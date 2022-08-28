@@ -5,6 +5,7 @@ import { EventCard } from "../../../@app/components/card/event_card";
 import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
 import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, KIOSK_ID, USER_ID } from "../../../@app/constants/key";
 import useSelector from "../../../@app/hooks/use_selector";
+import { splitDataIntoRow } from "../../../@app/utils/layout_utils";
 import { getEventNearbyService } from "../../services/event_service";
 import { getKioskTemplateService } from "../../services/kiosk_service";
 import "./styles.css"
@@ -40,24 +41,7 @@ export const AllEventsPage = ({ }) => {
             setData([]);
         }
     }
-    const splitDataIntoRow = (events) => {
-        let itemPerRow = Math.round(events.length / 2);
-        let rowIdx = 0;
-        let temp = [];
-        let index = 0;
-        for (let i = 0; i < events.length; i++) {
-            index++;
-            if (temp[rowIdx] === undefined) {
-                temp[rowIdx] = []
-            }
-            temp[rowIdx].push(events[i]);
-            if (index === itemPerRow) {
-                rowIdx += 1;
-                index = 0;
-            }
-        }
-        return temp;
-    }
+
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         getKioskTemplate()

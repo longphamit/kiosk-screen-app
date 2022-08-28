@@ -8,45 +8,45 @@ export const EventCard = ({ item, rowIdx, isPriority = false }) => {
     return <>
 
         {item.status !== "deleted" ?
-            <Col span={6}>
-                <div
-                    className="event-box"
-                    onClick={() => {
-                        navigate(`/event/${item.id}`)
-                    }}
-                >
-                    {
-                        item.status === "end" ?
-                            <div className="status-event-tag">
-                                END
+            <>
+                <Col span={6}>
+                    <div
+                        className="event-box"
+                        onClick={() => {
+                            navigate(`/event/${item.id}`)
+                        }}
+                    >
+                        {
+                            item.status === "end" ?
+                                <div className="status-event-tag">
+                                    END
+                                </div> : null
+                        }
+                        {
+                            rowIdx == 0 && isPriority ? <div className="hight-priority-event-tag">
+                                <FaStar />
                             </div> : null
-                    }
-                    {
-                        rowIdx == 0 && isPriority ? <div className="hight-priority-event-tag">
-                            <FaStar />
-                        </div> : null
-                    }
-                    <div>
-                        <div className="event-image" style={{
-                            backgroundImage: `url(${item.thumbnail.link})`,
-                            backgroundPosition: 'center',
-                            backgroundSize: 'cover',
-                            backgroundRepeat: 'no-repeat',
-                            height: 270,
-                            width: 400,
-                            opacity: item.EventStatus === "end" ? 0.4 : 0.9,
-                        }}>
+                        }
+                        <div>
+                            <div className="event-image" style={{
+                                backgroundImage: `url(${item.thumbnail.link})`,
+                                backgroundPosition: 'center',
+                                backgroundSize: 'cover',
+                                backgroundRepeat: 'no-repeat',
+                                opacity: item.EventStatus === "end" ? 0.4 : 0.9,
+                            }}>
+                            </div>
+                        </div>
+                        <div>
+                            <p style={{ marginTop: 20 }}>{item.name}</p>
                         </div>
                     </div>
-                    <div>
-                        <p style={{ marginTop: 20 }}>{item.name}</p>
-                    </div>
-                </div>
-            </Col>
+                </Col>
+                <Col span={1} />
+            </>
             : null
 
         }
 
-        <Col span={1} style={{ marginLeft: 40 }}></Col>
     </>
 }

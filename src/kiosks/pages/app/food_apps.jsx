@@ -1,22 +1,22 @@
-import { Col, Empty, Row } from "antd";
+import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { useParams } from "react-router-dom";
 import { ApplicationCard } from "../../../@app/components/card/application_card";
 import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
 import { USER_ID } from "../../../@app/constants/key";
+import { splitDataIntoRow } from "../../../@app/utils/layout_utils";
 import { getListMyApplicationService } from "../../services/application_service";
 
-export const AppByCategoryPage = () => {
-    const { id } = useParams();
+const APP_CATE_ID = "ab39609e-1857-4f06-a33e-3583ecadf154";
+export const FoodAppsPage = () => {
     const [apps, setApps] = useState();
 
     const getAppById = async () => {
         try {
-            let res = await getListMyApplicationService(id, localStorage.getItem(USER_ID));
-            setApps(res.data)
+            let res = await getListMyApplicationService(APP_CATE_ID, localStorage.getItem(USER_ID));
+            setApps(splitDataIntoRow(res.data))
         } catch (e) {
-            console.log(e);
+            console.error(e);
             setApps([])
         }
     }
@@ -41,32 +41,22 @@ export const AppByCategoryPage = () => {
                                                     className="drag-list-container"
                                                     horizontal={true}
                                                 >
-                                                    <div>
-                                                        {/* <Row>
-                                                            {
-                                                                apps?.map(item => {
-                                                                    return (
-                                                                        <ApplicationCard app={item} />
-                                                                    )
-                                                                })
-                                                            }
-                                                            {
-                                                                apps?.length == 0 ? <Empty className="center" /> : null
-                                                            }
-
-                                                        </Row> */}
-                                                    </div>
+                                                    {row.map((e) => {
+                                                        return (
+                                                            <ApplicationCard app={e} />
+                                                        );
+                                                    })}
                                                 </ScrollContainer>
                                             </Col>
                                         </Row>
                                     </div>
-                                );
+                                )
                             })
                         }
                     </Col>
                 </div>
                 : <LoadingPageCard />
             }
-        </div>
+        </div >
     </>
 }

@@ -36,7 +36,7 @@ import { IoApps, IoReloadCircleSharp } from "react-icons/io5";
 import WeatherView from "./weather";
 import { setSelectedIcon } from "../../redux/slices/bar_slice";
 var CronJob = require("cron").CronJob;
-const { Header, Content, Sider } = Layout;
+const { Content } = Layout;
 const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
   const kioskId = localStorage.getItem("KIOSK_ID");
@@ -53,9 +53,6 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   const { selectedIcon } = useSelector((state) => state.bar);
   const [isChangeCurrentKioskModal, setIsChangeCurrentKioskModal] =
     useState(false);
-  const onNavigate = (url: string) => {
-    navigate(url);
-  };
   const doCronJob = () => {
     new CronJob(
       "0 * * * *",
@@ -152,48 +149,12 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
   };
   const iconMoveOnClick = () => {
     dispatch(setSelectedIcon("MOVE"));
-    navigate("/app-list/b6c4e439-f980-474e-afcf-bf02b1124898")
+    navigate("/transport")
   };
   const iconFoodOnClick = () => {
     dispatch(setSelectedIcon("FOOD"));
-    navigate("/app-list/ab39609e-1857-4f06-a33e-3583ecadf154")
+    navigate("/food")
   };
-  const dockItems = [
-    isBackButton
-      ? {
-        label: "Back",
-        icon: () => (
-          <LeftCircleOutlined
-            style={{ color: PRIMARY_COLOR, fontSize: 60 }}
-          />
-        ),
-        command: () => {
-          navigate(backToPageUrl);
-        },
-      }
-      : {},
-    {
-      label: "Home",
-      icon: () => <HomeFilled style={{ color: PRIMARY_COLOR, fontSize: 70 }} />,
-      command: () => {
-        navigate("/home-page");
-      },
-    },
-    {
-      label: "Map",
-      icon: () => (
-        <img
-          style={{ width: 70 }}
-          alt="example"
-          src={require("../../../assets/images/map.png")}
-        />
-      ),
-      command: () => {
-        navigate("/map");
-      },
-    },
-    {},
-  ];
 
   return (
     <>

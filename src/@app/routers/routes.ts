@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { AppByCategoryPage } from "../../kiosks/pages/app";
+import { FoodAppsPage } from "../../kiosks/pages/app/food_apps";
+import { TransportAppsPage } from "../../kiosks/pages/app/transport_apps";
 import AppCatePage from "../../kiosks/pages/app_cate";
 import AppListPage from "../../kiosks/pages/app_list";
 import IframeInterface from "../../kiosks/pages/app_list/iframeInterface";
@@ -31,7 +32,7 @@ const routes: Route[] = [
     isLayout: false,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: UnAuthPage,
@@ -39,106 +40,115 @@ const routes: Route[] = [
     isLayout: false,
     authen: true,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: HomePage,
     path: "/home-page",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: MapPage,
     path: "/map",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: AppListPage,
     path: "/app-list",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: AppCatePage,
     path: "/app-cate",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: KioskLocationInfoPage,
     path: "/infor",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: IframeInterface,
     path: "/iframe-interface",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: AllPOIsPage,
     path: "/poi",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: SpecificPOIPage,
     path: "/poi/:id",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: AllEventsPage,
     path: "/event",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
     component: SpecificEventPage,
     path: "/event/:id",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
   },
   {
-    component: AppByCategoryPage,
-    path: "/app-list/:id",
+    component: TransportAppsPage,
+    path: "/transport",
     isLayout: true,
-    layout:KioskBaseLayout,
+    layout: KioskBaseLayout,
     authen: false,
     breadcrumb: "",
-    roles:[""]
+    roles: [""]
+  },
+  {
+    component: FoodAppsPage,
+    path: "/food",
+    isLayout: true,
+    layout: KioskBaseLayout,
+    authen: false,
+    breadcrumb: "",
+    roles: [""]
   },
 ];
 

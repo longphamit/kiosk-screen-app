@@ -13,6 +13,8 @@ import { AppCategoryCard } from "../../../@app/components/card/app_category_card
 import loadingCategoryGif from './../../../assets/gif/loading_category.gif';
 import loadingPageGif from './../../../assets/gif/loading_page.gif';
 import { ApplicationCard } from "../../../@app/components/card/application_card";
+import { splitDataIntoRow } from "../../../@app/utils/layout_utils";
+import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
 const { Meta } = Card;
 
 const AppCatePage = () => {
@@ -29,7 +31,7 @@ const AppCatePage = () => {
         } else {
             try {
                 const res = await getListApplicationServiceByTemplateIdService(templateId);
-                setListApp(res.data)
+                setListApp(splitDataIntoRow(res.data))
             } catch (e) {
                 console.error(e);
                 getAllAppCate()
@@ -57,7 +59,7 @@ const AppCatePage = () => {
                 appCateId,
                 localStorage.getItem(USER_ID)
             );
-            setListApp(res.data)
+            setListApp(splitDataIntoRow(res.data))
         } catch (e) {
             setListApp([])
         }
@@ -78,7 +80,8 @@ const AppCatePage = () => {
                 name: e.serviceApplicationName
             }
         })
-        setListApp(data);
+        let apps = splitDataIntoRow(data)
+        setListApp(apps);
     }
 
     useEffect(() => {
@@ -87,14 +90,13 @@ const AppCatePage = () => {
 
     }, []);
     return <div>
-        {
-            isLoading ?
-                <>
-                    <Row>
-                        <img src={loadingPageGif} alt="" />
-                    </Row>
-                </> :
-                <div style={{ height: "100%" }}>
+
+        <div style={{ height: "100%" }}>
+            {
+                isLoading || !listApp ?
+                    <>
+                        <LoadingPageCard />
+                    </> :
                     <Row >
                         <Col span={1} />
                         <Col span={6} style={{ backgroundColor: "#ffff", borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
@@ -158,29 +160,38 @@ const AppCatePage = () => {
                             </div>
                         </Col>
                         <Col span={16} style={{ backgroundColor: "#ffff", marginBottom: 20, marginLeft: 20, borderRadius: 20, paddingLeft: 10, paddingRight: 10, paddingBottom: 5, paddingTop: 5 }}>
-                            <ScrollContainer hideScrollbars={true} className="specific-poi-event-scroll" vertical={true}>
-                                <div>
-                                    <Row>
-                                        {
-                                            listApp?.map(item => {
-                                                return (
-                                                    <ApplicationCard app={item} />
-                                                )
-                                            })
-                                        }
-                                        {
-                                            listApp?.length == 0 ? <Empty className="center" /> : null
-                                        }
-
-                                    </Row>
-                                </div>
-                            </ScrollContainer>
+                            <div style={{ width: '95%' }}>
+                                {
+                                    listApp?.length === 0 ?
+                                        <Empty className="center" /> :
+                                        listApp.map((row, index) => {
+                                            return (
+                                                <div>
+                                                    <Row>
+                                                        <Col span={23} offset={1}>
+                                                            <ScrollContainer
+                                                                key={index}
+                                                                className="drag-list-container"
+                                                                horizontal={true}
+                                                            >
+                                                                {row.map((e) => {
+                                                                    return (
+                                                                        <ApplicationCard app={e} />
+                                                                    );
+                                                                })}
+                                                            </ScrollContainer>
+                                                        </Col>
+                                                    </Row>
+                                                </div>
+                                            )
+                                        })
+                                }
+                            </div>
                         </Col>
                         <Col span={1} />
                     </Row>
-
-                </div>
-        }
+            }
+        </div>
     </div >
 }
 export default AppCatePage;
