@@ -1,9 +1,9 @@
-export const splitDataIntoRow = (items) => {
+export const splitDataIntoRow = (items, maxItems) => {
     let itemPerRow = 0;
     let rowIdx = 0;
     let temp = [];
     let index = 0;
-    if (items.length < 5) {
+    if (items.length < maxItems) {
         itemPerRow = 3;
         for (let i = 0; i < items.length; i++) {
             index++;

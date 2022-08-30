@@ -24,9 +24,12 @@ const HomePage = () => {
   const getHomeBanner = async () => {
     const partyId = localStorage.getItem(USER_ID)
     const kioskId = localStorage.getItem(KIOSK_ID)
-    const res = await getHomeBannerService(partyId, kioskId);
-    console.log(res.data)
-    setBanners(res.data)
+    try {
+      const res = await getHomeBannerService(partyId, kioskId);
+      setBanners(res.data)
+    } catch (e) {
+      setBanners([])
+    }
   }
   const navigate = useNavigate()
   const getCurrentLocation = () => {
@@ -76,7 +79,7 @@ const HomePage = () => {
               >
                 {banners?.map((image) => {
                   return (
-                    <div onClick={() => onClickBanner(image)}>
+                    <div >
                       <Row >
                         <div style={{
                           backgroundPosition: 'center',
@@ -85,6 +88,9 @@ const HomePage = () => {
                           borderRadius: 30,
                           backgroundImage: `url(${image.link})`, width: "100%", height: 600
                         }}>
+                          <Row justify="center" align="middle" style={{ height: 400 }}>
+                            <Col style={{ width: 300, height: 400, background: 'red' }} onClick={() => onClickBanner(image)}></Col >
+                          </Row>
                         </div>
                       </Row>
                     </div>
