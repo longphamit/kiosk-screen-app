@@ -39,10 +39,10 @@ const ModalChangeCurrenKiosk = ({
     setIsLoading(true);
     try {
       const currenKiosk = localStorage.getItem(KIOSK_ID);
-      await changeStatusKioskService(currenKiosk);
+      await changeStatusKioskService(currenKiosk, true);
 
       localStorage.setItem(KIOSK_ID, values.Kiosk);
-      await changeStatusKioskService(values.Kiosk);
+      await changeStatusKioskService(values.Kiosk, true);
       handleCancelModal();
       setIsCorrectPassword(false);
       navigate("/home-page");
@@ -68,7 +68,8 @@ const ModalChangeCurrenKiosk = ({
       localStorage.setItem(USER_FIRST_NAME, res.data.firstName);
       if (res.code === 200) {
         const res = await getListKioskService(userId, "deactivate", 1, -1);
-        setListKiosk(res.data.data);
+        let temp = res.data.data.filter(e => e.kioskLocationId != null)
+        setListKiosk(temp);
       }
     } catch (error) {
       console.log(error);
@@ -138,7 +139,7 @@ const ModalChangeCurrenKiosk = ({
               {isLoading ? (
                 <Spin />
               ) : (
-                <Row  style={{ marginTop: 10 }}>
+                <Row style={{ marginTop: 10 }}>
                   <Col span={6}>
                     <Button type="primary" htmlType="submit">
                       OK
@@ -193,7 +194,8 @@ const ModalChangeCurrenKiosk = ({
             </Row>
           </Form>
         </Modal>
-      )}
+      )
+      }
     </>
   );
 };

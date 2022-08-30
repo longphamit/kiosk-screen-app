@@ -79,7 +79,7 @@ const HomePage = () => {
               >
                 {banners?.map((image) => {
                   return (
-                    <div onClick={() => onClickBanner(image)}>
+                    <div >
                       <Row >
                         <div style={{
                           backgroundPosition: 'center',
@@ -88,6 +88,9 @@ const HomePage = () => {
                           borderRadius: 30,
                           backgroundImage: `url(${image.link})`, width: "100%", height: 600
                         }}>
+                          <Row justify="center" align="middle" style={{ height: 400 }}>
+                            <Col style={{ width: 300, height: 400, background: 'red' }} onClick={() => onClickBanner(image)}></Col >
+                          </Row>
                         </div>
                       </Row>
                     </div>
