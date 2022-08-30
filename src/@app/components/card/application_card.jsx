@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import './styles.css'
 export const ApplicationCard = ({ app, colSpan = 7 }) => {
     let navigator = useNavigate();
-    return <Col span={colSpan} offset={1}>
+    return <Col span={colSpan} offset={1} style={{
+        marginBottom: colSpan === 10 ? 10 : 50,
+        marginTop: colSpan === 10 ? 10 : 50,
+    }}>
         <div
             style={{
                 marginBottom: 10,

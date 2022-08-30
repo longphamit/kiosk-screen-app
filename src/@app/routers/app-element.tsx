@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { Route, useNavigate, Navigate } from "react-router-dom";
 import IdleDetect from "../components/kiosk_base_layout/idle_detec";
-import { ACCESS_TOKEN } from "../constants/key";
+import { ACCESS_TOKEN, KIOSK_ID } from "../constants/key";
 import {
   ROLE_ADMIN,
   ROLE_LOCATION_OWNER,
@@ -30,7 +30,8 @@ const AppElement: React.FC<Props> = (props) => {
   const access_token = localStorage.getItem(ACCESS_TOKEN);
   sessionStorage.setItem("PATH", path);
   console.log(access_token)
-  if (!access_token) {
+  const kioskId = localStorage.getItem(KIOSK_ID);
+  if (!access_token || !kioskId) {
     return <LoginPage />;
   }
   if (!access_token && authen) {

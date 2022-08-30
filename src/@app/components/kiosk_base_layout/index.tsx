@@ -285,7 +285,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          Home
+                          <label htmlFor="" style={{ fontSize: 20 }}>
+                            Home
+                          </label>
                         </Col>
 
                         <Col
@@ -304,7 +306,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          Transport
+                          <label htmlFor="" style={{ fontSize: 20 }}>
+                            Transport
+                          </label>
                         </Col>
                         <Col
                           span={3}
@@ -322,7 +326,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          Food
+                          <label htmlFor="" style={{ fontSize: 20 }}>
+                            Food
+                          </label>
                         </Col>
 
                         <Col span={3} onClick={() => iconPOIOnClick()}>
@@ -336,7 +342,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          POI
+                          <label htmlFor="" style={{ fontSize: 20 }}>
+                            POI
+                          </label>
                         </Col>
                         <Col span={3} onClick={() => iconEventOnClick()}>
                           <div style={{ textAlign: "center" }}>
@@ -349,7 +357,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          Event
+                          <label htmlFor="" style={{ fontSize: 20 }}>
+                            Event
+                          </label>
                         </Col>
                         <Col span={3} onClick={() => iconMapOnClick()}>
                           <div
@@ -366,7 +376,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          Map
+                          <label htmlFor="" style={{ fontSize: 20 }}>
+                            Map
+                          </label>
                         </Col>
                         <Col
                           span={3}
@@ -384,7 +396,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          App
+                          <label htmlFor="" style={{ fontSize: 20 }}>
+                            App
+                          </label>
                         </Col>
                         <Col
                           span={3}
@@ -402,7 +416,9 @@ const KioskBaseLayout: React.FC<{ children: ReactNode }> = (props) => {
                               }}
                             />
                           </div>
-                          Info
+                          <label htmlFor="" style={{ fontSize: 20 }}>
+                            Info
+                          </label>
                         </Col>
                       </Row>
                     </div>

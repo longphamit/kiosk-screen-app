@@ -33,7 +33,7 @@ export const AppCategoryCard = ({ cate, onAppCateClick }) => {
         />
         <Meta
             style={{ marginTop: 10, marginBottom: 10 }}
-            title={<label style={{ fontSize: 20 }}>{cate.name}</label>}
+            title={<label style={{ fontSize: 22 }}>{cate.name}</label>}
         />
         <Divider />
     </div >

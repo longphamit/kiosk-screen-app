@@ -1,4 +1,4 @@
-import { Card, Col, Empty, Row } from "antd";
+import { Col, Empty, Row } from "antd";
 import { useEffect, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { KIOSK_ID, USER_ID } from "../../../@app/constants/key";
@@ -27,7 +27,7 @@ const AppCatePage = () => {
         } else {
             try {
                 const res = await getListApplicationServiceByTemplateIdService(templateId);
-                setListApp(splitDataIntoRow(res.data))
+                setListApp(splitDataIntoRow(res.data, 3))
             } catch (e) {
                 console.error(e);
                 getAllAppCate()
@@ -45,7 +45,7 @@ const AppCatePage = () => {
                 } else {
                     setListAppCate(res.data.appCategories)
                 }
-            })
+            }).catch(e => console.log(e))
         }), 3000)
         setLoading(false);
 
@@ -57,7 +57,7 @@ const AppCatePage = () => {
                 appCateId,
                 localStorage.getItem(USER_ID)
             );
-            setListApp(splitDataIntoRow(res.data))
+            setListApp(splitDataIntoRow(res.data, 3))
         } catch (e) {
             setListApp([])
         }
@@ -78,7 +78,7 @@ const AppCatePage = () => {
                 name: e.serviceApplicationName
             }
         })
-        let apps = splitDataIntoRow(data)
+        let apps = splitDataIntoRow(data, 3)
         setListApp(apps);
     }
 

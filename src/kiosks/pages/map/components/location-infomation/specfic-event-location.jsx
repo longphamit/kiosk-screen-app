@@ -80,7 +80,7 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                                     <div style={{ width: '100%' }}>
                                         <Row className="element-direction" justify="center" style={{ float: 'right' }}>
                                             <Row style={{ width: '100%', marginTop: 10 }}>
-                                                <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, event.latitude, event.longtitude)} />
+                                                <QRCode className="qrCode" size={70} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, event.latitude, event.longtitude)} />
                                             </Row>
                                             <Row>
                                                 <p>Direction</p>
@@ -127,7 +127,8 @@ export const SpecificEventLocation = ({ event, currentLocation }) => {
                         {
                             event.description ?
                                 <>
-                                    <Divider orientation="left">Description</Divider>
+                                    <Divider orientation="left" style={{ fontSize: 20 }}>
+                                    </Divider>
                                     <Row className="element-description-event" >
                                         {event.description.charAt(0) === '<' ?
                                             <div dangerouslySetInnerHTML={{ __html: event.description }} className="embeddedHTML" />

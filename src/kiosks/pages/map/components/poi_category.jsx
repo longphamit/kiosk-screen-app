@@ -33,7 +33,7 @@ const POICategoryComponent = ({ listPoiCategories, eventOnClick }) => {
                         return (<>
                             <div
                                 className='poi-category-card-box'
-                                style={{ textAlign: "center" }}
+                                style={{ textAlign: "center", fontSize: 20, padding:'20px 20px 0 20px' }}
                                 onClick={() => { eventOnClick(e.name) }}
                             >
                                 {e.icon} {e.name}
@@ -46,7 +46,7 @@ const POICategoryComponent = ({ listPoiCategories, eventOnClick }) => {
                             return (<>
                                 <div
                                     className='poi-category-card-box'
-                                    style={{ textAlign: "center" }}
+                                    style={{ textAlign: "center", fontSize: 20, padding: '20px 20px 0 20px'  }}
                                     onClick={() => { eventOnClick(e.id) }}
                                 >
                                     <img style={{ width: 70, height: 70 }} src={e.logo} alt="" className='poi-category-card-box-img' />
@@ -54,8 +54,8 @@ const POICategoryComponent = ({ listPoiCategories, eventOnClick }) => {
                                 </div>
                             </>);
                         }) : null}
-                    
-                    
+
+
                 </ScrollContainer>
             </div>
         </>

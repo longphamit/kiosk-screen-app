@@ -179,13 +179,13 @@ const KioskLocationInfoPage = () => {
                                                                 padding: 15,
                                                                 borderRadius: 10,
                                                                 color: "#fff",
-                                                                fontWeight: "bold",
+                                                                fontWeight:     "bold",
                                                                 fontSize: 30,
                                                             }}
                                                         >
                                                             <Row>
-                                                                <Col span={4}>
-                                                                    <PhoneFilled />
+                                                                <Col span={3} offset={1}>
+                                                                    <PhoneFilled /> <br/>
                                                                     <MailFilled />
                                                                 </Col>
                                                                 <Col span={20} >

@@ -24,9 +24,12 @@ const HomePage = () => {
   const getHomeBanner = async () => {
     const partyId = localStorage.getItem(USER_ID)
     const kioskId = localStorage.getItem(KIOSK_ID)
-    const res = await getHomeBannerService(partyId, kioskId);
-    console.log(res.data)
-    setBanners(res.data)
+    try {
+      const res = await getHomeBannerService(partyId, kioskId);
+      setBanners(res.data)
+    } catch (e) {
+      setBanners([])
+    }
   }
   const navigate = useNavigate()
   const getCurrentLocation = () => {
@@ -64,7 +67,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div style={{ marginLeft: 50, marginRight: 50, height: "94vh" }}>
+      <div style={{ marginLeft: 50, marginRight: 50, height: "95vh" }}>
         <Row>
           <Col span={24}>
             {banners ?
@@ -76,14 +79,14 @@ const HomePage = () => {
               >
                 {banners?.map((image) => {
                   return (
-                    <div onClick={() => onClickBanner(image)}>
+                    <div  onClick={() => onClickBanner(image)}>
                       <Row >
                         <div style={{
                           backgroundPosition: 'center',
                           backgroundSize: 'cover',
                           backgroundRepeat: 'no-repeat',
                           borderRadius: 30,
-                          backgroundImage: `url(${image.link})`, width: "100%", height: 600
+                          backgroundImage: `url(${image.link})`, width: "100%", height: 900
                         }}>
                         </div>
                       </Row>
