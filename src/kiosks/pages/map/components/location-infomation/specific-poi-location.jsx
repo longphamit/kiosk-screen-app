@@ -116,7 +116,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                                 <img src={require('../../../../../assets/images/clock-blue.png')} />
                             </Col>
                             <Col span={12} style={{ padding: 0, marginLeft: -15, marginTop: -5 }}>
-                                <Collapse defaultActiveKey={[]} ghost expandIconPosition="right" style={{ marginRight: 170 }}>
+                                <Collapse defaultActiveKey={[]} ghost expandIconPosition="right" style={{ marginRight: 60 }}>
                                     <Panel header={openTime + ' - ' + closeTime} key="1" style={{ fontSize: 22 }}>
                                         {dayOfWeeks ?
                                             dayOfWeeks.map((e => {
