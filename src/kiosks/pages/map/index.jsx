@@ -264,15 +264,14 @@ const MapPage = () => {
                       goongApiAccessToken={GOONG_ACCESS_MAP_KEY}
                     >
                       <Row>
-                        <Col span={5} />
                         {/* Search bar */}
-                        <Col span={15}>
+                        <Col span={17} offset={5}>
                           {isPOICategoryLoading ? <Spin className="center" /> :
                             <POICategoryComponent listPoiCategories={listPoiCategories} eventOnClick={filterData} />
                           }
                         </Col>
                         {/* Map navigate bar */}
-                        <Col span={1} offset={1}>
+                        <Col span={1}>
                           <Space align="baseline" direction="vertical">
                             <NavigationControl style={navControlStyle} />
                             {/* Reload Map */}

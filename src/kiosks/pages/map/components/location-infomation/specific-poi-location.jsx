@@ -88,7 +88,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                                 <div style={{ width: '100%' }}>
                                     <Row className="element-direction" justify="center" style={{ float: 'right' }}>
                                         <Row style={{ width: '100%', marginTop: 10 }}>
-                                            <QRCode className="qrCode" size={50} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, poi.latitude, poi.longtitude)} />
+                                            <QRCode className="qrCode" size={70} value={getDirectUrl(currentLocation.latitude, currentLocation.longitude, poi.latitude, poi.longtitude)} />
                                         </Row>
                                         <Row>
                                             <p>Direction</p>
@@ -117,7 +117,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                             </Col>
                             <Col span={12} style={{ padding: 0, marginLeft: -15, marginTop: -5 }}>
                                 <Collapse defaultActiveKey={[]} ghost expandIconPosition="right" style={{ marginRight: 170 }}>
-                                    <Panel header={openTime + ' - ' + closeTime} key="1" style={{ fontSize: 18 }}>
+                                    <Panel header={openTime + ' - ' + closeTime} key="1" style={{ fontSize: 22 }}>
                                         {dayOfWeeks ?
                                             dayOfWeeks.map((e => {
                                                 return <Row style={{ marginRight: -170 }}>
@@ -133,7 +133,7 @@ export const SpecificPOILocation = ({ poi, currentLocation }) => {
                     </div>
                     <div className=" prevent-drag-scroll">
                         {poi.description ? <>
-                            <Divider orientation="left">Description</Divider>
+                            <Divider orientation="left" style={{ fontSize: 20 }}>Description</Divider>
                             <Row className="element-description-poi">
                                 <div id="embbeded-description" dangerouslySetInnerHTML={{ __html: poi.description }} className="embeddedHTML" />
                             </Row></>

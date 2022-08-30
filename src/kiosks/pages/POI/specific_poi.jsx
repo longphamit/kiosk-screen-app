@@ -49,12 +49,12 @@ export const SpecificPOIPage = ({ }) => {
         {poi ?
             <div>
                 <ScrollContainer ignoreElements={".prevent-drag-scroll"} className="specific-poi-event-scroll" vertical={true}>
-                    <div>
+                    <div className="prevent-drag-scroll">
                         <PoiBannerCard poi={poi} />
                     </div>
-                    <div>
+                    <div className="prevent-drag-scroll">
                         <Row style={{ marginTop: 5 }}>
-                            <Col span={10} >
+                            <Col span={10} className="prevent-drag-scroll">
                                 <div className="poi-image-box prevent-drag-scroll" style={{ zIndex: 10 }}>
                                     {
                                         <Slider

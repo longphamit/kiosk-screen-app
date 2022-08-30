@@ -28,11 +28,11 @@ export const EventBannerCard = ({ event }) => {
                     <Col span={8}>
                         <Row justify="center" align="middle">
                             <div className="banner-card-baseinfo" style={{ marginTop: -250 }}>
-                                <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 18 }}>
+                                <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 22 }}>
                                     {event.name}
                                 </Row>
-                                <Row style={{ marginBottom: 5 }}>
-                                    <Col span={4}>
+                                <Row style={{ marginBottom: 5, fontSize: 20 }}>
+                                    <Col span={4} style={{ fontSize: 20 }}>
                                         Start time
                                     </Col>
                                     <Col offset={1}>
@@ -40,35 +40,35 @@ export const EventBannerCard = ({ event }) => {
                                     </Col>
                                 </Row>
                                 <Row style={{ marginBottom: 5 }}>
-                                    <Col span={4}>
+                                    <Col span={4} style={{ fontSize: 20 }}>
                                         End time
                                     </Col>
-                                    <Col offset={1}>
+                                    <Col offset={1} style={{ fontSize: 20 }}>
                                         {moment(event.timeEnd).format('HH:mm DD/MM/YYYY')}
                                     </Col>
                                 </Row>
                                 <Row style={{ marginBottom: 5 }}>
-                                    <Col span={4}>
+                                    <Col span={4} style={{ fontSize: 20 }}>
                                         Status
                                     </Col>
                                     <Col offset={1} span={17}>
                                         {event.status === STATUS_COMING_SOON ? (
                                             <Tag color={"yellow"} >
-                                                <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                                <div style={{ padding: 5, fontWeight: 'bold', fontSize: 20 }}>
                                                     Up coming
                                                 </div>
                                             </Tag>
                                         ) : event.status === STATUS_ON_GOING ?
                                             (
                                                 <Tag color={"green"}>
-                                                    <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                                    <div style={{ padding: 5, fontWeight: 'bold', fontSize: 20 }}>
                                                         On going
                                                     </div>
                                                 </Tag>
                                             ) :
                                             (
                                                 <Tag color={"grey"}>
-                                                    <div style={{ padding: 5, fontWeight: 'bold' }}>
+                                                    <div style={{ padding: 5, fontWeight: 'bold', fontSize: 20 }}>
                                                         End
                                                     </div>
                                                 </Tag>
@@ -78,11 +78,11 @@ export const EventBannerCard = ({ event }) => {
                                 </Row>
                                 <Divider style={{ marginTop: 15, marginBottom: 15 }} />
                                 <Row>
-                                    <Col span={4}>
+                                    <Col span={4} style={{ fontSize: 20 }}>
                                         Location
                                     </Col>
                                     <Col offset={1} span={17}>
-                                        <p>
+                                        <p style={{ fontSize: 20 }}>
                                             {`${event.address} - ${event.ward} ${event.district} ${event.city} `}
                                         </p>
                                     </Col>
