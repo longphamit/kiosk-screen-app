@@ -34,7 +34,7 @@ export const AllEventsPage = ({ }) => {
             let long = localStorage.getItem(CURRENT_LOCATION_LONGITUDE);
             let partyId = localStorage.getItem(USER_ID);
             let res = await getEventNearbyService(long, lat, partyId)
-            let events = splitDataIntoRow(res.data.data)
+            let events = splitDataIntoRow(res.data.data, 5)
             setData(events);
         } catch (e) {
             console.error(e);

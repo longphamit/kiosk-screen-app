@@ -15,7 +15,7 @@ export const TransportAppsPage = () => {
         try {
             let res = await getListMyApplicationService(APP_CATE_ID, localStorage.getItem(USER_ID));
             console.log(res.data)
-            setApps(splitDataIntoRow(res.data))
+            setApps(splitDataIntoRow(res.data, 5))
         } catch (e) {
             console.error(e);
             setApps([])

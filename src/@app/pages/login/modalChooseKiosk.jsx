@@ -21,15 +21,19 @@ const ModalChooseKiosk = ({
     setIsLoading(true);
     try {
       localStorage.setItem(KIOSK_ID, values.Kiosk);
-      await changeStatusKioskService(values.Kiosk, true);
-      const res = await getKioskByIdService(values.Kiosk)
-      console.log(res)
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        localStorage.setItem(CURRENT_LOCATION_LATITUDE, position.coords.latitude)
-        localStorage.setItem(CURRENT_LOCATION_LONGITUDE, position.coords.longitude)
-        updateKioskService(values.Kiosk, res.data.name, position.coords.longitude, position.coords.latitude, res.data.kioskLocationId);
-      });
-      navigate("/home-page");
+      try {
+        await changeStatusKioskService(values.Kiosk, true);
+        const res = await getKioskByIdService(values.Kiosk)
+        console.log(res)
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          localStorage.setItem(CURRENT_LOCATION_LATITUDE, position.coords.latitude)
+          localStorage.setItem(CURRENT_LOCATION_LONGITUDE, position.coords.longitude)
+          updateKioskService(values.Kiosk, res.data.name, position.coords.longitude, position.coords.latitude, res.data.kioskLocationId);
+        });
+        navigate("/home-page");
+      } catch (e) {
+        console.error(e)
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -47,7 +51,7 @@ const ModalChooseKiosk = ({
         1,
         -1
       );
-      setListKiosk(res.data.data);
+      setListKiosk(res.data.data.filter(e => e.kioskLocationId != null));
     } catch (e) {
       console.error(e)
       // No kiosk active
@@ -68,14 +72,15 @@ const ModalChooseKiosk = ({
         footer={null}
       >
         {
-          listKiosk.length === 0 ? <div>
-            <Row align="middle" justify="center">
-              <img src={kiosk_img} alt="" width={400} height={400} />
-              <div style={{ color: 'red', fontStyle: 'italic', fontSize: "16px", textAlign: 'center', marginTop: -20, marginBottom: 50 }}>
-                *No kiosk is actived. Please check your kiosk at the managment web.
-              </div>
-            </Row>
-          </div> :
+          listKiosk.length === 0 ?
+            <div>
+              <Row align="middle" justify="center">
+                <img src={kiosk_img} alt="" width={400} height={400} />
+                <div style={{ color: 'red', fontStyle: 'italic', fontSize: "16px", textAlign: 'center', marginTop: -20, marginBottom: 50 }}>
+                  *No kiosk is available. Please check your kiosk at the managment web.
+                </div>
+              </Row>
+            </div> :
             <Form
               style={{ margin: 30 }}
               form={form}

@@ -24,9 +24,12 @@ const HomePage = () => {
   const getHomeBanner = async () => {
     const partyId = localStorage.getItem(USER_ID)
     const kioskId = localStorage.getItem(KIOSK_ID)
-    const res = await getHomeBannerService(partyId, kioskId);
-    console.log(res.data)
-    setBanners(res.data)
+    try {
+      const res = await getHomeBannerService(partyId, kioskId);
+      setBanners(res.data)
+    } catch (e) {
+      setBanners([])
+    }
   }
   const navigate = useNavigate()
   const getCurrentLocation = () => {
