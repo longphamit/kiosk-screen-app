@@ -28,14 +28,14 @@ export const PoiBannerCard = ({ poi }) => {
                     <Col span={8}>
                         <Row>
                             <div className="banner-card-baseinfo" style={{ marginTop: -250 }}>
-                                <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 24, fontFamily: '"Fern", serif', color: PRIMARY_COLOR }}>
+                                <Row justify="center" align="middle" style={{ fontWeight: 'bold', fontSize: 28, fontFamily: '"Fern", serif', color: PRIMARY_COLOR }}>
                                     {poi.name}
                                 </Row>
-                                <Row>
-                                    <Col span={5} style={{ fontWeight: 'bold' }}>
+                                <Row >
+                                    <Col span={5} style={{ fontWeight: 'bold', fontSize: 20 }}>
                                         Open time
                                     </Col>
-                                    <Col offset={1} span={18}>
+                                    <Col offset={1} span={18} style={{ fontSize: 20 }}>
                                         {convertTime(poi.openTime.hours,
                                             poi.openTime.minutes,
                                             poi.openTime.seconds).format("HH:mm")} ~  {convertTime(poi.closeTime.hours,
@@ -45,11 +45,11 @@ export const PoiBannerCard = ({ poi }) => {
                                 </Row>
                                 <Divider style={{ marginTop: 15, marginBottom: 15 }} />
                                 <Row>
-                                    <Col span={5} style={{ fontWeight: 'bold' }}>
+                                    <Col span={5} style={{ fontWeight: 'bold', fontSize: 20 }}>
                                         Location
                                     </Col>
                                     <Col offset={1} span={18}>
-                                        <p>
+                                        <p style={{ fontSize: 20 }}>
                                             {`${poi.address} - ${poi.ward} ${poi.district} ${poi.city} `}
                                         </p>
                                     </Col>
