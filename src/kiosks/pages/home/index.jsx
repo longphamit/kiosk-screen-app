@@ -1,149 +1,106 @@
-import { Col, Image, Row, Typography } from "antd"
-import "./styles.css"
-import { Card, Avatar } from 'antd';
+import {
+  Col,
+  Row,
+} from "antd";
+import "./styles.css";
 import { useNavigate } from "react-router-dom";
-const { Title } = Typography;
-const { Meta } = Card;
-const style = { background: '#0092ff', padding: '8px 0' };
+import { useEffect, useState } from "react";
+import Slider from "react-slick";
+import { CURRENT_LOCATION_LATITUDE, CURRENT_LOCATION_LONGITUDE, KIOSK_ID, USER_ID } from "../../../@app/constants/key";
+import { getHomeBannerService } from "../../services/home_service";
+import { getKioskTemplateService } from "../../services/kiosk_service";
+import { LoadingPageCard } from "../../../@app/components/card/loading_page_card";
+
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1
+};
+
 const HomePage = () => {
-    const navigator= useNavigate()
-    return <>
-        <div style={{ margin: 40 }}>
-            <Col span={24}>
-                <Row span={24}>
-                    <Title level={2}>App Category</Title>
-                </Row>
+  const [banners, setBanners] = useState()
+  const getHomeBanner = async () => {
+    const partyId = localStorage.getItem(USER_ID)
+    const kioskId = localStorage.getItem(KIOSK_ID)
+    try {
+      const res = await getHomeBannerService(partyId, kioskId);
+      setBanners(res.data)
+    } catch (e) {
+      setBanners([])
+    }
+  }
+  const navigate = useNavigate()
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      localStorage.setItem(CURRENT_LOCATION_LATITUDE, position.coords.latitude)
+      localStorage.setItem(CURRENT_LOCATION_LONGITUDE, position.coords.longitude)
+      console.log(position)
+    });
+  }
+  const getKioskTemplate = async () => {
+    getKioskTemplateService(localStorage.getItem(KIOSK_ID)).then(res => {
+      console.log(res.data)
+    })
+  }
+  useEffect(() => {
+    window.scrollTo({ top: 50, left: 0, behavior: 'smooth' });
+    getHomeBanner();
+    getKioskTemplate();
+    getCurrentLocation();
+  }, []);
+  const onClickBanner = (banner) => {
+    console.log(banner)
+    let url = ""
+    if (banner.keyType === "app_image") {
+      url = `/iframe-interface?id=${banner.keyId}`
+    }
+    if (banner.keyType === "event_image") {
+      url = `/event/${banner.keyId}`
+    }
+    if (banner.keyType === "poi_image") {
+      url = `/poi/${banner.keyId}`
+    }
+    navigate(url)
+  }
 
-                <div >
-                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                        <Col xl={6} span={12}>
-                            <div className="app-box" onClick={()=>{navigator("/map")}}><img
-                                className="app-image"
-                                alt="example"
-                                src={require('../../../assets/images/map.png')}
-                            />
-                                <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
-                            </div>
-                        </Col>
-                        <Col xl={6} span={12}>
-                            <div className="app-box"><img
-                                className="app-image"
-                                alt="example"
-                                src={require('../../../assets/images/hotel.png')}
-                            />
-                                <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
-                            </div>
-                        </Col>
-                        <Col xl={6} span={12}>
-                            <div className="app-box"><img
-                                className="app-image"
-                                alt="example"
-                                src={require('../../../assets/images/fast-food.png')}
-                            />
-                                <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
-                            </div>
-                        </Col>
-                        <Col xl={6} span={12}>
-                            <div className="app-box"><img
-                                className="app-image"
-                                alt="example"
-                                src={require('../../../assets/images/cinema.png')}
-                            />
-                                <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
-                            </div>
+  return (
+    <>
+      <div style={{ marginLeft: 50, marginRight: 50, height: "95vh" }}>
+        <Row>
+          <Col span={24}>
+            {banners ?
+              <Slider
+                {...sliderSettings}
+                style={{ margin: 10, textAlign: "center", alignItems: "center" }}
+                autoplay
+                autoplaySpeed={2000}
+              >
+                {banners?.map((image) => {
+                  return (
+                    <div  onClick={() => onClickBanner(image)}>
+                      <Row >
+                        <div style={{
+                          backgroundPosition: 'center',
+                          backgroundSize: 'cover',
+                          backgroundRepeat: 'no-repeat',
+                          borderRadius: 30,
+                          backgroundImage: `url(${image.link})`, width: "100%", height: 900
+                        }}>
+                        </div>
+                      </Row>
+                    </div>
+                  );
+                }
+                )}
+              </Slider> :
+              <LoadingPageCard />}
+          </Col>
+        </Row>
 
-                        </Col>
-                    </Row>
-                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                        <Col xl={6} span={12}>
-                            <div className="app-box"><img
-                                className="app-image"
-                                alt="example"
-                                src={require('../../../assets/images/ship.png')}
-                            />
-                                <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
-                            </div>
-                        </Col>
-                        <Col xl={6} span={12}>
-                            <div className="app-box"><img
-                                className="app-image"
-                                alt="example"
-                                src={require('../../../assets/images/Train.png')}
-                            />
-                                <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
-                            </div>
-                        </Col>
-                        <Col xl={6} span={12}>
-                            <div className="app-box"><img
-                                className="app-image"
-                                alt="example"
-                                src={require('../../../assets/images/car.png')}
-                            />
-                                <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
-                            </div>
-                        </Col>
-                        <Col xl={6} span={12}>
-                            <div className="app-box"><img
-                                className="app-image"
-                                alt="example"
-                                src={require('../../../assets/images/flight.png')}
-                            />
-                                <Meta style={{ marginTop: 10, marginBottom: 10 }} title="Europe Street beat" />
-                            </div>
-
-                        </Col>
-                    </Row>
-                </div>
-            </Col>
-            <Col span={24}>
-                <Row span={24}>
-                    <Title level={2}>Events</Title>
-                </Row>
-                <div >
-                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                        <Col xl={6} xs={12}>
-                            <div className="event-box">
-                                <img
-                                    className="event-image"
-                                    alt="example"
-                                    src={require('../../../assets/images/event-1.png')}
-                                />
-
-                            </div>
-                        </Col>
-                        <Col xl={6} xs={12}>
-                            <div className="event-box">
-                                <img
-                                    className="event-image"
-                                    alt="example"
-                                    src={require('../../../assets/images/event-2.png')}
-                                />
-
-                            </div>
-                        </Col>
-                        <Col xl={6} xs={12}>
-                            <div className="event-box">
-                                <img
-                                    className="event-image"
-                                    alt="example"
-                                    src={require('../../../assets/images/event-3.png')}
-                                />
-
-                            </div>
-                        </Col>
-                        <Col xl={6} xs={12}>
-                            <div className="event-box">
-                                <img
-                                    className="event-image"
-                                    alt="example"
-                                    src={require('../../../assets/images/event-4.png')}
-                                />
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
-            </Col>
-        </div>
+      </div>
     </>
-}
-export default HomePage
+  );
+};
+export default HomePage;

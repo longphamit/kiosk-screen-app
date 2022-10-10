@@ -1,30 +1,219 @@
 .map {
   width: 100vw;
 }
-.poi-card-box {
-  box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-}
+
 .poi-category-card-box {
-    box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-.poi-address-text {
-  padding: 10xp;
-  margin-top: 10px;
-  box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 3px 3px #ededed;
+  font-weight: bold;
+  font-size: 15px;
 }
-#marker-poi-address-text {
-  margin: auto;
-  width: 50%;
+
+.poi-category-card-box-img {
+  width: 30px;
+  height: 20px;
 }
-#marker{
+
+/* Only use for display address */
+#marker-my-address-text {
+  margin-bottom: 5px;
+  background-color: #fff !important;
+  padding: 10px;
+  border: 4px solid #87de89;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+#marker-my-address-text img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+#marker {
   width: 5%;
 }
+
 .center {
   margin: auto;
   width: 50%;
   padding: 10px;
+}
+
+.qrCode {
+  display: block;
+  margin: auto;
+}
+
+.reload-map-tooltip .reload-map-tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  margin-right: 5px;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: 105%;
+}
+
+.reload-map-tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.reload-map-tooltip:hover .reload-map-tooltiptext {
+  visibility: visible;
+}
+
+.search-bar {
+  margin-left: 7px;
+  background: white;
+  border-color: 1px solid white;
+  border-radius: 10px;
+  padding: 8px;
+  display: inline-block;
+  margin-top: 10px;
+  width: 90% !important;
+  box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+  border: white;
+  outline: none;
+  width: 90%
+}
+
+.card-location-information {
+  box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.1);
+  background: "#fff";
+  text-align: left;
+  margin: 20px;
+  padding: 5px;
+  font-size: 17px;
+  border-radius: 20px;
+  background: rgb(211, 251, 254);
+  background: radial-gradient(circle, rgba(211, 251, 254, 1) 0%, rgba(217, 233, 255, 1) 100%);
+}
+
+.list-location-infomation {
+  overflow-y: auto;
+  max-height: calc(100% - 200px);
+}
+
+.location-information {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.specific-location #preview-image {
+  margin-top: 15px;
+}
+
+.element-title {
+  font-size: 22px;
+  margin-top: 15px;
+  display: inline-block;
+}
+
+.element-title #poi-category {
+  font-weight: normal;
+  margin-left: 15px;
+  color: rgb(128, 126, 126);
+}
+
+.element-title div {
+  font-weight: bold;
+  margin-left: 15px;
+}
+
+.element-description-event,
+.element-description-poi,
+.element-direction {
+  margin-top: 10px;
+  font-size: 20px;
+  font-size: 16px;
+}
+
+.element-description-event,
+.element-description-poi {
+}
+
+#basic-info-row {
+  border-bottom: 0.5px solid rgb(184, 184, 184);
+}
+
+
+.element-description-event div {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.element-description-poi div {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.element-other-info {
+  font-size: 22px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.element-other-info img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.event-status img {
+  width: 35px;
+  height: 35px;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.sub-info-scroll-bar {
+  height: 100%;
+
+}
+
+.map-parent {
+  max-height: 95vh;
+  margin-top: 10px;
+  overflow-y: hidden;
+}
+
+.search-and-view-area {
+  background-color: white;
+}
+
+.reload-map {
+  position: absolute;
+  margin-top: 80px;
+  margin-left: 117px;
+}
+
+.reload-map button {
+  background-color: #fff;
+  border-radius: 5px;
+  align-items: center;
+  width: 33px;
+  border: .5px solid rgb(128, 126, 126);
+}
+
+.embeddedHTML img {
+  font-size: 18px;
+}
+
+.list-info-tag {
+  margin-top: 15px;
 }

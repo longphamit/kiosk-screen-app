@@ -1,286 +1,323 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import ReactMapGL, { Marker, NavigationControl, Popup, ScaleControl } from '@goongmaps/goong-map-react';
-import { Avatar, Button, Card, Col, List, message, Row, Spin } from 'antd';
-import "./styles.css"
-import VirtualList from 'rc-virtual-list';
-import { useGeolocated } from "react-geolocated";
-import { useNavigate } from 'react-router-dom';
-import { getPOINearbyService } from '../../services/poi_service';
-const { Meta } = Card;
-const ContainerHeight = 400;
+import { useState, useEffect } from "react";
+import ReactMapGL, {
+  NavigationControl,
+  ScaleControl,
+} from "@goongmaps/goong-map-react";
+import { Col, Drawer, Empty, Row, Skeleton, Space, Spin } from "antd";
+import "./styles.css";
+import { getAllPOICategoriesService, getPOINearbyByCategoryIdService, getPOINearbyService } from "../../services/poi_service";
+import { toast } from "react-toastify";
+import { getEventNearbyService } from "../../services/event_service";
+import { GOONG_ACCESS_MAP_KEY, USER_ID } from "../../../@app/constants/key";
+import { getKioskNearbyService } from "../../services/kiosk_service";
+import { AimOutlined } from "@ant-design/icons";
+import { ListLocationInformation } from "./components/location-infomation/list-location-infomation";
+import { SpecificEventLocation } from "./components/location-infomation/specfic-event-location";
+import { SpecificPOILocation } from "./components/location-infomation/specific-poi-location";
+import LocationMarker from "./components/markers/location_marker";
+import MyAddress from "./components/my-address-info";
+import POICategoryComponent from "./components/poi_category";
+import { SubLocationInfomation } from "./components/location-infomation/sub-location-infomation";
+import { LoadingMapComponent } from "./components/loading/loading_map_card";
+import { ImageEmptyCard } from "../../../@app/components/card/img_empty_card";
+import { ImageStartSearchingCard } from "../../../@app/components/card/img_start_searching_card";
 const scaleControlStyle = {
-  left: 20,
-  bottom: 100
+  left: '25%',
+  bottom: 8,
 };
 const navControlStyle = {
-  right: 10,
-  top: 10
+  top: 10,
+  left: 120
 };
 
-
 const MapPage = () => {
-  const navigate = useNavigate()
-  const [isPoiNearByLoading, setPoiNearByLoading] = useState(false)
-  const [currentLocation, setCurrentLocation] = useState({
-    longitude: 105.7982323,
-    latitude: 21.0136133
-  });
-  const [listPois, setListPois] = useState([])
+  const [isDataLoading, setDataLoading] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState();
+  const [listKioskNearby, setListKioskNearby] = useState([])
+  const [listEventNearby, setListEventNearby] = useState([]);
+  const [listPoiCategories, setListPoiCategories] = useState(false);
+  const [listPois, setListPois] = useState([]);
+  const [isMarkerLoading, setMarkerLoading] = useState(false);
+  const [isPOICategoryLoading, setPOICategoryLoading] = useState(false);
+  const [currentItem, setCurrentItem] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
   const [viewport, setViewport] = useState({
-    width: '100%',
-    height: 600,
-    latitude: currentLocation.latitude,
-    longitude: currentLocation.longitude,
-    zoom: 13
+    width: "100%",
+    height: '92vh',
+    latitude: currentLocation?.latitude,
+    longitude: currentLocation?.longitude,
+    zoom: 14,
   });
-
-
-  const appendData = () => {
-    fetch('https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo')
-      .then(res => res.json())
-      .then(body => {
-        setData(data.concat(body.results));
-        console.log(body)
-        message.success(`${body.results.length} more items loaded!`);
-      });
-  };
-  const [data, setData] = useState([]);
-  const onScroll = (e) => {
-    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
-      appendData();
-
-    }
-  };
+  const [locations, setLocations] = useState([])
+  const [isFirstLoading, setIsFirstLoading] = useState(true)
   const setLocationViewPort = () => {
+    console.log("set view port")
     navigator.geolocation.getCurrentPosition((position) => {
-      setCurrentLocation({ ...currentLocation, latitude: position.coords.latitude, longitude: position.coords.longitude })
-      setViewport({ ...viewport, latitude: position.coords.latitude, longitude: position.coords.longitude })
+      setCurrentLocation({
+        ...currentLocation,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      setViewport({
+        ...viewport,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
+  };
+  const getListPoiCategories = async () => {
+    try {
+      setPOICategoryLoading(true);
+      const res = await getAllPOICategoriesService();
+      setListPoiCategories(res.data.data)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setPOICategoryLoading(false);
+    }
+  }
+  const initialDataNearby = async () => {
+    getListPoiCategories();
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      let long = position.coords.longitude;
+      let lat = position.coords.latitude;
+      setCurrentLocation({
+        ...currentLocation,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
+      try {
+        setMarkerLoading(true);
+        getListPoiNearby(long, lat);
+        getListEventNearby(long, lat);
+        getKioskNearby(long, lat);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setMarkerLoading(false);
+      }
     });
   }
-
-  const getListPoiNearBy = async () => {
+  const getKioskNearby = async (long, lat) => {
     try {
-      setPoiNearByLoading(true)
-      navigator.geolocation.getCurrentPosition((position) => {
-        setCurrentLocation({ ...currentLocation, latitude: position.coords.latitude, longitude: position.coords.longitude })
-        getPOINearbyService('ff0304c0-f52d-4153-8376-a18c9398641e', position.coords.longitude, position.coords.latitude).then((pois) => {
-          console.log(pois)
-          setListPois(pois.data)
-          setPoiNearByLoading(false)
-        })
-      });
+      const res = await getKioskNearbyService(long, lat);
+      setListKioskNearby(res.data.data);
+
     } catch (e) {
-      console.log(e)
+      toast.error(e.respone);
     }
   }
+  const getListPoiNearby = async (long, lat) => {
+    try {
+      const pois = await getPOINearbyService(long, lat);
+      setListPois(pois.data.data);
+
+    } catch (e) {
+      toast.error(e.respone);
+    }
+  };
+  const getListEventNearby = async (long, lat) => {
+    try {
+      const events = await getEventNearbyService(long, lat, localStorage.getItem(USER_ID));
+      setListEventNearby(events.data.data);
+
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const reloadMap = () => {
+    setCurrentLocation(null);
     navigator.geolocation.getCurrentPosition((position) => {
-      setCurrentLocation({ ...currentLocation, latitude: position.coords.latitude, longitude: position.coords.longitude })
-      setViewport({ ...viewport, latitude: position.coords.latitude, longitude: position.coords.longitude, zoom: 13 })
+      setCurrentLocation({
+        ...currentLocation,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      setViewport({
+        ...viewport,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        zoom: 14,
 
+      });
     });
-  }
+  };
   useEffect(() => {
-    appendData();
-    setLocationViewPort()
-    getListPoiNearBy()
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    setLocationViewPort();
+    initialDataNearby();
   }, []);
-
+  const getPOIsByCategoryId = async (id) => {
+    try {
+      let res = await getPOINearbyByCategoryIdService(currentLocation.longitude, currentLocation.latitude, id);
+      setLocations(res.data.data);
+    } catch (e) {
+      console.error(e);
+      setLocations([])
+      setIsFirstLoading(false)
+    }
+  }
+  const filterData = async (name) => {
+    console.log(name)
+    setDataLoading(true);
+    switch (name) {
+      case 'Kiosk':
+        setLocations(listKioskNearby);
+        break;
+      case 'Event':
+        setLocations(listEventNearby);
+        break;
+      case 'Hotel':
+        setLocations(listPois);
+        break;
+      default:
+        // get by category id
+        let categoryId = name;
+        await getPOIsByCategoryId(categoryId);
+        break;
+    }
+    setDataLoading(false);
+    setIsFirstLoading(false)
+  }
+  const setCurrentItemDisplaying = (e) => {
+    setCurrentItem(e);
+    setModalVisible(true);
+  }
 
   return (
     <>
-      <Col xl={24} xs={24}>
-
-        <Row>
-          <Col xl={18} xs={24}>
-            <div style={{ padding: 20 }}>
-              <ReactMapGL
-                {...viewport}
-                className="map"
-                onViewportChange={setViewport}
-                goongApiAccessToken={"GlVNPt2Vav2Z75sQm6lJ7XymStHLVD8UcWwhbWMn"}
-              >
-                <NavigationControl style={navControlStyle} />
-                <ScaleControl maxWidth={100} unit="metric" style={scaleControlStyle} />
-                <Marker latitude={currentLocation.latitude} longitude={currentLocation.longitude} offsetLeft={-20} offsetTop={-10}>
-                  <Col>
-                    <div><img
-                      id="marker"
-                      alt="example"
-                      src={require('../../../assets/images/pin-1.png')}
-                    /></div>
-                  </Col>
-                </Marker>
-              </ReactMapGL >
-            </div>
-            <Row span={24}>
-              <Col span={24}>
-                <div style={{ marginBottom: 10, textAlign: "center" }}>
-                  <Button className='success-button' onClick={() => { reloadMap() }}>Reload Map</Button>
+      {
+        currentLocation ?
+          <div>
+            {locations ? <Drawer
+              width={720}
+              onClose={() => { setLocations(null); setIsFirstLoading(false) }}
+              visible={locations ? true : false}
+              placement={"left"}
+              getContainer={false}
+              closable={false}
+              bodyStyle={{ paddingBottom: 50 }}
+            >
+              <div className="search-and-view-area">
+                <div>
+                  {currentLocation ?
+                    <Row>
+                      <Col span={20}>
+                        <MyAddress currentLocation={currentLocation} />
+                      </Col>
+                      <Col span={1} offset={2}>
+                        <button
+                          onClick={() => { setLocations(null) }}
+                          style={{
+                            padding: 10,
+                            backgroundColor: "#EEEEEE",
+                            borderRadius: 20,
+                            fontWeight: "bold",
+                            fontSize: 20,
+                            color: "black",
+                            textAlign: "center",
+                            border: '1px solid white',
+                            width: 50
+                          }}
+                        >  X
+                        </button>
+                      </Col>
+                    </Row>
+                    : null}
                 </div>
-              </Col>
+                {isFirstLoading ?
+                  <>
+                    <ImageStartSearchingCard marginTop={50} />
+                  </> :
+                  isDataLoading ?
+                    <Skeleton /> :
+                    locations && locations.data ?
+                      <div class="location-information">
+                        {locations.data.length === 1 ? <>
+                          {/* Specific location */}
+                          {locations.type === 'poi' ?
+                            <SpecificPOILocation poi={locations.data[0]} currentLocation={currentLocation} /> :
+                            <SpecificEventLocation event={locations.data[0]} currentLocation={currentLocation} />
+                          }
+                        </> : null}
+                      </div>
+                      : locations.length !== 0 ?
+                        <ListLocationInformation locations={locations} setCurrentItem={setCurrentItemDisplaying} /> :
+                        <>
+                          <ImageEmptyCard marginTop={50} />
+                        </>
+                }
+              </div>
+            </Drawer> : null
+            }
 
-            </Row>
-          </Col>
-
-          <Col xl={6}>
-            <div className='poi-address-text'>
-              <Row>
-                <Col span={2} style={{ textAlign: "center" }}>
-                  <img
-                    width="50%"
-                    id="marker-poi-address-text"
-                    alt="example"
-                    src={require('../../../assets/images/marker-1.png')}
-                  />
-                </Col>
-                <Col>
-
-                </Col>
-              </Row>
-
-            </div>
-            <div style={{ padding: 20 }}>
-              <h2>Near you</h2>
-              <Row>
-                <Col span={8}></Col>
-                <Col span={8}>
-                  {
-                    isPoiNearByLoading ? <Spin className='center'/> : null
-                  }
-                </Col>
-                <Col span={8}></Col>
-              </Row>
-              <VirtualList
-                data={listPois}
-                height={ContainerHeight}
-                itemHeight={47}
-                itemKey="email"
-                onScroll={onScroll}
-              >
-                {(item) => (
-                  <List.Item key={item.email}>
-                    <div className='poi-card-box'>
+            <Row span={24} className="map-parent">
+              {isMarkerLoading ? <Skeleton /> :
+                <Col span={24}>
+                  <div>
+                    <ReactMapGL
+                      {...viewport}
+                      onViewportChange={setViewport}
+                      goongApiAccessToken={GOONG_ACCESS_MAP_KEY}
+                    >
                       <Row>
-                        <Col xl={6}>
-                          <img
-                            width="100%"
-                            alt="example"
-                            src={item.thumbnail.link}
-                          />
+                        {/* Search bar */}
+                        <Col span={17} offset={5}>
+                          {isPOICategoryLoading ? <Spin className="center" /> :
+                            <POICategoryComponent listPoiCategories={listPoiCategories} eventOnClick={filterData} />
+                          }
                         </Col>
-                        <Col xl={18}>
-                          <div style={{ marginLeft: 10 }}>
-                            <Meta title={item.name} description="www.instagram.com" />
-                          </div>
+                        {/* Map navigate bar */}
+                        <Col span={1}>
+                          <Space align="baseline" direction="vertical">
+                            <NavigationControl style={navControlStyle} />
+                            {/* Reload Map */}
+                            <div className="reload-map">
+                              <button class="reload-map-tooltip" type="button" onClick={() => { reloadMap() }} >
+                                <AimOutlined />
+                                <span class="reload-map-tooltiptext">My location</span>
+                              </button>
+                            </div>
+                          </Space>
                         </Col>
                       </Row>
-                    </div>
-                  </List.Item>
-                )}
-              </VirtualList>
+                      {/* Measure distance */}
+                      <ScaleControl
+                        maxWidth={70}
+                        unit="metric"
+                        style={scaleControlStyle}
+                      />
 
-            </div>
-          </Col>
-        </Row>
-        <Row gutter={[16, 24]} style={{ margin: 10 }}>
-          <Col span={3}>
-            <div className='poi-category-card-box'>
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require('../../../assets/images/restaurant-1.png')}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Restaurant</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={3}>
-            <div className='poi-category-card-box'>
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require('../../../assets/images/coffee-1.png')}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Coffee</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={3}>
-            <div className='poi-category-card-box'>
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require('../../../assets/images/shopping-1.png')}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Shopping</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={3}>
-            <div className='poi-category-card-box'>
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require('../../../assets/images/fuel-1.png')}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Fuel</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-          <Col span={3}>
-            <div className='poi-category-card-box'>
-              <Row>
-                <Col span={2}>
-                  <img
-                    width="200%"
-                    alt="example"
-                    src={require('../../../assets/images/hospital.png')}
-                  />
-                </Col>
-                <Col span={22}>
-                  <div style={{ textAlign: "center" }}>
-                    <h2>Hospital</h2>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-        </Row>
+                      {/* Markers declare */}
+                      <LocationMarker
+                        currentLocation={currentLocation}
+                        events={listEventNearby}
+                        kioks={listKioskNearby}
+                        locations={listPois}
+                        setItem={setLocations}
+                      />
 
-      </Col>
+                      {/* Display my address */}
+
+                    </ReactMapGL  >
+                  </div>
+                </Col>
+
+              }
+              <SubLocationInfomation
+                currentItem={currentItem}
+                currentLocation={currentLocation}
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+              />
+            </Row >
+          </div> :
+          <LoadingMapComponent />
+      }
     </>
-
   );
-}
-export default MapPage
+};
+export default MapPage;
